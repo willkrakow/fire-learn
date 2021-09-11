@@ -1,10 +1,7 @@
 import { Button, Card, TextField, Typography } from '@material-ui/core'
 import React from 'react'
-import { createUserWithEmailAndPassword, } from '@firebase/auth'
-import { AuthContext } from '../contexts'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
-import { signInWithGoogle } from '../utils'
+import { useAuth } from '../contexts/authContext'
 
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -42,10 +39,10 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   }
 }));
 export default function Signup() {
-  const auth = React.useContext(AuthContext)
-  const [user] = useAuthState(auth)
+  const auth = useAuth()
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
+
   const classes = useStyles()
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,14 +53,13 @@ export default function Signup() {
     setPassword(event.target.value)
   }
 
-  
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     try {
-      const userCredential = auth && await createUserWithEmailAndPassword(auth, email, password)
+      const userCredential = auth && await auth.signup(email, password)
       if (userCredential?.user) {
-        console.log('User created', user)
+        console.log('User created', auth?.currentUser)
         window.location.href = '/'
       }
     } catch (error) {
@@ -79,7 +75,7 @@ export default function Signup() {
         <Button className={classes.button} variant="contained" type="submit">Sign up</Button>
       </form>
       <Typography className={classes.orText} variant="h6">or</Typography>
-      <Button className={classes.googleButton} variant="contained" color="primary" onClick={async () => auth ? signInWithGoogle(auth) : console.log("Error")}>Sign up with Google</Button>
+      <Button className={classes.googleButton} variant="contained" color="primary" onClick={async () => auth ? await auth.signInWithGoogle() : console.log("Error")}>Sign up with Google</Button>
     </Card>
   )
 }

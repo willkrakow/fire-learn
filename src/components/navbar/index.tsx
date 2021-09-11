@@ -10,16 +10,12 @@ import {
 import { Link } from "react-router-dom";
 import MenuIcon from "@material-ui/icons/Menu";
 import { CloseOutlined } from "@material-ui/icons";
-import { AuthContext } from "../../contexts";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { SignOut } from "../account";
+import { useAuth } from "../../contexts/authContext";
 
 
 const Navbar = () => {
   const [open, setOpen] = React.useState(false);
-
-  const auth = React.useContext(AuthContext)
-  const [user] = useAuthState(auth)
+  const auth = useAuth();
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -43,19 +39,21 @@ const Navbar = () => {
           FireLearn
         </Typography>
        
-        {user ? (
+        {auth?.currentUser ? (
           <>
-            <MenuItem component={Link} to="/account">
+            <MenuItem button component={Link} to="/account">
               Account
             </MenuItem>
-            <SignOut />
+            <MenuItem onClick={() => auth.logout()}>
+              Sign out
+            </MenuItem>
           </>
         ) : (
           <>
-            <MenuItem component={Link} to="/login">
-              Log in
+            <MenuItem button >
+              <Link to="/login">Log in</Link>
             </MenuItem>
-            <MenuItem component={Link} to="/signup">
+            <MenuItem button component={Link} to="/signup">
               Signup
             </MenuItem>
           </>

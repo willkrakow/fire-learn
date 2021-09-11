@@ -1,45 +1,57 @@
 import React from "react";
+import { Box, Divider, Grid, makeStyles, Typography } from "@material-ui/core";
+import { Redirect } from "react-router-dom";
+import { useAuth } from "../contexts/authContext";
 
+import useEnrollments from "../hooks/useEnrollments";
+import { CourseCard } from "../components/containers";
 
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    padding: theme.spacing(2),
+    width: "100%",
+    height: "100%",
+  },
+  grid: {
+    width: "100%",
+    height: "100%",
+    padding: theme.spacing(2),
+    marginTop: theme.spacing(2),
+  },
+  card: {
+    padding: theme.spacing(2),
+  },
+}));
 
-// const signIn = async (auth: Auth) => {
-//   const provider = new GoogleAuthProvider();
-//   await signInWithPopup(auth, provider);
-// };
+const CourseGrid = () => {
+  const classes = useStyles();
 
-// const UserDetails = ({ user }: UserDetailsProps) => {
-//   return (
-//     <Card>
-//       <Typography variant="h4">{user.displayName}</Typography>
-//     </Card>
-//   );
-// };
-
-// const SignInForm = () => {
-//   const auth = useAuth();
-//   const handleSignIn = () => {
-//     signIn(auth);
-//   };
-//   return (
-//     <Card title="Sign-in form">
-//       <Button onClick={handleSignIn} />
-//     </Card>
-//   );
-// };
-
-const Home = () => {
-//   const { status, data: signInResult } = useSigninCheck();
-
-//   if (status === "loading") {
-//     return <span>loading</span>;
-//   }
-//   const { signedIn, user } = signInResult;
-
-//   return signedIn && user ? <UserDetails user={user} /> : <SignInForm />;
-return (
-<React.Fragment>
-<h1>hi</h1>
-</React.Fragment>)
+  const { enrollments, isLoading } = useEnrollments();
+  return (
+    <Box className={classes.paper}>
+      <Typography variant="h1">Courses</Typography>
+      <Typography variant="subtitle1">
+        Here's what you're enrolled in
+      </Typography>
+      <Divider />
+      <Grid container className={classes.grid}>
+        {!isLoading &&
+          enrollments.map((enrollment) => (
+            <Grid item xs={12} sm={6} md={4} lg={3} key={enrollment.course_id}>
+              <CourseCard
+                className={classes.card}
+                course_id={enrollment.course_id.toString()}
+              />
+            </Grid>
+          ))}
+      </Grid>
+    </Box>
+  );
 };
 
+const Home = () => {
+  const auth = useAuth();
+
+  return auth?.currentUser ? <CourseGrid /> : <Redirect to="/login" />;
+};
 export default Home;

@@ -5,22 +5,16 @@ import Navbar from './components/navbar';
 
 import firebaseConfig from "./config/firebaseConfig";
 import {initializeApp} from 'firebase/app';
-import { getAuth } from 'firebase/auth'
-import { AuthContext } from './contexts'
+import { AuthProvider } from './contexts'
 import ThemeContext from './theme';
 import { CssBaseline, Paper } from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import Account from './routes/account';
-import { getFirestore } from 'firebase/firestore';
-// Initialize Firebase
+import Browse from './routes/browse';
+import Course from './routes/course';
+import EditAccount from './components/forms/editAccount';
 
-initializeApp(firebaseConfig)
-
-/// @ts-ignore
-const db = getFirestore()
-const auth = getAuth()
 const useStyles = makeStyles((theme) => ({
-  root: {},
   main: {
     display: "flex",
     marginBottom: theme.spacing(2),
@@ -41,9 +35,10 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles();
+initializeApp(firebaseConfig);
   return (
     <React.Fragment>
-      <AuthContext.Provider value={auth}>
+      <AuthProvider>
         <ThemeContext>
           <CssBaseline />
           <BrowserRouter>
@@ -53,12 +48,15 @@ function App() {
                 <Route exact path="/" component={Home} />
                 <Route path="/login" component={Login} />
                 <Route path="/signup" component={Signup} />
-                <Route path="/account" component={Account} />
+                <Route path="/account/edit" component={EditAccount} />
+                <Route path="/account" exact component={Account} />
+                <Route path="/browse" component={Browse} />
+                <Route path="/courses/:course_id" component={Course} />
               </Switch>
             </Paper>
           </BrowserRouter>
         </ThemeContext>
-      </AuthContext.Provider>
+      </AuthProvider>
     </React.Fragment>
   );
 }

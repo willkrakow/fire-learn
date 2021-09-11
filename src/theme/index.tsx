@@ -14,7 +14,6 @@ const theme = createTheme({
           minHeight: "100vh",
           backgroundColor: "#fafafa",
           display: "flex",
-          flexDirection: "column",
         },
       },
     },

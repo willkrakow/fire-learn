@@ -1,3 +1,4 @@
 import signInWithGoogle from "./signInWithGoogle";
 import createUserDocument from "./createUserDocument";
-export { signInWithGoogle, createUserDocument };
+import createEnrollment from "./createEnrollment";
+export { signInWithGoogle, createUserDocument, createEnrollment };

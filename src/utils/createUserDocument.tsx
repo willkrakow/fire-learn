@@ -1,4 +1,4 @@
-import { addDoc, collection, getFirestore } from "firebase/firestore";
+import { setDoc, doc, getFirestore, Timestamp } from "firebase/firestore";
 import { User } from 'firebase/auth'
 
 interface Props {
@@ -14,11 +14,13 @@ const createUserDocument = async ({
   if (!userAuth) return;
 
   try {
-    const userRef = await addDoc(collection(db, "users"), {
+    const updated_at = Timestamp.fromMillis(Date.now())
+    await setDoc(doc(db, 'users', userAuth.uid), {
       ...additionalData,
-      ...userAuth
+      ...userAuth,
+      updated_at: updated_at,
     });
-    console.log("Document written with ID: ", userRef.id);
+    console.log("Document written with ID: ", userAuth.uid);
   } catch (error) {
     console.log("error creating user document", error);
   }

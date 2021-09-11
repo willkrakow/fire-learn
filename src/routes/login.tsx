@@ -1,8 +1,8 @@
 import React from "react";
 import { Button, Card, TextField, Typography } from "@material-ui/core";
-import { useSignIn } from "../hooks/useSignIn"
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { Redirect } from "react-router";
+import { useAuth } from "../contexts/authContext";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,17 +44,21 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function Login({...props}) {
   const classes = useStyles();
   const referrer = props.location.state?.referrer || "/";
-  const {
-    user,
-    signInWithEmail,
-    signInWithGoogle,
-    handleChangeEmail,
-    handleChangePassword,
-    email,
-    password,
-  } = useSignIn();
+  const auth = useAuth()
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  // const [error, setError] = React.useState("");
 
-  return user ? (
+  const handleChangePassword: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    setPassword(event.currentTarget.value);
+  };
+
+  const handleChangeEmail: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    setEmail(event.currentTarget.value);
+  };
+
+
+  return auth?.currentUser ? (
     <Redirect to={referrer} />
   ) : (
     <Card className={classes.root}>
@@ -78,7 +82,7 @@ export default function Login({...props}) {
           className={classes.button}
           type="submit"
           variant="contained"
-          onClick={async () => await signInWithEmail(email, password)}
+          onClick={async () => auth && await auth.login(email, password)}
         >
           Sign in
         </Button>
@@ -90,7 +94,7 @@ export default function Login({...props}) {
         variant="contained"
         className={classes.googleButton}
         color="primary"
-        onClick={async () => await signInWithGoogle()}
+        onClick={async () => auth && await auth.signInWithGoogle()}
       >
         Log in with Google
       </Button>

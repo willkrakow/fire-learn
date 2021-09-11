@@ -1,15 +1,14 @@
 {
   "compilerOptions": {
     "typeRoots": [
-      "./types"
+      "./types",
+      "src/types/*"
     ],
     "target": "es5",
     "lib": [
-      "es6",
       "dom",
-      "esnext",
-      "es2015",
-      "es2016"
+      "DOM.Iterable",
+      "esnext"
     ],
     "sourceMap": true,
     "allowJs": true,
@@ -29,18 +28,22 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "importHelpers": true,
+    "importHelpers": true
   },
   "baseUrl": ".",
   "include": [
-    "src"
+    "src/**/*",
+    "types/**/*"
   ],
   "paths": {
     "react": [
       "../node_modules/react"
     ],
+    "firebase": [
+      "../node_modules/firebase"
+    ],
     "react-dom": [
       "../node_modules/react-dom/profiling"
-    ],
-  },
+    ]
+  }
 }
