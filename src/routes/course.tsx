@@ -1,11 +1,12 @@
 import React from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+import { Route, Switch, RouteComponentProps, useRouteMatch } from 'react-router-dom'
 import { useCourse, useEnrollments } from '../hooks'
 import { Button, Paper, Typography } from '@material-ui/core'
 import { useAuth } from '../contexts/authContext'
 import { getFirestore } from 'firebase/firestore'
 import { collection } from 'firebase/firestore'
 import { addDoc } from 'firebase/firestore'
+import Lesson from 'src/components/containers/lesson'
 // const functions = getFunctions()
 // const createEnrollment = httpsCallable(functions, "createEnrollment")
 
@@ -16,7 +17,7 @@ const Course: React.FC<RouteComponentProps<{course_id: string}>> = (props) => {
     const auth = useAuth()
     const uid = auth?.currentUser?.uid ?? ""
     const { enrollments, } = useEnrollments(course_id);
-    
+    const { path, url } = useRouteMatch();
 
     const handleClick = async () => {
         // create enrollment
@@ -32,14 +33,26 @@ const Course: React.FC<RouteComponentProps<{course_id: string}>> = (props) => {
     }
 
     return (
-      <Paper>
-        <Typography variant="h2">{course.name}</Typography>
-        <Typography variant="h5">{course.description}</Typography>
-        <Typography variant="h6">{course.price}</Typography>
-        {enrollments.length > 0 ? <Typography variant="h6">Enrolled</Typography>
-        : <Button onClick={handleClick}>Enroll</Button>}
-      </Paper>
+      <Switch>
+        <Route exact path={path}>
+          <Paper>
+            <Typography variant="h4">{course.title}</Typography>
+            <Typography variant="body1">{course.description}</Typography>
+          </Paper>
+        </Route>
+        <Route exact path={`${path}/lessons`}>
+          <ul>
+            <li>first lesson</li>
+            <li>second lesson</li>
+          </ul>
+        </Route>
+        <Route path={`${path}/:lesson_id`} component={Lesson} />
+      </Switch>
     );
 }
+
+
+
+
 
 export default Course

@@ -28,7 +28,8 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "importHelpers": true
+    "importHelpers": true,
+    "baseUrl": "./"
   },
   "baseUrl": ".",
   "include": [
@@ -39,11 +40,8 @@
     "react": [
       "../node_modules/react"
     ],
-    "firebase": [
-      "../node_modules/firebase"
-    ],
     "react-dom": [
       "../node_modules/react-dom/profiling"
-    ]
+    ],
   }
 }

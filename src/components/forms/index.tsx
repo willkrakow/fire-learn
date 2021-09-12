@@ -1,3 +1,3 @@
 import EditEmailSection from "./editEmailSection";
-
-export { EditEmailSection };
+import DeleteAccount from "./deleteAccount";
+export { EditEmailSection, DeleteAccount };

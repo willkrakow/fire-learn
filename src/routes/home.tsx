@@ -27,6 +27,7 @@ const CourseGrid = () => {
   const classes = useStyles();
 
   const { enrollments, isLoading } = useEnrollments();
+  console.log(enrollments)
   return (
     <Box className={classes.paper}>
       <Typography variant="h1">Courses</Typography>

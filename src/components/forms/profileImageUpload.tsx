@@ -1,32 +1,46 @@
-import React from 'react'
-import { Typography, Button, makeStyles } from '@material-ui/core';
-import { useAuth } from '../../contexts/authContext';
-import { useStorage } from '../../contexts/storageContext';
-import { UploadResult, getDownloadURL } from 'firebase/storage';
-import { User } from 'firebase/auth';
-import { Photo, HourglassEmpty } from '@material-ui/icons'
+import React from "react";
+import { Typography, Button, makeStyles, CircularProgress } from "@material-ui/core";
+import { useAuth } from "../../contexts/authContext";
+import { useStorage } from "../../contexts/storageContext";
+import { UploadResult, getDownloadURL } from "firebase/storage";
+import { Camera, CameraAlt } from "@material-ui/icons";
 
-
+interface Props {
+  setTempImage: (image: string) => void;
+}
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
+    width: "100%",
+    padding: theme.spacing(1),
+  },
   fileInput: {
     display: "none",
   },
+  imagePreview: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  },
 }));
 
-
-const ProfileImageUpload = () => {
-    const classes = useStyles();
+const ProfileImageUpload = ({setTempImage}: Props) => {
+  const classes = useStyles();
+  const { currentUser, updateUserPhoto } = useAuth() as IAuthContext;
   const [loading, setLoading] = React.useState(false);
   const [file, setFile] = React.useState<File | null>(null);
   const { uploadFile } = useStorage() as IStorageContext;
   const [error, setError] = React.useState("");
-  const { currentUser, updateUserPhoto } = useAuth() as IAuthContext;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setFile(file);
+      setTempImage(URL.createObjectURL(file));
     }
   };
 
@@ -42,31 +56,34 @@ const ProfileImageUpload = () => {
       setError("File must be less than 5MB");
       return; // don't submit
     }
-    if (currentUser) {
+    if (!currentUser) {
       setError("No user logged in");
       return; // don't submit
     }
     // Upload file to Firebase Storage
-    const url: UploadResult =
-      (currentUser as User) &&
-      ((await uploadFile({
+    const result: UploadResult =
+      await uploadFile({
         file: file,
         path: `profileImages/${currentUser?.uid}/${file.name}`,
-      })) as UploadResult);
-    if (!url) {
+      });
+    if (!result) {
       setError("Error uploading file");
       return; // don't submit
     }
     // Get the download URL
-    const downloadUrl = await getDownloadURL(url.ref);
+    const downloadUrl = await getDownloadURL(result.ref);
+    console.log(downloadUrl)
     // Update the user's profile image with the URL
     await updateUserPhoto(downloadUrl);
+
     setLoading(false);
+    window.location.reload();
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
+    <>
+      <form onSubmit={handleSubmit} className={classes.root}>
+        <input
         id="file-input"
         type="file"
         accept="image/*"
@@ -74,24 +91,22 @@ const ProfileImageUpload = () => {
         className={classes.fileInput}
       />
       <label htmlFor="file-input">
-        <Button
+        {!file && <Button
           variant="contained"
-          color="secondary"
-          endIcon={Photo}
+          color="primary"
+          endIcon={<CameraAlt />}
           component="span"
-        >
-          Upload
-        </Button>
+        />}
       </label>
-      {error && (
-        <Typography variant="h6" color="error">
-          {error}
-        </Typography>
-      )}
-      {loading && <HourglassEmpty />}
-      <Button type="submit">Save</Button>
-    </form>
+        {error && (
+          <Typography variant="h6" color="error">
+            {error.toString()}
+          </Typography>
+        )}
+        {file && <Button variant="contained" color="secondary" disabled={loading} type="submit">{loading ? <CircularProgress /> : "Save"}</Button>}
+      </form>
+    </>
   );
 };
 
-export default ProfileImageUpload
+export default ProfileImageUpload;

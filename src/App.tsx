@@ -13,6 +13,7 @@ import Account from './routes/account';
 import Browse from './routes/browse';
 import Course from './routes/course';
 import EditAccount from './components/forms/editAccount';
+import { StorageProvider } from './contexts/storageContext';
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -20,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
     flexDirection: "column",
     alignItems: "center",
-    padding: theme.spacing(2),
     minHeight: "90vh",
   },
   footer: {
@@ -39,23 +39,25 @@ initializeApp(firebaseConfig);
   return (
     <React.Fragment>
       <AuthProvider>
-        <ThemeContext>
-          <CssBaseline />
-          <BrowserRouter>
-            <Navbar />
-            <Paper component="main" className={classes.main}>
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <Route path="/login" component={Login} />
-                <Route path="/signup" component={Signup} />
-                <Route path="/account/edit" component={EditAccount} />
-                <Route path="/account" exact component={Account} />
-                <Route path="/browse" component={Browse} />
-                <Route path="/courses/:course_id" component={Course} />
-              </Switch>
-            </Paper>
-          </BrowserRouter>
-        </ThemeContext>
+        <StorageProvider>
+          <ThemeContext>
+            <CssBaseline />
+            <BrowserRouter>
+              <Navbar />
+              <Paper component="main" className={classes.main}>
+                <Switch>
+                  <Route exact path="/" component={Home} />
+                  <Route path="/login" component={Login} />
+                  <Route path="/signup" component={Signup} />
+                  <Route path="/account/edit" component={EditAccount} />
+                  <Route path="/account" exact component={Account} />
+                  <Route path="/browse" component={Browse} />
+                  <Route path="/courses/:course_id" component={Course} />
+                </Switch>
+              </Paper>
+            </BrowserRouter>
+          </ThemeContext>
+        </StorageProvider>
       </AuthProvider>
     </React.Fragment>
   );

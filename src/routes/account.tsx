@@ -1,30 +1,30 @@
 import React from "react";
 import {
   makeStyles,
-  Paper,
   Typography,
   ListItem,
-  ListItemText,
   ListItemIcon,
+  ListItemText,
   List,
   Box,
-  Divider,
-  Grid,
   Button,
+  ListItemAvatar,
+  Card,
+  CardContent,
+  CardActions,
+  Avatar,
+  CardHeader,
+  CardMedia,
+  CardActionArea,
 } from "@material-ui/core";
 import { useAuth } from "../contexts/authContext";
-import { Redirect } from "react-router-dom";
-import {
-  Phone,
-  Mail,
-  Edit,
-  Check,
-  VpnKey,
-  CalendarToday,
-} from "@material-ui/icons";
+import { Link, Redirect } from "react-router-dom";
 import { User } from "firebase/auth";
-import { Timestamp } from "@firebase/firestore";
-import { EditEmailSection } from "../components/forms";
+import { Timestamp } from "firebase/firestore";
+import { DeleteAccount } from "src/components/forms";
+import { useStorage } from "src/contexts/storageContext";
+import { EditOutlined } from "@material-ui/icons";
+import ProfileImageUpload from "src/components/forms/profileImageUpload";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,23 +34,25 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "100vw",
     overflow: "hidden",
   },
-  box: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-    width: "100%",
+  card: {
+    marginBottom: theme.spacing(3),
+  },
+  cardDanger: {
+    marginBottom: theme.spacing(3),
+    backgroundColor: theme.palette.error.light,
   },
   verified: {
     fontSize: theme.typography.h6.fontSize,
     color: theme.palette.success.main,
   },
-  profileImage: {
-    width: "100%",
-    height: "auto",
-    maxWidth: "100%",
-    maxHeight: "100%",
-  },
   listItem: {
     padding: theme.spacing(1),
+  },
+  editButton: {
+    margin: theme.spacing(2, "auto")
+  },
+  media: {
+    height: 300,
   }
 }));
 
@@ -63,13 +65,12 @@ const parseTimestamp = (timestampString: string) => {
 const Account = () => {
   const classes = useStyles();
   const auth = useAuth() as IAuthContext;
-  const { currentUser, resetPassword } = auth;
-
-  const { metadata, displayName, email, emailVerified, phoneNumber, uid } =
+  const { currentUser } = auth;
+  const { metadata, displayName, email, emailVerified, phoneNumber, uid, photoURL } =
     (currentUser as User) || {};
   const { creationTime, lastSignInTime } = metadata || {};
+  const [tempImage, setTempImage] = React.useState<string | null>(null);
 
-  const [editingEmail, setEditingEmail] = React.useState(false);
   if (!auth?.currentUser) {
     return (
       <Redirect
@@ -85,142 +86,183 @@ const Account = () => {
   const lastSignIn = parseTimestamp(lastSignInTime || "");
   return (
     auth.currentUser && (
-      <Paper className={classes.root}>
-        <Typography variant="h2">Account</Typography>
-        <Grid container>
-          <Divider />
-          <Grid item xs={12}>
-            <Box className={classes.box}>
-              <List>
-                <ListItem divider className={classes.listItem}>
-                  <ListItemIcon>
-                    <Edit fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primaryTypographyProps={{ variant: "h6" }}
-                    secondaryTypographyProps={{ variant: "body1" }}
-                    primary="Name"
-                    secondary={displayName}
-                  />
-                </ListItem>
-                <ListItem divider className={classes.listItem}>
-                  <ListItemIcon>
-                    <VpnKey fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primaryTypographyProps={{ variant: "h6" }}
-                    secondaryTypographyProps={{ variant: "body1" }}
-                    primary="UID"
-                    secondary={uid}
-                  />
-                </ListItem>
-                <ListItem divider className={classes.listItem}>
-                  <ListItemIcon>
-                    <Mail fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primaryTypographyProps={{ variant: "h6" }}
-                    secondaryTypographyProps={{ variant: "body1" }}
-                    primary="Email"
-                    secondary={email}
-                  />
-                  <Button variant="text" onClick={() => setEditingEmail(true)}>
-                    Edit
-                  </Button>
-                </ListItem>
-                {editingEmail && (
-                  <ListItem>
-                    <EditEmailSection auth={auth} />
-                    <Button onClick={() => setEditingEmail(false)}>
-                      Cancel
-                    </Button>
-                  </ListItem>
-                )}
-                <ListItem divider className={classes.listItem}>
-                  <ListItemIcon>
-                    <Check fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primaryTypographyProps={{ variant: "h6" }}
-                    secondaryTypographyProps={{ variant: "body1" }}
-                    primary="Email Verified"
-                    secondary={emailVerified ? "Yes" : "No"}
-                  />
-                </ListItem>
-                <ListItem divider className={classes.listItem}>
-                  <ListItemIcon>
-                    <Phone fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primaryTypographyProps={{ variant: "h6" }}
-                    secondaryTypographyProps={{ variant: "body1" }}
-                    primary="Phone"
-                    secondary={phoneNumber}
-                  />
-                </ListItem>
-                <ListItem divider className={classes.listItem}>
-                  <ListItemIcon>
-                    <CalendarToday fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primaryTypographyProps={{ variant: "h6" }}
-                    secondaryTypographyProps={{ variant: "body1" }}
-                    primary="Created at"
-                    secondary={createdAt}
-                  />
-                </ListItem>
-                <ListItem divider className={classes.listItem}>
-                  <ListItemIcon>
-                    <CalendarToday fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primaryTypographyProps={{ variant: "h6" }}
-                    secondaryTypographyProps={{ variant: "body1" }}
-                    primary="Last login"
-                    secondary={lastSignIn}
-                  />
-                </ListItem>
-              </List>
-            </Box>
-            <Divider />
-            <Box>
-              <Typography variant="h4">Change Password</Typography>
-              <Button
-                color="secondary"
-                variant="outlined"
-                onClick={async () => email && (await resetPassword(email))}
-              >
-                Reset password
-              </Button>
-            </Box>
-          </Grid>
-        </Grid>
-      </Paper>
+      <Box>
+        <Card elevation={0} className={classes.card}>
+          <CardMedia
+            image={tempImage || photoURL || ""}
+            className={classes.media}
+          >
+            <ProfileImageUpload setTempImage={setTempImage} />
+          </CardMedia>
+          <CardContent>
+            <Typography align="center" variant="h3">
+              {displayName}
+            </Typography>
+            <Typography align="center" variant="h5">
+              {email}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button
+              className={classes.editButton}
+              variant="outlined"
+              component={Link}
+              to="/account/edit"
+            >
+              Edit info
+            </Button>
+          </CardActions>
+        </Card>
+
+        <Card elevation={0} className={classes.card}>
+          <CardContent>
+            <Typography variant="h4">Info</Typography>
+            <List>
+              <ListItem className={classes.listItem}>
+                <ListItemText
+                  primaryTypographyProps={{
+                    variant: "body1",
+                  }}
+                  secondaryTypographyProps={{
+                    variant: "h5",
+                  }}
+                  primary="Name"
+                  secondary={displayName}
+                />
+              </ListItem>
+              <ListItem className={classes.listItem}>
+                <ListItemText
+                  primaryTypographyProps={{
+                    variant: "body1",
+                  }}
+                  secondaryTypographyProps={{
+                    variant: "h5",
+                  }}
+                  primary="UID"
+                  secondary={uid}
+                />
+              </ListItem>
+              <ListItem className={classes.listItem}>
+                <ListItemText
+                  primaryTypographyProps={{
+                    variant: "body1",
+                  }}
+                  secondaryTypographyProps={{
+                    variant: "h5",
+                  }}
+                  primary="Email"
+                  secondary={email}
+                />
+              </ListItem>
+              <ListItem className={classes.listItem}>
+                <ListItemText
+                  primaryTypographyProps={{
+                    variant: "body1",
+                  }}
+                  secondaryTypographyProps={{
+                    variant: "h5",
+                  }}
+                  primary="Email Verified"
+                  secondary={emailVerified ? "Yes" : "No"}
+                />
+              </ListItem>
+              <ListItem className={classes.listItem}>
+                <ListItemText
+                  primaryTypographyProps={{
+                    variant: "body1",
+                  }}
+                  secondaryTypographyProps={{
+                    variant: "h5",
+                  }}
+                  primary="Phone"
+                  secondary={
+                    phoneNumber || (
+                      <Button
+                        variant="outlined"
+                        component={Link}
+                        to="/account/edit"
+                      >
+                        + Add
+                      </Button>
+                    )
+                  }
+                />
+              </ListItem>
+              <ListItem className={classes.listItem}>
+                <ListItemText
+                  primaryTypographyProps={{
+                    variant: "body1",
+                  }}
+                  secondaryTypographyProps={{
+                    variant: "h5",
+                  }}
+                  primary="Created at"
+                  secondary={createdAt}
+                />
+              </ListItem>
+              <ListItem className={classes.listItem}>
+                <ListItemText
+                  primaryTypographyProps={{
+                    variant: "body1",
+                  }}
+                  secondaryTypographyProps={{
+                    variant: "h5",
+                  }}
+                  primary="Last login"
+                  secondary={lastSignIn}
+                />
+              </ListItem>
+            </List>
+          </CardContent>
+        </Card>
+        <Card elevation={0} className={classes.card}>
+          <CardContent>
+            <Typography variant="h4">Linked accounts</Typography>
+            <LinkedAccounts {...currentUser} />
+          </CardContent>
+        </Card>
+        <Card component={Box} className={classes.cardDanger} elevation={0}>
+          <CardContent>
+            <Typography variant="h4" color="error">
+              Danger zone
+            </Typography>
+            <Typography variant="body1">
+              Actions here are either irreversible or just plain risky. Proceed
+              at your own risk.
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <DeleteAccount />
+          </CardActions>
+        </Card>
+      </Box>
     )
   );
 };
 
-
-// const LinkedAccounts = (user: User) => {
-//   const { providerData } = user;
-//   return (
-//     <List>
-//       {providerData.map((provider, index) => (
-//         <ListItem key={index} component={Card}>
-//           <ListItemIcon>
-//             {provider.providerId === "facebook.com" && <Facebook />}
-//             {provider.providerId === "twitter.com" && <Twitter />}
-//             {provider.providerId === "github.com" && <GitHub />}
-//             {provider.providerId === "google.com" && <Mail />}
-//           </ListItemIcon>
-//           <ListItemText
-//             primary={provider.displayName}
-//             secondary={provider.email}
-//           />
-//         </ListItem>
-//       ))}
-//     </List>
-//   );
-// };
+const LinkedAccounts = (user: User) => {
+  const { providerData } = user;
+  return (
+    <List>
+      {providerData.map((provider, index) => (
+        <ListItem key={index} component={Card}>
+          <ListItemAvatar>
+            <Avatar src={provider.photoURL || ""} />
+          </ListItemAvatar>
+          <ListItemText
+            primary={provider.providerId.slice(0, 1).toUpperCase() + provider.providerId.replace(".com", "").slice(1)}
+            secondary={provider.email}
+            primaryTypographyProps={{
+              variant: "body1",
+            }}
+            secondaryTypographyProps={{
+              variant: "h6",
+            }}
+          />
+        </ListItem>
+      ))}
+    </List>
+  );
+};
 
 export default Account;

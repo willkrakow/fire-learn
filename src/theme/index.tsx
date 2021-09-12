@@ -1,7 +1,7 @@
 import React from 'react'
 import { createTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
-import { orange, blue, blueGrey } from '@material-ui/core/colors'
+import { orange, blue, blueGrey, green, deepOrange, purple, deepPurple, red } from '@material-ui/core/colors'
 
 const theme = createTheme({
   overrides: {
@@ -14,7 +14,13 @@ const theme = createTheme({
           minHeight: "100vh",
           backgroundColor: "#fafafa",
           display: "flex",
+          flexDirection: "column",
         },
+      },
+    },
+    MuiCard: {
+      root: {
+        borderRadius: "0px",
       },
     },
   },
@@ -32,10 +38,14 @@ const theme = createTheme({
     text: {
       primary: blueGrey[900],
     },
+    error: {
+      main: deepOrange[500],
+      light: deepOrange[50],
+    },
   },
   typography: {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    fontSize: 14,
+    fontSize: 15,
     fontWeightLight: 200,
     fontWeightRegular: 400,
     fontWeightMedium: 500,
@@ -51,25 +61,37 @@ const theme = createTheme({
       fontStyle: "normal",
     },
     h2: {
-      fontSize: "2rem",
-      fontWeight: "bold",
+      fontSize: "2.5rem",
+      fontWeight: "lighter",
       fontStyle: "normal",
+      textTransform: "uppercase",
+      letterSpacing: "0.1em",
+      marginBottom: "1rem",
+      background: `linear-gradient(to right, ${orange[300]} 0%, ${red[800]} 100%)`,
+      color: "transparent",
+      backgroundClip: "text",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
     },
     h3: {
       color: "transparent",
       fontSize: "1.75rem",
-      fontWeight: 200,
+      fontWeight: "bold",
       marginBottom: "1rem",
-      background: "linear-gradient(to right, #ec8e00 0%, #d35f3c 99%)",
+      background: `linear-gradient(to right, ${orange[400]} 0%, ${red[900]} 100%)`,
       backgroundClip: "text",
       WebkitBackgroundClip: "text",
-      backgroundSize: "100% 100%",
       fontStyle: "normal",
     },
     h4: {
       fontSize: "1.5rem",
       fontWeight: "bold",
       fontStyle: "normal",
+      background: `linear-gradient(to right, ${blue[300]} 0%, ${deepPurple[900]} 100%)`,
+      backgroundClip: "text",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+      color: "transparent",
     },
     h5: {
       fontSize: "1.25rem",
@@ -80,6 +102,7 @@ const theme = createTheme({
       fontSize: "1rem",
       fontWeight: "bold",
       fontStyle: "normal",
+      color: blueGrey[900],
     },
     subtitle1: {
       fontSize: "1rem",
@@ -96,7 +119,6 @@ const theme = createTheme({
       fontWeight: "normal",
       color: blueGrey[900],
       fontStyle: "normal",
-      marginBottom: "1rem",
     },
     body2: {
       fontSize: "0.75rem",
