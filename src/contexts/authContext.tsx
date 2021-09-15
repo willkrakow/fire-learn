@@ -73,6 +73,10 @@ export const AuthProvider: React.FC = ({ children }) => {
       : Promise.reject("No user logged in");
   }
 
+  function isAdmin() {
+    return currentUser && currentUser.email === "willkrakow@gmail.com"
+  }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
@@ -93,6 +97,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     signInWithGoogle,
     updateUserName,
     updateUserPhoto,
+    isAdmin,
   };
 
   if (loading) {

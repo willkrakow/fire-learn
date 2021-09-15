@@ -36,6 +36,9 @@
     "src/**/*",
     "types/**/*"
   ],
+  "exclude": [
+    "node_modules",
+  ],
   "paths": {
     "react": [
       "../node_modules/react"

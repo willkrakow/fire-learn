@@ -10,9 +10,11 @@ export const useStorage = () => React.useContext(StorageContext)
 export const StorageProvider: React.FC = ({ children }) => {
     const storage = getStorage()
 
-    const uploadFile = async ({file, path}: IUploadFile): Promise<UploadResult> => {
+    const uploadFile = async ({file, path, image=false}: IUploadFile): Promise<UploadResult> => {
         const storageRef = ref(storage, path)
-        const uploadTask = await uploadBytes(storageRef, file)
+        const uploadTask = await uploadBytes(storageRef, file, {
+            contentType: image ? 'image/jpeg' : 'application/octet-stream'
+        })
         return uploadTask
     }
 

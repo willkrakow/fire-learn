@@ -16,6 +16,10 @@ const theme = createTheme({
           display: "flex",
           flexDirection: "column",
         },
+        a: {
+          fontStyle: "normal",
+          textDecoration: "none",
+        }
       },
     },
     MuiCard: {
@@ -26,10 +30,10 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      main: blue[800],
+      main: red[600],
     },
     secondary: {
-      main: blue[200],
+      main: deepPurple[200],
     },
     info: {
       main: orange[500],
@@ -75,7 +79,7 @@ const theme = createTheme({
     },
     h3: {
       color: "transparent",
-      fontSize: "1.75rem",
+      fontSize: "2rem",
       fontWeight: "bold",
       marginBottom: "1rem",
       background: `linear-gradient(to right, ${orange[400]} 0%, ${red[900]} 100%)`,
@@ -84,7 +88,7 @@ const theme = createTheme({
       fontStyle: "normal",
     },
     h4: {
-      fontSize: "1.5rem",
+      fontSize: "1.375rem",
       fontWeight: "bold",
       fontStyle: "normal",
       background: `linear-gradient(to right, ${blue[300]} 0%, ${deepPurple[900]} 100%)`,
@@ -94,15 +98,17 @@ const theme = createTheme({
       color: "transparent",
     },
     h5: {
-      fontSize: "1.25rem",
+      fontSize: "1rem",
       fontWeight: "bold",
       fontStyle: "normal",
     },
     h6: {
-      fontSize: "1rem",
-      fontWeight: "bold",
+      fontSize: "0.875rem",
+      fontWeight: "normal",
       fontStyle: "normal",
-      color: blueGrey[900],
+      color: blueGrey[700],
+      textTransform: "uppercase",
+      letterSpacing: "0.1em",
     },
     subtitle1: {
       fontSize: "1rem",

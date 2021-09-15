@@ -3,7 +3,6 @@ import {
   makeStyles,
   Typography,
   ListItem,
-  ListItemIcon,
   ListItemText,
   List,
   Box,
@@ -13,18 +12,16 @@ import {
   CardContent,
   CardActions,
   Avatar,
-  CardHeader,
   CardMedia,
-  CardActionArea,
+  Chip,
 } from "@material-ui/core";
 import { useAuth } from "../contexts/authContext";
 import { Link, Redirect } from "react-router-dom";
 import { User } from "firebase/auth";
-import { Timestamp } from "firebase/firestore";
 import { DeleteAccount } from "src/components/forms";
-import { useStorage } from "src/contexts/storageContext";
-import { EditOutlined } from "@material-ui/icons";
+import { Check } from "@material-ui/icons";
 import ProfileImageUpload from "src/components/forms/profileImageUpload";
+import { parseTimestamp } from "src/utils/parseTimestamp";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,18 +46,22 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
   },
   editButton: {
-    margin: theme.spacing(2, "auto")
+    margin: theme.spacing(2, "auto"),
   },
   media: {
     height: 300,
+  },
+  chip: {
+    color: theme.palette.primary.contrastText,
+    "& span": {},
+  },
+  check: {
+    color: theme.palette.primary.contrastText,
+  },
+  none: {
+    color: theme.palette.grey[400]
   }
 }));
-
-const parseTimestamp = (timestampString: string) => {
-  return Timestamp.fromDate(new Date(timestampString))
-    .toDate()
-    .toLocaleString();
-};
 
 const Account = () => {
   const classes = useStyles();
@@ -84,6 +85,52 @@ const Account = () => {
 
   const createdAt = parseTimestamp(creationTime || "");
   const lastSignIn = parseTimestamp(lastSignInTime || "");
+
+  interface IListItem {
+    primary: string;
+    secondary: string | React.ReactNode | React.ReactElement;
+
+  }
+  const accountListItems: IListItem[] = [
+    {
+      primary: "Name",
+      secondary: displayName,
+    },
+    {
+      primary: "Email",
+      secondary: (
+        <>
+          {email}
+          <br />
+          {emailVerified ? (
+            <>
+              <Chip
+                icon={<Check color="primary" />}
+                color="primary"
+                variant="outlined"
+                label="Verified"
+                size="small"
+              />
+            </>
+          ) : (
+            <Chip label="Not Verified" color="secondary" />
+          )}
+        </>
+      ),
+    },
+    {
+      primary: "Phone Number",
+      secondary: phoneNumber || <span className={classes.none}>None</span>,
+    },
+    {
+      primary: "Created at",
+      secondary: createdAt,
+    },
+    {
+      primary: "Last sign in",
+      secondary: lastSignIn,
+    },
+  ];
   return (
     auth.currentUser && (
       <Box>
@@ -114,116 +161,36 @@ const Account = () => {
           </CardActions>
         </Card>
 
-        <Card elevation={0} className={classes.card}>
+        <Card className={classes.card}>
           <CardContent>
-            <Typography variant="h4">Info</Typography>
+            <Typography variant="h3">Info</Typography>
             <List>
-              <ListItem className={classes.listItem}>
-                <ListItemText
+              {accountListItems.map((item) => (
+                <ListItem key={item.primary} className={classes.listItem}>
+                  <ListItemText
                   primaryTypographyProps={{
-                    variant: "body1",
+                    variant: "h6",
                   }}
                   secondaryTypographyProps={{
-                    variant: "h5",
+                    variant: "h4",
                   }}
-                  primary="Name"
-                  secondary={displayName}
+                  primary={item.primary}
+                  secondary={item.secondary}
                 />
-              </ListItem>
-              <ListItem className={classes.listItem}>
-                <ListItemText
-                  primaryTypographyProps={{
-                    variant: "body1",
-                  }}
-                  secondaryTypographyProps={{
-                    variant: "h5",
-                  }}
-                  primary="UID"
-                  secondary={uid}
-                />
-              </ListItem>
-              <ListItem className={classes.listItem}>
-                <ListItemText
-                  primaryTypographyProps={{
-                    variant: "body1",
-                  }}
-                  secondaryTypographyProps={{
-                    variant: "h5",
-                  }}
-                  primary="Email"
-                  secondary={email}
-                />
-              </ListItem>
-              <ListItem className={classes.listItem}>
-                <ListItemText
-                  primaryTypographyProps={{
-                    variant: "body1",
-                  }}
-                  secondaryTypographyProps={{
-                    variant: "h5",
-                  }}
-                  primary="Email Verified"
-                  secondary={emailVerified ? "Yes" : "No"}
-                />
-              </ListItem>
-              <ListItem className={classes.listItem}>
-                <ListItemText
-                  primaryTypographyProps={{
-                    variant: "body1",
-                  }}
-                  secondaryTypographyProps={{
-                    variant: "h5",
-                  }}
-                  primary="Phone"
-                  secondary={
-                    phoneNumber || (
-                      <Button
-                        variant="outlined"
-                        component={Link}
-                        to="/account/edit"
-                      >
-                        + Add
-                      </Button>
-                    )
-                  }
-                />
-              </ListItem>
-              <ListItem className={classes.listItem}>
-                <ListItemText
-                  primaryTypographyProps={{
-                    variant: "body1",
-                  }}
-                  secondaryTypographyProps={{
-                    variant: "h5",
-                  }}
-                  primary="Created at"
-                  secondary={createdAt}
-                />
-              </ListItem>
-              <ListItem className={classes.listItem}>
-                <ListItemText
-                  primaryTypographyProps={{
-                    variant: "body1",
-                  }}
-                  secondaryTypographyProps={{
-                    variant: "h5",
-                  }}
-                  primary="Last login"
-                  secondary={lastSignIn}
-                />
-              </ListItem>
+                </ListItem>
+              ))}
             </List>
           </CardContent>
         </Card>
         <Card elevation={0} className={classes.card}>
           <CardContent>
-            <Typography variant="h4">Linked accounts</Typography>
+            <Typography variant="h3">Linked accounts</Typography>
             <LinkedAccounts {...currentUser} />
           </CardContent>
         </Card>
         <Card component={Box} className={classes.cardDanger} elevation={0}>
           <CardContent>
-            <Typography variant="h4" color="error">
+            <Typography variant="h3" color="error">
               Danger zone
             </Typography>
             <Typography variant="body1">

@@ -52,8 +52,16 @@ declare interface UserDocument {
     birthdate: DumbDate
 }
 
-declare interface Course {
-    id: string;
+interface IDocument {
+  path: string;
+  data: any;
+}
+
+
+
+declare type Course = {
+  id: string;
+  data: {
     author: string;
     name: string;
     description: string;
@@ -61,12 +69,24 @@ declare interface Course {
     image_url: string;
     organization: string;
     published: boolean;
-}
+    image_path: string;
+    lessons: any[];
+  };
+};
 
-declare namespace NSAuthContext {
-}
+type Lesson = {
+  data: {
+    title: string;
+    subtitle: string;
+    markdown_content: string;
+    draft: boolean;
+    image_path: string;
+  };
+  id: string;
+};
 
-declare interface IAuthContext {
+
+declare type IAuthContext = {
   currentUser: User;
   login: (email: string, password: string) => Promise<UserCredential>;
   signup: (email: string, password: string) => Promise<UserCredential>;
@@ -77,15 +97,63 @@ declare interface IAuthContext {
   signInWithGoogle: () => Promise<UserCredential>;
   updateUserName: (displayName: string) => Promise<void>;
   updateUserPhoto: (photoURL: string) => Promise<void>;
+  isAdmin: () => boolean | null;
+}
+
+declare type IGetSubCollection = {
+  collectionName: string;
+  collectionItem: string;
+  subCollectionName: string;
 }
 
 
-declare interface IUploadFile {
+interface IGetSubCollectionDocument {
+  collectionName: string;
+  collectionItem: string;
+  subCollectionName: string;
+  subCollectionItem: string;
+}
+
+type IQueryParams = [field: string, operator: WhereFilterOp, value: any];
+
+
+interface IQuery {
+  collectionPath: string;
+  queryParams: IQueryParams;
+}
+
+
+declare type IFirestoreContext = {
+  getDocument: (path: string) => Promise<any>;
+  getCollection: (path: string) => Promise<any>;
+  addDocument: ({ collectionPath, data }: IAddDocument) => Promise<string>;
+  updateDocument: ({ path, data }: IDocument) => Promise<void>;
+  deleteDocument: (path: string) => Promise<void>;
+  queryDocuments: ({
+    collectionPath,
+    queryParams,
+  }: IQuery) => Promise<{ id: string; data: any }[]>;
+  getSubCollection: ({
+    collectionName,
+    collectionItem,
+    subCollectionName,
+  }: IGetSubCollection) => Promise<any>;
+  getSubCollectionDocument: ({
+    collectionName,
+    collectionItem,
+    subCollectionName,
+    subCollectionItem,
+  }: IGetSubCollectionDocument) => Promise<any>;
+}
+
+
+declare type IUploadFile = {
   file: File;
   path: string;
+  image?: boolean;
 }
 
-declare interface IStorageContext {
+declare type IStorageContext = {
   uploadFile: ({file, path}: IUploadFile) => Promise<UploadResult>;
   uploadText: (text: string, path: string) => Promise<UploadResult>;
   downloadFile: (path: string) => Promise<string>;

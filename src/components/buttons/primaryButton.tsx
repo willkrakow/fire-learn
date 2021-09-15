@@ -21,7 +21,7 @@ const styles = {
   },
 };
 
-function ClassNames(props: Props) {
+function PrimaryButton(props: Props) {
   const { classes, children, className, ...other } = props;
 
   return (
@@ -31,4 +31,4 @@ function ClassNames(props: Props) {
   );
 }
 
-export default withStyles(styles)(ClassNames);
+export default withStyles(styles)(PrimaryButton);

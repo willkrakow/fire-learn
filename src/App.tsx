@@ -3,60 +3,59 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Home, Login, Signup } from './routes';
 import Navbar from './components/navbar';
 
-import firebaseConfig from "./config/firebaseConfig";
 import {initializeApp} from 'firebase/app';
-import { AuthProvider } from './contexts'
+import { AuthProvider, StorageProvider, FirestoreProvider } from './contexts'
 import ThemeContext from './theme';
-import { CssBaseline, Paper } from '@material-ui/core';
+import { CssBaseline, Box } from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import Account from './routes/account';
 import Browse from './routes/browse';
 import Course from './routes/course';
 import EditAccount from './components/forms/editAccount';
-import { StorageProvider } from './contexts/storageContext';
+import firebaseConfig from './config/firebaseConfig';
 
+const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   main: {
-    display: "flex",
     marginBottom: theme.spacing(2),
-    flexDirection: "column",
-    alignItems: "center",
-    minHeight: "90vh",
+    flexGrow: 1,
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    },
   },
-  footer: {
-    padding: theme.spacing(3, 2),
-    marginTop: "auto",
-    backgroundColor:
-      theme.palette.type === "light"
-        ? theme.palette.grey[200]
-        : theme.palette.grey[800],
-  },
+  root: {},
+  toolbar: theme.mixins.toolbar,
 }));
 
 function App() {
   const classes = useStyles();
-initializeApp(firebaseConfig);
+  initializeApp(firebaseConfig);
   return (
     <React.Fragment>
       <AuthProvider>
         <StorageProvider>
+          <FirestoreProvider>
           <ThemeContext>
             <CssBaseline />
             <BrowserRouter>
+            <div className={classes.root}>
               <Navbar />
-              <Paper component="main" className={classes.main}>
+              <Box component="main" className={classes.main}>
                 <Switch>
                   <Route exact path="/" component={Home} />
                   <Route path="/login" component={Login} />
                   <Route path="/signup" component={Signup} />
                   <Route path="/account/edit" component={EditAccount} />
                   <Route path="/account" exact component={Account} />
-                  <Route path="/browse" component={Browse} />
-                  <Route path="/courses/:course_id" component={Course} />
+                  <Route path="/courses" exact component={Browse} />
+                  <Route path="/courses/:courseId" render={renderProps => <Course courseId={renderProps.match.params.courseId} />} />
                 </Switch>
-              </Paper>
+              </Box>
+            </div>
             </BrowserRouter>
           </ThemeContext>
+          </FirestoreProvider>
         </StorageProvider>
       </AuthProvider>
     </React.Fragment>
