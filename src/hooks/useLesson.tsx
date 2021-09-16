@@ -13,7 +13,7 @@ const useLesson = (lessonId: string) => {
       setLessonData(lesson);
       setLoading(false);
     });
-  }, [lessonId]);
+  }, [lessonId, getDocument]);
 
   return { loading, lessonData };
 };

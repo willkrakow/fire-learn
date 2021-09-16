@@ -1,6 +1,6 @@
 import React from 'react'
 import { Grid, Card, Typography, Theme, Button, CardActions } from '@material-ui/core'
-import { collection, getDocs, getFirestore, DocumentData, query, where } from 'firebase/firestore'
+import { DocumentData, } from 'firebase/firestore'
 import { makeStyles } from '@material-ui/styles'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/authContext'
@@ -44,7 +44,7 @@ const Browse = () => {
         return () => {
             setCourses([])
         }
-    }, [currentUser])
+    }, [currentUser, getCollection, queryDocuments])
     
     if (loading) {
         return <div>Loading...</div>

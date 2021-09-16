@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactMarkdown, {  } from 'react-markdown'
-import { Typography, ListItem, ListItemText, Button, TextField } from '@material-ui/core'
-import { HeadingComponent, ReactMarkdownProps, SpecialComponents } from 'react-markdown/lib/ast-to-react'
+import { Typography, } from '@material-ui/core'
+import { SpecialComponents } from 'react-markdown/lib/ast-to-react'
 import { NormalComponents } from 'react-markdown/lib/complex-types'
 
 const components: Partial<

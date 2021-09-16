@@ -1,8 +1,6 @@
 import React from 'react'
 import {useStorage} from '../../contexts/storageContext'
-import { Button, Box, makeStyles, Theme, Typography } from '@material-ui/core'
-import { useAuth } from 'src/contexts/authContext'
-import { Link } from 'react-router-dom'
+import { Box, makeStyles, Theme } from '@material-ui/core'
 
 
 
@@ -69,7 +67,7 @@ const Hero: React.FC<Props> = ({imagePath="images/site/resize/hero_1000x800.webp
     return () => {
       setHeroImage("");
     };
-  }, []);
+  }, [downloadFile, imagePath]);
 
   return (
     <div className={classes.root}>

@@ -6,7 +6,6 @@ import {
   ListItemText,
   ListItemIcon,
   Drawer,
-  Box,
   Toolbar,
   IconButton,
   Typography,
@@ -16,9 +15,8 @@ import {
   Hidden,
   useTheme,
 } from "@material-ui/core";
-import { Menu, CloseOutlined, Person, ExitToApp, Book, Grade, PersonAdd, AssignmentInd, Fireplace } from "@material-ui/icons";
-import AccountMenu from "./accountMenu";
-import { Link, useHistory } from "react-router-dom";
+import { Menu, Person, ExitToApp, Book, Grade, PersonAdd, AssignmentInd,} from "@material-ui/icons";
+import { useHistory } from "react-router";
 import { useAuth } from "src/contexts/authContext";
 
 const drawerWidth = 240;
@@ -47,29 +45,19 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 const Navbar = () => {
-  const [open, setOpen] = React.useState(false);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const theme = useTheme();
   const classes = useStyles();
   const { logout, currentUser } = useAuth() as IAuthContext
   const { push } = useHistory()
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
 
   const handleClick = (path: string) => {
     push(path)
-    setOpen(false)
   }
 
   const handleLogout = () => {
     logout()
     push("/")
-    setOpen(false)
   }
 
   const handleDrawerToggle = () => {

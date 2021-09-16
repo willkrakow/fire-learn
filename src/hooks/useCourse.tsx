@@ -12,7 +12,7 @@ const useCourse = (courseId: string) => {
       console.log(course);
       setLoading(false);
     });
-  }, [courseId]);
+  }, [courseId, getDocument]);
 
   return {courseData, loading};
 };

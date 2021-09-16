@@ -1,5 +1,5 @@
 import React from 'react'
-import { getStorage, ref, getDownloadURL, uploadBytes, UploadResult, uploadString } from "firebase/storage";
+import { getStorage, ref, getDownloadURL, uploadBytes, UploadResult, uploadString } from "@firebase/storage";
 
 
 export const StorageContext= React.createContext<IStorageContext | null>(null)

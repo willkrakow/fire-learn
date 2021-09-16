@@ -1,7 +1,7 @@
 import React from 'react'
 import { createTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
-import { orange, blue, blueGrey, green, deepOrange, purple, deepPurple, red } from '@material-ui/core/colors'
+import { orange, blue, blueGrey, deepOrange, deepPurple, red } from '@material-ui/core/colors'
 
 const theme = createTheme({
   overrides: {

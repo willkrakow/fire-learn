@@ -13,6 +13,7 @@ import Browse from './routes/browse';
 import Course from './routes/course';
 import EditAccount from './components/forms/editAccount';
 import firebaseConfig from './config/firebaseConfig';
+import Admin from './routes/admin';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -50,6 +51,7 @@ function App() {
                   <Route path="/account" exact component={Account} />
                   <Route path="/courses" exact component={Browse} />
                   <Route path="/courses/:courseId" render={renderProps => <Course courseId={renderProps.match.params.courseId} />} />
+                  <Route path="/admin" component={Admin} />
                 </Switch>
               </Box>
             </div>

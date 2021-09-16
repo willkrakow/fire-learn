@@ -1,5 +1,4 @@
 import * as React from "react";
-import { MemoryRouter as Router } from "react-router";
 import {
   Link as RouterLink,
   LinkProps as RouterLinkProps,

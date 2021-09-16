@@ -3,7 +3,7 @@ import { Typography, Button, makeStyles, CircularProgress } from "@material-ui/c
 import { useAuth } from "../../contexts/authContext";
 import { useStorage } from "../../contexts/storageContext";
 import { UploadResult, getDownloadURL } from "firebase/storage";
-import { Camera, CameraAlt } from "@material-ui/icons";
+import { CameraAlt } from "@material-ui/icons";
 
 interface Props {
   setTempImage: (image: string) => void;

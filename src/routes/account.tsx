@@ -67,7 +67,7 @@ const Account = () => {
   const classes = useStyles();
   const auth = useAuth() as IAuthContext;
   const { currentUser } = auth;
-  const { metadata, displayName, email, emailVerified, phoneNumber, uid, photoURL } =
+  const { metadata, displayName, email, emailVerified, phoneNumber, photoURL } =
     (currentUser as User) || {};
   const { creationTime, lastSignInTime } = metadata || {};
   const [tempImage, setTempImage] = React.useState<string | null>(null);

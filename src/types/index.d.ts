@@ -1,4 +1,5 @@
-declare enum ProviderId {
+
+enum ProviderId {
     FACEBOOK = 'facebook.com',
     GOOGLE = 'google.com',
     GITHUB = 'github.com',
@@ -6,7 +7,7 @@ declare enum ProviderId {
     TWITTER = 'twitter.com'
 }
 
-declare interface UserProviderData {
+interface UserProviderData {
     displayName: string;
     email?: string;
     phoneNumber?: string;
@@ -15,41 +16,47 @@ declare interface UserProviderData {
 }
 
 
-declare interface AuthError {
+interface AuthError {
     message: string
 }
 
-declare type AuthState = [
+type AuthState = [
   user: User | null,
   loading: boolean,
   error: AuthError | null
 ];
 
-declare type MyAuthState = [
+type MyAuthState = [
     user: User | null,
     loading: boolean,
     error: AuthError | null,
 ]
 
-declare interface UserMetadata {
+interface UserMetadata {
     createdAt: string;
     lastLoginAt: string;
 }
 
-declare interface DumbDate {
+type DumbDate = {
     seconds: number;
     nanoseconds: number;
 }
 
-declare interface UserDocument {
+type UserDocument = {
+  id: string;
+  data: {
     bio: string;
     id: number | string;
     name: string;
     email: string;
     photoURL: string;
-    created_at: DumbDate
-    update_at: DumbDate
-    birthdate: DumbDate
+    created_at: Timestamp;
+    update_at: Timestamp;
+    birthdate: Timestamp;
+    last_login_at?: Timestamp;
+    last_login_ip?: string;
+    phoneNumber?: string;
+  };
 }
 
 interface IDocument {
@@ -59,7 +66,7 @@ interface IDocument {
 
 
 
-declare type Course = {
+type Course = {
   id: string;
   data: {
     author: string;
@@ -81,12 +88,14 @@ type Lesson = {
     markdown_content: string;
     draft: boolean;
     image_path: string;
+    course_id: string;
+    course: DocumentReference<DocumentData>
   };
   id: string;
 };
 
 
-declare type IAuthContext = {
+type IAuthContext = {
   currentUser: User;
   login: (email: string, password: string) => Promise<UserCredential>;
   signup: (email: string, password: string) => Promise<UserCredential>;
@@ -100,7 +109,7 @@ declare type IAuthContext = {
   isAdmin: () => boolean | null;
 }
 
-declare type IGetSubCollection = {
+type IGetSubCollection = {
   collectionName: string;
   collectionItem: string;
   subCollectionName: string;
@@ -123,7 +132,7 @@ interface IQuery {
 }
 
 
-declare type IFirestoreContext = {
+type IFirestoreContext = {
   getDocument: (path: string) => Promise<any>;
   getCollection: (path: string) => Promise<any>;
   addDocument: ({ collectionPath, data }: IAddDocument) => Promise<string>;
@@ -144,22 +153,25 @@ declare type IFirestoreContext = {
     subCollectionName,
     subCollectionItem,
   }: IGetSubCollectionDocument) => Promise<any>;
+  getDocumentFromReference: (
+    documentRef: DocumentReference<DocumentData>
+  ) => Promise<any>;
 }
 
 
-declare type IUploadFile = {
+type IUploadFile = {
   file: File;
   path: string;
   image?: boolean;
 }
 
-declare type IStorageContext = {
+type IStorageContext = {
   uploadFile: ({file, path}: IUploadFile) => Promise<UploadResult>;
   uploadText: (text: string, path: string) => Promise<UploadResult>;
   downloadFile: (path: string) => Promise<string>;
 }
 
-declare interface IEnrollment {
+interface IEnrollment {
   enrolled_at: Timestamp;
   course_id: number;
   user_id: number;
@@ -168,47 +180,39 @@ declare interface IEnrollment {
   user: UserDocument;
 }
 
-declare type Enrollment = IEnrollment & QuerySnapshot<DocumentData>
+type Enrollment = IEnrollment & QuerySnapshot<DocumentData>
 
 
-declare interface UserDocumentSnapshot {
+interface UserDocumentSnapshot {
     exists: boolean;
     data: UserDocument;
 }
 
-declare interface UserDocumentData {
-    name: string;
-    email: string;
-    photoURL: string;
-    createdAt: string;
-    updatedAt: string;
-}
-
-declare interface UserDocumentChange {
+interface UserDocumentChange {
     type: 'added' | 'modified' | 'removed';
     doc: UserDocumentSnapshot;
 }
 
-declare interface UserDocumentChangeEvent {
+interface UserDocumentChangeEvent {
     type: 'value' | 'added' | 'modified' | 'removed';
     snapshot: UserDocumentSnapshot;
 }
 
-declare interface UserDocumentQuery {
+interface UserDocumentQuery {
     get(): Promise<UserDocumentSnapshot>;
     onSnapshot(callback: (snapshot: UserDocumentChangeEvent) => void): () => void;
 }
 
-declare interface UserDocumentReference {
+interface UserDocumentReference {
     doc(id: string): UserDocumentQuery;
 }
 
-declare interface UserDocumentCollection {
+interface UserDocumentCollection {
     doc(id: string): UserDocumentQuery;
     onSnapshot(callback: (snapshot: UserDocumentChangeEvent) => void): () => void;
 }
 
-declare interface UserDocumentCollectionReference {
+interface UserDocumentCollectionReference {
     doc(id: string): UserDocumentQuery;
     onSnapshot(callback: (snapshot: UserDocumentChangeEvent) => void): () => void;
 }

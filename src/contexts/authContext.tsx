@@ -12,7 +12,7 @@ import {
   updatePassword,
   onAuthStateChanged,
   User,
-} from "firebase/auth";
+} from "@firebase/auth";
 
 
 

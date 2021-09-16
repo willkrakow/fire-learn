@@ -4,14 +4,14 @@ import {
   getFirestore,
   collection,
   doc,
-  setDoc,
+  DocumentReference,
+  DocumentData,
   addDoc,
   updateDoc,
   deleteDoc,
   query,
   getDocs,
   where,
-  WhereFilterOp,
 } from "firebase/firestore";
 
 
@@ -19,10 +19,6 @@ interface IAddDocument {
     data: any;
     collectionPath: string
 }
-
-
-
-
 
 
 export const FirestoreContext = React.createContext<IFirestoreContext | null>(null);
@@ -34,6 +30,15 @@ export const FirestoreProvider: React.FC = ({ children }) => {
 
   const getDocument = async (path: string) => {
       const documentRef = doc(db, path);
+      const snapshot = await getDoc(documentRef);
+      console.log(snapshot);
+      return {
+          data: snapshot.data(),
+          id: snapshot.id
+      };
+  };
+
+  const getDocumentFromReference = async (documentRef: DocumentReference<DocumentData>) => {
       const snapshot = await getDoc(documentRef);
       console.log(snapshot);
       return {
@@ -115,6 +120,7 @@ export const FirestoreProvider: React.FC = ({ children }) => {
     queryDocuments,
     getSubCollection,
     getSubCollectionDocument,
+    getDocumentFromReference,
   };
   return (
     <FirestoreContext.Provider value={value}>{children}</FirestoreContext.Provider>

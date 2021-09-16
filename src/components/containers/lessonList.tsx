@@ -1,7 +1,7 @@
 import React from 'react'
 import { CircularProgress, Typography, List, ListItem, ListItemText } from '@material-ui/core'
 import { useFirestore } from 'src/contexts/firestoreContext'
-import { Link, useRouteMatch } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
 interface Props {
@@ -12,7 +12,6 @@ const LessonList = ({courseId}: Props) => {
     const { queryDocuments } = useFirestore() as IFirestoreContext
     const [ lessons, setLessons ] = React.useState<Lesson[]>([])
     const [ loading, setLoading ] = React.useState(true)
-    const { params } = useRouteMatch()
     React.useEffect(() => {
         setLoading(true)
         queryDocuments({collectionPath: `lessons`, queryParams: ["course_id", "==", courseId] })

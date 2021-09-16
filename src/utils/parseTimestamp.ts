@@ -5,3 +5,7 @@ export const parseTimestamp = (timestampString: string) => {
     .toDate()
     .toLocaleString();
 };
+
+export const getDateStringFromTimestamp = (timestamp: Timestamp) => {
+  return timestamp.toDate().toLocaleDateString();
+}

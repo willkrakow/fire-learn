@@ -2,7 +2,6 @@ import React from 'react'
 import { Card, Theme, CardMedia, Typography, makeStyles, CardContent, CardActions, Button, CardActionArea, CircularProgress} from '@material-ui/core'
 import { red } from '@material-ui/core/colors'
 import { Link } from 'react-router-dom'
-import { useFirestore } from 'src/contexts/firestoreContext'
 import { useCourse } from 'src/hooks'
 interface Props {
     course_id: string;
