@@ -5,6 +5,17 @@ import { orange, blue, blueGrey, deepOrange, deepPurple, red } from '@material-u
 
 const theme = createTheme({
   overrides: {
+    MuiCard: {
+      root: {
+        borderRadius: 16,
+      }
+    },
+    MuiPaper: {
+      root: {
+        borderRadius: 16,
+        padding: 16,
+      }
+    },
     MuiCssBaseline: {
       "@global": {
         html: {
@@ -22,15 +33,12 @@ const theme = createTheme({
         }
       },
     },
-    MuiCard: {
-      root: {
-        borderRadius: "0px",
-      },
-    },
   },
   palette: {
     primary: {
-      main: red[600],
+      main: deepOrange[700],
+      light: deepOrange[100],
+      dark: deepOrange[900],
     },
     secondary: {
       main: deepPurple[200],
@@ -65,12 +73,12 @@ const theme = createTheme({
       fontStyle: "normal",
     },
     h2: {
-      fontSize: "2.5rem",
-      fontWeight: "lighter",
+      fontSize: "3rem",
+      fontWeight: "bold",
       fontStyle: "normal",
       textTransform: "uppercase",
       letterSpacing: "0.1em",
-      marginBottom: "1rem",
+      marginBottom: "2rem",
       background: `linear-gradient(to right, ${orange[300]} 0%, ${red[800]} 100%)`,
       color: "transparent",
       backgroundClip: "text",
@@ -81,7 +89,7 @@ const theme = createTheme({
       color: "transparent",
       fontSize: "2rem",
       fontWeight: "bold",
-      marginBottom: "1rem",
+      marginBottom: "1.5rem",
       background: `linear-gradient(to right, ${orange[400]} 0%, ${red[900]} 100%)`,
       backgroundClip: "text",
       WebkitBackgroundClip: "text",
@@ -89,7 +97,7 @@ const theme = createTheme({
     },
     h4: {
       fontSize: "1.375rem",
-      fontWeight: "bold",
+      fontWeight: "normal",
       fontStyle: "normal",
       background: `linear-gradient(to right, ${blue[300]} 0%, ${deepPurple[900]} 100%)`,
       backgroundClip: "text",

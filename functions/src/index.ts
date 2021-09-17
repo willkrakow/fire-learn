@@ -1,58 +1,101 @@
+import * as functions from "firebase-functions";
+import * as admin from "firebase-admin";
 
-const functions = require("firebase-functions");
-// // The Firebase Admin SDK to access Firestore.
-const admin = require("firebase-admin");
 admin.initializeApp();
 
+export const helloWorld = functions.https.onRequest((request, response) => {
+  functions.logger.info("Request:", JSON.stringify(request));
+  functions.logger.info("Hello logs!", { structuredData: true });
+  response.send("Hello from Firebase!");
+});
 
-// firebase.initializeApp()
-// interface IEnrollment {
-//     user_id: string;
-//     course_id: string;
-//     user: any;
-//     course: any;
-// }
+export const onUserCreate = functions.auth.user().onCreate((user) => {
+  // Add a new document in collection "users"
+  const userRef = admin.firestore().collection("users").doc(user.uid);
+  userRef
+    .set({
+      displayName: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+      uid: user.uid,
+      emailVerified: user.emailVerified,
+      phoneNumber: user.phoneNumber,
+      disabled: user.disabled,
+      metadata: user.metadata,
+      creationTime: user.metadata.creationTime,
+      lastSignInTime: user.metadata.lastSignInTime,
+      providerData: user.providerData,
+      customClaims: user.customClaims,
+      tenantId: user.tenantId,
+      tokensValidAfterTime: user.tokensValidAfterTime,
+    })
+    .then(() => {
+      functions.logger.info(
+        `Document successfully written! New user document: ${user.displayName}: ${user.uid}`
+      );
+    })
+    .catch((error) => {
+      functions.logger.error("Error writing document: ", error);
+    });
+});
 
-// interface IContext {
-//     auth: {
-//         uid: string;
-//         token: any;
-//     };
-//     params: any;
-//     request: any;
-//     response: any;
-// }
+export const onUserDelete = functions.auth.user().onDelete((user) => {
+  // Delete the document in collection "users"
+  const userRef = admin.firestore().collection("users").doc(user.uid);
+  userRef
+    .delete()
+    .then(() => {
+      functions.logger.info(
+        `Document successfully deleted! User document: ${user.displayName}: ${user.uid}`
+      );
+    })
+    .catch((error) => {
+      functions.logger.error("Error deleting document: ", error);
+    });
+});
 
-// interface Props {
-//     context: IContext;
-//     data: IEnrollment;
-// }
+export const onUserUpdate = functions.firestore
+  .document("users/{userId}")
+  .onUpdate((change, context) => {
+    if (!context.auth?.uid) {
+      return null;
+    }
+    // Get an object representing the document
+    // e.g. {'name': 'Marie', 'age': 66}
+    const newValue = change.after.data();
 
-// exports.createEnrollment = functions.https.onCall(({data, context}: Props ) => {
-//     const { auth } = context
-//     console.log(auth)
-//     return {
-//         message: "Hello World"
-//     }
-//     // if (!auth) {
-//     //     throw new functions.https.HttpsError('unauthenticated', 'User is not authenticated')
-//     // }
-//     // if (auth.uid !== user_id) {
-//     //     throw new functions.https.HttpsError('permission-denied', 'User is not authorized to create enrollment')
-//     // }
-//     // return admin.firestore().collection("enrollments").add({
-//     //     createdAt: new Date(),
-//     //     user_id: user_id,
-//     //     course_id: course_id,
-//     //     user: admin.firestore().doc(`users/${user_id}`),
-//     //     course: admin.firestore().doc(`courses/${course_id}`)
-//     // }).then(() => {
-//     //     console.log('Enrollment created')
-//     //     return {
-//     //         message: 'Enrollment created'
-//     //     }
-//     // })
+    // ...or the previous value before this update
+    const previousValue = change.before.data();
 
+    const dataToUpdate = newValue ? newValue : previousValue;
+
+    // access a particular field as you would any JS property
+    admin
+      .auth()
+      .updateUser(context.auth?.uid, {
+        displayName: dataToUpdate.displayName,
+        email: dataToUpdate.email,
+        photoURL: dataToUpdate.photoURL,
+        emailVerified: dataToUpdate.emailVerified,
+        phoneNumber: dataToUpdate.phoneNumber,
+        disabled: dataToUpdate.disabled,
+      })
+      .then(() => {
+        functions.logger.info(
+          `Document successfully updated! User document: ${dataToUpdate.displayName}: ${context.auth?.uid}`
+        );
+      })
+      .catch((error) => {
+        functions.logger.error("Error updating document: ", error);
+      });
+
+    return null;
+  });
+
+// // Start writing Firebase Functions
+// // https://firebase.google.com/docs/functions/typescript
+//
+// export const helloWorld = functions.https.onRequest((request, response) => {
+//   functions.logger.info("Hello logs!", {structuredData: true});
+//   response.send("Hello from Firebase!");
 // });
-
-

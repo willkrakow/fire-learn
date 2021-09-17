@@ -3,10 +3,12 @@ import { useFirestore } from "src/contexts/firestoreContext";
 import { RouteComponentProps } from "react-router";
 import {
   CircularProgress,
+  Grid,
   Typography,
 } from "@material-ui/core";
 import { useAuth } from "src/contexts/authContext";
 import UserProfile from "./userProfile";
+import UserEnrollments from "./userEnrollments";
 
 interface TParams {
   userId: string;
@@ -102,11 +104,26 @@ const UserEditor = ({ match }: RouteComponentProps<TParams>) => {
   }
   return (
     <>
-    <Typography variant="h3">Edit user</Typography>
+      <Typography variant="h2">Edit user</Typography>
       {loading && <CircularProgress />}
       {error && <div>{error}</div>}
       {user && (
-        <UserProfile snackbar={snackbar} handleSnackbarClose={handleSnackbarClose} handleSubmit={handleSubmit} user={user} handleChange={handleChange} handleResetPassword={handleResetPassword} handleCancel={handleCancel} />
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+          <UserProfile
+            snackbar={snackbar}
+            handleSnackbarClose={handleSnackbarClose}
+            handleSubmit={handleSubmit}
+            user={user}
+            handleChange={handleChange}
+            handleResetPassword={handleResetPassword}
+            handleCancel={handleCancel}
+          />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <UserEnrollments userId={userId} />
+          </Grid>
+        </Grid>
       )}
     </>
   );

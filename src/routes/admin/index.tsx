@@ -1,5 +1,5 @@
-import { Breadcrumbs } from "@material-ui/core";
 import React from "react";
+import { Paper, Breadcrumbs, makeStyles, Theme } from "@material-ui/core";
 import { Redirect, Switch, Route, useLocation } from "react-router";
 import { RouterButton } from "src/components/buttons";
 import { useAuth } from "src/contexts/authContext";
@@ -7,10 +7,28 @@ import AdminMenu from "./adminMenu";
 import CourseManager from "./courseManager";
 import UserManager from "./userManager";
 
+
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    padding: theme.spacing(4),
+    margin: theme.spacing(4),
+    display: "flex",
+    flexDirection: "column",
+  },
+  breadcrumbs: {
+    backgroundColor: theme.palette.primary.light,
+    padding: theme.spacing(1),
+    margin: theme.spacing(4, 0),
+    marginTop: 0,
+    borderRadius: theme.shape.borderRadius,
+  },
+}))
+
 const Admin = () => {
   const { isAdmin } = useAuth() as IAuthContext;
   const [breadcrumbs, setBreadcrumbs] = React.useState<any[]>([]);
   const { pathname } = useLocation();
+  const classes = useStyles();
 
   React.useEffect(() => {
     const pathArray = pathname.split("/");
@@ -30,7 +48,7 @@ const Admin = () => {
   return (
     <>
       <AdminMenu />
-      <Breadcrumbs>
+      <Breadcrumbs className={classes.breadcrumbs}>
         {breadcrumbs.map((breadcrumb, index) => {
           return (
             <RouterButton href={breadcrumb.link} key={index}>
@@ -39,11 +57,13 @@ const Admin = () => {
           );
         })}
       </Breadcrumbs>
-      <Switch>
-        <Route exact path="/admin" render={() => <div>admin</div>} />
-        <Route path="/admin/courses" component={CourseManager} />
-        <Route path="/admin/users" component={UserManager} />
-      </Switch>
+      <Paper elevation={0} className={classes.root}>
+        <Switch>
+          <Route exact path="/admin" render={() => <div>admin</div>} />
+          <Route path="/admin/courses" component={CourseManager} />
+          <Route path="/admin/users" component={UserManager} />
+        </Switch>
+      </Paper>
     </>
   );
 };

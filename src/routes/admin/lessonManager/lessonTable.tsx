@@ -2,8 +2,6 @@ import React from "react";
 import { useRouteMatch, RouteComponentProps } from "react-router";
 import {
   CircularProgress,
-  makeStyles,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -13,10 +11,8 @@ import {
 } from "@material-ui/core";
 import { useFirestore } from "src/contexts/firestoreContext";
 import { RouterButton } from "src/components/buttons";
-import styles from "./styles";
 import LessonRow from "./lessonRow";
 
-const useStyles = makeStyles(styles);
 
 interface TParams {
   courseId: string;
@@ -25,7 +21,6 @@ interface TParams {
 const LessonTable = ({ match }: RouteComponentProps<TParams>) => {
   const { courseId } = match.params;
   const { url, path } = useRouteMatch();
-  const classes = useStyles();
   const [loading, setLoading] = React.useState(false);
   const [lessons, setLessons] = React.useState<Lesson[]>([]);
   const { queryDocuments } = useFirestore() as IFirestoreContext;
@@ -41,7 +36,6 @@ const LessonTable = ({ match }: RouteComponentProps<TParams>) => {
 
   return (
     <>
-      <Paper className={classes.root}>
         <Typography variant="h3">Lessons</Typography>
         <RouterButton variant="contained" href={`${url}/new`}>
           New Lesson
@@ -71,7 +65,6 @@ const LessonTable = ({ match }: RouteComponentProps<TParams>) => {
             </TableBody>
           </Table>
         )}
-      </Paper>
     </>
   );
 };

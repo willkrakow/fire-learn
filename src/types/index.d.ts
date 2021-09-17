@@ -172,12 +172,16 @@ type IStorageContext = {
 }
 
 interface IEnrollment {
-  enrolled_at: Timestamp;
-  course_id: number;
-  user_id: number;
-  progress: number;
-  course: Course;
-  user: UserDocument;
+  id: string;
+  data: {
+    enrolled_at: Timestamp;
+    course_id: string;
+    user_id: string;
+    userId: string;
+    progress: number;
+    course: Course;
+    user: UserDocument;
+  };
 }
 
 type Enrollment = IEnrollment & QuerySnapshot<DocumentData>
