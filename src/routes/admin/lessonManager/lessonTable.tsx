@@ -1,6 +1,7 @@
 import React from "react";
-import { useRouteMatch, RouteComponentProps } from "react-router";
+import { useRouteMatch, RouteComponentProps, useHistory } from "react-router";
 import {
+  Button,
   CircularProgress,
   Table,
   TableBody,
@@ -10,8 +11,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useFirestore } from "src/contexts/firestoreContext";
-import { RouterButton } from "src/components/buttons";
 import LessonRow from "./lessonRow";
+import { DocumentData, DocumentReference } from "@firebase/firestore";
 
 
 interface TParams {
@@ -21,9 +22,10 @@ interface TParams {
 const LessonTable = ({ match }: RouteComponentProps<TParams>) => {
   const { courseId } = match.params;
   const { url, path } = useRouteMatch();
+  const { push } = useHistory();
   const [loading, setLoading] = React.useState(false);
   const [lessons, setLessons] = React.useState<Lesson[]>([]);
-  const { queryDocuments } = useFirestore() as IFirestoreContext;
+  const { queryDocuments, addDocument } = useFirestore() as IFirestoreContext;
 
   React.useEffect(() => {
     setLoading(true);
@@ -34,12 +36,21 @@ const LessonTable = ({ match }: RouteComponentProps<TParams>) => {
     setLoading(false);
   }, [courseId, queryDocuments]);
 
+  const handleNewLesson = () => {
+    setLoading(true);
+    addDocument('lessons', { course_id: courseId, courseId: courseId })
+      .then((ref: DocumentReference<DocumentData>) => {
+        setLoading(false);
+        push(`${path}/${ref.id}`);
+      })
+  }
+
   return (
     <>
         <Typography variant="h3">Lessons</Typography>
-        <RouterButton variant="contained" href={`${url}/new`}>
+        <Button variant="contained" onClick={handleNewLesson}>
           New Lesson
-        </RouterButton>
+        </Button>
         {loading ? (
           <CircularProgress />
         ) : (

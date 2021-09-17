@@ -1,4 +1,3 @@
-
 enum ProviderId {
     FACEBOOK = 'facebook.com',
     GOOGLE = 'google.com',
@@ -135,7 +134,7 @@ interface IQuery {
 type IFirestoreContext = {
   getDocument: (path: string) => Promise<any>;
   getCollection: (path: string) => Promise<any>;
-  addDocument: ({ collectionPath, data }: IAddDocument) => Promise<string>;
+  addDocument: (collectionPath: string, data: any) => Promise<DocumentReference<DocumentData>>;
   updateDocument: ({ path, data }: IDocument) => Promise<void>;
   deleteDocument: (path: string) => Promise<void>;
   queryDocuments: ({

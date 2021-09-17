@@ -15,11 +15,6 @@ import {
 } from "firebase/firestore";
 
 
-interface IAddDocument {
-    data: any;
-    collectionPath: string
-}
-
 
 export const FirestoreContext = React.createContext<IFirestoreContext | null>(null);
 
@@ -59,12 +54,12 @@ export const FirestoreProvider: React.FC = ({ children }) => {
           metadata: doc.metadata
       }});
   };
-  const addDocument = async ({
-    data,
-    collectionPath,
-  }: IAddDocument) => {
+  async function addDocument(
+    collectionPath: string,
+    data: any
+  ) {
     const snapshot = await addDoc(collection(db, collectionPath), data);
-    return snapshot.path;
+    return snapshot;
   };
 
   const updateDocument = async ({
