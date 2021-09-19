@@ -4,7 +4,6 @@ import { Redirect, Link } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
 
 import useEnrollments from "../hooks/useEnrollments";
-import { CourseCard } from "../components/containers";
 import Hero from "src/components/containers/hero";
 
 const useStyles = makeStyles((theme) => ({
@@ -48,7 +47,6 @@ const CourseGrid = () => {
         {!isLoading &&
           enrollments.map((enrollment) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={enrollment.course_id}>
-              <CourseCard course_id={enrollment.course_id.toString()} />
             </Grid>
           ))}
       </Grid>

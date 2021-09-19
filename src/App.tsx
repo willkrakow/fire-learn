@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
     },
+    padding: theme.spacing(3),
   },
   root: {},
   toolbar: theme.mixins.toolbar,
@@ -52,6 +53,7 @@ function App() {
                   <Route path="/courses" exact component={Browse} />
                   <Route path="/courses/:courseId" render={renderProps => <Course courseId={renderProps.match.params.courseId} />} />
                   <Route path="/admin" component={Admin} />
+                  <Route path="/browse" component={Browse} />
                 </Switch>
               </Box>
             </div>

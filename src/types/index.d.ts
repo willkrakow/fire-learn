@@ -80,6 +80,20 @@ type Course = {
   };
 };
 
+declare enum Languages {
+  ENGLISH = "en",
+  SPANISH = "es",
+  FRENCH = "fr",
+  GERMAN = "de",
+  ITALIAN = "it",
+  PORTUGUESE = "pt",
+  RUSSIAN = "ru",
+  CHINESE = "zh",
+  JAPANESE = "ja",
+  KOREAN = "ko",
+  VIETNAMESE = "vi",
+}
+
 type Lesson = {
   data: {
     title: string;
@@ -87,8 +101,17 @@ type Lesson = {
     markdown_content: string;
     draft: boolean;
     image_path: string;
-    course_id: string;
-    course: DocumentReference<DocumentData>
+    image_url?: string;
+    course_id?: string;
+    course: DocumentReference<DocumentData>;
+    courseId?: string;
+    tags?: string[];
+    category?: string;
+    createdAt?: Timestamp;
+    updatedAt?: Timestamp;
+    languages?: string[];
+    minutesToRead?: number;
+    summary?: string;
   };
   id: string;
 };

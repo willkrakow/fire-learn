@@ -10,8 +10,7 @@ import UserManager from "./userManager";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    padding: theme.spacing(4),
-    margin: theme.spacing(4),
+    padding: theme.spacing(1),
     display: "flex",
     flexDirection: "column",
   },

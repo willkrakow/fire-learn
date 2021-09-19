@@ -1,3 +1,3 @@
 import CourseCard from "./courseCard";
-
-export { CourseCard };
+import TabPanel from "./tabPanel";
+export { CourseCard, TabPanel };

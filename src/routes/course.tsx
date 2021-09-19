@@ -48,7 +48,7 @@ const Course = ({ courseId }: TParams) => {
               </Typography>
             </Hero>
             <Box className={classes.root}>
-              <Typography variant="h3">Lessons</Typography>
+              <Typography variant="h3">Curriculum</Typography>
               <LessonList courseId={courseId} />
             </Box>
           </Route>

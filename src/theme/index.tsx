@@ -1,7 +1,7 @@
 import React from 'react'
 import { createTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
-import { orange, blue, blueGrey, deepOrange, deepPurple, red } from '@material-ui/core/colors'
+import { orange, blue, blueGrey, deepOrange, deepPurple, red, amber, grey } from '@material-ui/core/colors'
 
 const theme = createTheme({
   overrides: {
@@ -23,7 +23,7 @@ const theme = createTheme({
         },
         body: {
           minHeight: "100vh",
-          backgroundColor: "#fafafa",
+          backgroundColor: amber[50],
           display: "flex",
           flexDirection: "column",
         },
@@ -37,7 +37,7 @@ const theme = createTheme({
   palette: {
     primary: {
       main: deepOrange[700],
-      light: deepOrange[100],
+      light: grey[50],
       dark: deepOrange[900],
     },
     secondary: {
@@ -76,9 +76,7 @@ const theme = createTheme({
       fontSize: "3rem",
       fontWeight: "bold",
       fontStyle: "normal",
-      textTransform: "uppercase",
-      letterSpacing: "0.1em",
-      marginBottom: "2rem",
+      marginBottom: "1rem",
       background: `linear-gradient(to right, ${orange[300]} 0%, ${red[800]} 100%)`,
       color: "transparent",
       backgroundClip: "text",
@@ -89,7 +87,6 @@ const theme = createTheme({
       color: "transparent",
       fontSize: "2rem",
       fontWeight: "bold",
-      marginBottom: "1.5rem",
       background: `linear-gradient(to right, ${orange[400]} 0%, ${red[900]} 100%)`,
       backgroundClip: "text",
       WebkitBackgroundClip: "text",
@@ -98,6 +95,7 @@ const theme = createTheme({
     h4: {
       fontSize: "1.375rem",
       fontWeight: "normal",
+      marginBottom: "0.5rem",
       fontStyle: "normal",
       background: `linear-gradient(to right, ${blue[300]} 0%, ${deepPurple[900]} 100%)`,
       backgroundClip: "text",

@@ -1,23 +1,20 @@
 import React from "react";
 import {
   AppBar,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
   Drawer,
   Toolbar,
   IconButton,
   Typography,
   makeStyles,
   Theme,
-  Divider,
   Hidden,
   useTheme,
 } from "@material-ui/core";
-import { Menu, Person, ExitToApp, Book, Grade, PersonAdd, AssignmentInd,} from "@material-ui/icons";
 import { useHistory } from "react-router";
 import { useAuth } from "src/contexts/authContext";
+import { Menu } from '@material-ui/icons'
+import NavbarDrawer from "./navbarDrawer";
+
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) => ({
@@ -32,6 +29,8 @@ const useStyles = makeStyles((theme: Theme) => ({
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
     },
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 0,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -39,10 +38,16 @@ const useStyles = makeStyles((theme: Theme) => ({
       display: "none",
     },
   },
-  toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
   },
+  title: {
+    color: theme.palette.primary.contrastText,
+    fontWeight: theme.typography.fontWeightBold,
+    fontFamily: theme.typography.fontFamily,
+    fontSize: theme.typography.h3.fontSize
+  },
+  toolbar: theme.mixins.toolbar,
 }));
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -64,66 +69,13 @@ const Navbar = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const drawer = (
-    <div>
-      <div className={classes.toolbar} />
-      <List>
-        {currentUser && (
-          <ListItem button onClick={() => handleClick("/")}>
-            <ListItemIcon>
-              <Grade />
-            </ListItemIcon>
-            <ListItemText primary="My courses" />
-          </ListItem>
-        )}
-        {currentUser && (
-          <ListItem button onClick={() => handleClick("/account")}>
-            <ListItemIcon>
-              <Person />
-            </ListItemIcon>
-            <ListItemText primary="Account" />
-          </ListItem>
-        )}
-        <ListItem button onClick={() => handleClick("/browse")}>
-          <ListItemIcon>
-            <Book />
-          </ListItemIcon>
-          <ListItemText primary="Browse" />
-        </ListItem>
-        <Divider />
-        {currentUser && (
-          <ListItem button onClick={handleLogout}>
-            <ListItemIcon>
-              <ExitToApp />
-            </ListItemIcon>
-            <ListItemText primary="Logout" />
-          </ListItem>
-        )}
-        {!currentUser && (
-          <ListItem button onClick={() => handleClick("/signup")}>
-            <ListItemIcon>
-              <AssignmentInd />
-            </ListItemIcon>
-            <ListItemText primary="Signup" />
-          </ListItem>
-        )}
-        {!currentUser && (
-          <ListItem button onClick={() => handleClick("/login")}>
-            <ListItemIcon>
-              <PersonAdd />
-            </ListItemIcon>
-            <ListItemText primary="Login" />
-          </ListItem>
-        )}
-      </List>
-    </div>
-  );
+  
 
 
   return (
     <>
       <AppBar position="static" className={classes.appBar}>
-        <Toolbar>
+        <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
             color="inherit"
@@ -133,37 +85,47 @@ const Navbar = () => {
           >
             <Menu />
           </IconButton>
-          <Typography variant="h4" noWrap>FireLearn</Typography>
+          <Typography className={classes.title} noWrap>
+            FireLearn
+          </Typography>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="menu">
-      <Hidden smUp implementation="css">
-        <Drawer
-          variant="temporary"
-          anchor={theme.direction === "rtl" ? "right" : "left"}
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-        >
-          {drawer}
-        </Drawer>
-      </Hidden>
-      <Hidden xsDown implementation="css">
-        <Drawer
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-          variant="permanent"
-          open
-        >
-          {drawer}
-        </Drawer>
-      </Hidden>
+        <Hidden smUp implementation="css">
+          <Drawer
+            variant="temporary"
+            anchor={theme.direction === "rtl" ? "right" : "left"}
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            <NavbarDrawer
+              handleClick={handleClick}
+              handleLogout={handleLogout}
+              currentUser={currentUser}
+            />
+          </Drawer>
+        </Hidden>
+        <Hidden xsDown implementation="css">
+          <Drawer
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            variant="permanent"
+            open
+          >
+            <NavbarDrawer
+              handleClick={handleClick}
+              handleLogout={handleLogout}
+              currentUser={currentUser}
+            />
+          </Drawer>
+        </Hidden>
       </nav>
     </>
   );

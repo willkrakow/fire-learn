@@ -1,83 +1,59 @@
-import React from "react";
-import { Paper, makeStyles, Theme, Button, CircularProgress } from "@material-ui/core";
-import { useFirestore } from "../../../contexts/firestoreContext";
-import Editor from 'rich-markdown-editor'
-import { RouteComponentProps } from "react-router";
-
+import React from 'react'
+import { CircularProgress, Tabs, Tab } from '@material-ui/core'
+import ContentEditor from './contentEditor'
+import { RouteComponentProps  } from 'react-router'
+import { useLesson } from 'src/hooks'
+import {TabPanel} from '../../containers'
+import LessonMetadataEditor from './lessonMetadataEditor'
 
 interface TParams {
   lessonId: string;
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-    root: {
-        margin: theme.spacing(4)
-    }
-}));
 
-const LessonEditor = ({match}: RouteComponentProps<TParams>) => {
-  const classes = useStyles();
-  const { lessonId } = match.params;
-  const [ loading, setLoading ] = React.useState(false);
-  const [ lesson, setLesson ] = React.useState<Lesson | null>(null);
-  const [lessonText, setLessonText] = React.useState("");
-  const { getDocument, updateDocument } = useFirestore() as IFirestoreContext;
-  
-
-  // const handleSave = ({done}: {done: boolean}): void => {
-  //     console.log(done)
-  // }
-  const handleSubmit = (event: React.MouseEvent) => {
-    event.preventDefault();
-    console.log(lessonText)
-    lesson && updateDocument({ path: `lessons/${lesson.id}`, data: { markdown_content: lessonText } })
-    .then(() => console.log("updated"))
-    .catch(err => console.log(err))
-    // updateDocument({
-    //   path: `lessons/${lesson.id}`,
-    //   data: { markdown_content: lessonText },
-    // })
-    //   .then(() => {
-    //     console.log("Successfully updated lesson");
-    //   })
-    //   .catch((error) => {
-    //     console.log("Error updating lesson", error);
-    //   });
-  };
+const LessonEditor = ({ match }: RouteComponentProps<TParams>) => {
+  const { lessonId } = match.params
+  const { lessonData, loading } = useLesson(lessonId) as {lessonData: Lesson, loading: boolean}
+  const [ lessonUpdates, setLessonUpdates ] = React.useState<Lesson | any>(null)
+  const [tabValue, setTabValue] = React.useState(0)
 
   React.useEffect(() => {
-    setLoading(true);
-    getDocument(`lessons/${lessonId}`)
-      .then((lesson) => {
-        setLesson(lesson);
-        setLessonText(lesson.data().markdown_content);
-      })
-      .catch((error) => {
-        console.log("Error getting lesson", error);
-      })
-      .finally(() => setLoading(false));
+    if (lessonData && !lessonUpdates) {
+      setLessonUpdates(lessonData)
+    }
 
-    }, [lessonId, getDocument]);
-    
+  }, [lessonData])
 
+  const handleTabChange = (e: React.ChangeEvent<{}>, newValue: number) => {
+    setTabValue(newValue)
+  }
+
+  function a11yProps(index: any) {
+    return {
+      id: `wrapped-tab-${index}`,
+      "aria-controls": `wrapped-tabpanel-${index}`,
+    };
+  }
 
 
   return (
-    <Paper className={classes.root}>
+    <>
       {loading && <CircularProgress />}
-      {!loading && lesson?.data && (
+      {!loading && lessonUpdates?.data && (
         <>
-      <Editor
-        className={classes.root}
-        defaultValue={lesson.data.markdown_content}
-      />
-      <Button variant="contained" color="primary" onClick={handleSubmit}>
-        Save
-      </Button>
-      </>
+        <Tabs variant="fullWidth" value={tabValue} onChange={handleTabChange}>
+          <Tab label="Metadata" {...a11yProps(0)} />
+          <Tab label="Content" {...a11yProps(1)} />
+        </Tabs>
+        <TabPanel value={tabValue} index={0}>
+          <LessonMetadataEditor lessonId={lessonId} />
+          </TabPanel>
+          <TabPanel value={tabValue} index={1}>
+          {!loading && lessonData &&<ContentEditor lessonData={lessonData} loading={loading} />}
+          </TabPanel>
+        </>
       )}
-    </Paper>
-  );
-};
+    </>
+  );}
 
-export default LessonEditor;
+export default LessonEditor

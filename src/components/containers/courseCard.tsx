@@ -1,19 +1,21 @@
 import React from 'react'
-import { Card, Theme, CardMedia, Typography, makeStyles, CardContent, CardActions, Button, CardActionArea, CircularProgress} from '@material-ui/core'
+import { Card, Theme, CardMedia, Typography, makeStyles, CardContent, CardActions, Button, Box} from '@material-ui/core'
 import { red } from '@material-ui/core/colors'
 import { Link } from 'react-router-dom'
-import { useCourse } from 'src/hooks'
-interface Props {
-    course_id: string;
-    rest?: any;
-}
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
         maxWidth: 345,
+        padding: 0,
+        position: 'relative',
     },
     media: {
-        height: 300,
+        height: 532,
+    },
+    content: {
+        "& *": {
+            color: theme.palette.primary.light
+        }
     },
     expand: {
         transform: 'rotate(0deg)',
@@ -28,26 +30,33 @@ const useStyles = makeStyles((theme: Theme) => ({
     avatar: {
         backgroundColor: red[500],
     },
+    actions: {
+        padding: theme.spacing(2),
+    },
+    dark: {
+        backgroundColor: "rgba(20, 20, 50, 0.8)",
+        padding: theme.spacing(1),
+        position: 'absolute',
+        bottom: 0,
+    }
 }))
 
-const CourseCard = ({course_id, ...rest}: Props) => {
+const CourseCard = ({course}: {course: Course}) => {
     const classes = useStyles()
-    const { courseData, loading } = useCourse(course_id)
-
-    return loading ? <CircularProgress /> : (
-        <Card {...rest} className={classes.root}>
-            <CardActionArea>
-            <CardMedia className={classes.media} image={courseData?.data.image_url} />
-            <CardContent>
-                <Typography variant="h5">{courseData?.data.name}</Typography>
-                <Typography variant="body1">{courseData?.data.description}</Typography>
+    return (
+        <Card className={classes.root}>
+            <CardMedia className={classes.media} image={course?.data.image_url} />
+            <Box className={classes.dark}>
+            <CardContent className={classes.content}>
+                <Typography variant="h4">{course?.data.name}</Typography>
+                <Typography variant="body1">{course?.data.description}</Typography>
             </CardContent>
-            </CardActionArea>
-            <CardActions>
-                <Button component={Link} to={`/courses/${course_id}`} size="small" variant="contained" color="primary">
-                    See today's lessons
+            <CardActions className={classes.actions}>
+                <Button component={Link} to={`/courses/${course?.id}`} variant="contained" color="primary">
+                    View course
                 </Button>
             </CardActions>
+            </Box>
         </Card>
     )
 }
