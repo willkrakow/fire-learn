@@ -1,18 +1,12 @@
 import React from 'react'
 import { createTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
-import { orange, blue, blueGrey, deepOrange, deepPurple, red, amber, grey } from '@material-ui/core/colors'
+import { orange, blue, blueGrey, deepOrange, deepPurple, red, grey, teal } from '@material-ui/core/colors'
 
 const theme = createTheme({
   overrides: {
-    MuiCard: {
-      root: {
-        borderRadius: 16,
-      }
-    },
     MuiPaper: {
       root: {
-        borderRadius: 16,
         padding: 16,
       }
     },    
@@ -23,7 +17,7 @@ const theme = createTheme({
         },
         body: {
           minHeight: "100vh",
-          backgroundColor: amber[50],
+          backgroundColor: blueGrey[50],
           display: "flex",
           flexDirection: "column",
         },
@@ -33,10 +27,30 @@ const theme = createTheme({
         }
       },
     },
+    MuiLink: {
+      root: {
+        fontWeight: "bold",
+        position: "relative",
+        zIndex: 10,
+      },
+      underlineAlways: {
+        textDecoration: 'none',
+        "&::after": {
+          content: '""',
+          position: 'absolute',
+          left: -2,
+          right: -2,
+          bottom: 1,
+          top: "40%",
+          zIndex: -1,
+          backgroundColor: orange[100],
+        }
+      }
+    }
   },
   palette: {
     primary: {
-      main: deepOrange[700],
+      main: teal[700],
       light: grey[50],
       dark: deepOrange[900],
     },

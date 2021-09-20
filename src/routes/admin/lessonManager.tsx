@@ -6,7 +6,6 @@ const LessonManager = () => {
   const { path } = useRouteMatch()
     return (
         <Switch>
-            <Route exact path={path} component={LessonTable}/>
             <Route path={`${path}/:lessonId`} component={LessonEditor} />
         </Switch>
     )

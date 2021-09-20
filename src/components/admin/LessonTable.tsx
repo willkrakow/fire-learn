@@ -1,12 +1,11 @@
 import React from "react";
-import { useRouteMatch, RouteComponentProps } from "react-router";
+import { useRouteMatch } from "react-router";
 import {
   CircularProgress,
   Table,
   TableBody,
   TableHead,
   TableRow,
-  Typography,
 } from "@material-ui/core";
 import LessonRow from "./LessonRow";
 import useCourseLessons from "../../hooks/useCourseLessons";
@@ -18,38 +17,38 @@ interface TParams {
   courseId: string;
 }
 
-const LessonTable = ({ match }: RouteComponentProps<TParams>) => {
-  const { courseId } = match.params;
+const LessonTable = ({courseId}: TParams) => {
   const { url, path } = useRouteMatch();
   const { lessons, loading } = useCourseLessons(courseId);
  
   return (
     <>
-        <Typography variant="h3">Lessons</Typography>
-        <AddLesson courseId={courseId} />
-        {loading ? (
-          <CircularProgress />
-        ) : (
-          <Table>
-            <TableHead>
-              <TableRow>
-                {["Title", "Subtitle", "Status", "Actions"].map((label, index) => (
-                  <AdminTableCell align="center" value={label} key={index} />
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {lessons.map((lesson) => (
-                <LessonRow
-                  key={lesson.id}
-                  lesson={lesson}
-                  url={url}
-                  path={path}
-                />
-              ))}
-            </TableBody>
-          </Table>
-        )}
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <Table>
+          <TableHead>
+            <TableRow>
+              {["Title", "Subtitle", "Status", "Actions"].map(
+                (label, index) => (
+                  <AdminTableCell typographyVariant="h5" align="left" value={label} key={index} />
+                )
+              )}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {lessons.map((lesson) => (
+              <LessonRow
+                key={lesson.id}
+                lesson={lesson}
+                url={url}
+                path={path}
+              />
+            ))}
+          </TableBody>
+        </Table>
+      )}
+      <AddLesson courseId={courseId} />
     </>
   );
 };

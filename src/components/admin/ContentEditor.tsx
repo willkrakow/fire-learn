@@ -55,7 +55,7 @@ const ContentEditor = ({lessonData, loading}: Props) => {
       updateDocument({
         path: `lessons/${lessonData.id}`,
         data: { 
-          markdown_cntent: lessonText,
+          markdown_content: lessonText,
           updated_at: Timestamp.fromDate(new Date()),
           reading_time: calculateReadingTime(lessonText),
         },

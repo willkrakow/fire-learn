@@ -1,5 +1,5 @@
 import React from "react";
-import { TableRow, Chip, TableCell } from "@material-ui/core";
+import { TableRow, Chip, TableCell, Typography } from "@material-ui/core";
 import { RouterButton } from "src/components/buttons";
 import { Check, NotInterested } from "@material-ui/icons";
 
@@ -20,8 +20,8 @@ const LessonRow = ({ lesson, url, path }: Props) => {
   return (
     <>
       <TableRow key={lesson.id}>
-        <TableCell>{lesson.data.title}</TableCell>
-        <TableCell>{lesson.data.subtitle}</TableCell>
+        <TableCell><Typography variant="subtitle1">{lesson.data.title}</Typography></TableCell>
+        <TableCell><Typography variant="body1">{lesson.data.subtitle}</Typography></TableCell>
         <TableCell>
           {lesson.data.draft ? (
             <Chip
@@ -36,7 +36,7 @@ const LessonRow = ({ lesson, url, path }: Props) => {
           )}
         </TableCell>
         <TableCell>
-          <RouterButton href={`${url}/${lesson.id}`}>Edit</RouterButton>
+          <RouterButton href={`${url}/lessons/${lesson.id}`}>Edit</RouterButton>
         </TableCell>
       </TableRow>
     </>

@@ -5,8 +5,19 @@ import {
   Grid,
   InputAdornment,
   TextField,
+  makeStyles,
+  Theme
 } from "@material-ui/core";
 import { useFirestore } from "../../contexts";
+
+const useStyles = makeStyles((theme: Theme) => ({
+  input: theme.typography.body1,
+  titleInput: theme.typography.h4,
+  button: {
+    marginTop: theme.spacing(2)
+  }
+}))
+
 
 interface ICourseForm {
   course: Course;
@@ -17,6 +28,8 @@ interface IErrors {
   name?: string;
   description?: string;
   price?: string;
+  author?: string;
+  organization?: string;
 }
 
 function validate(values: any) {
@@ -50,7 +63,7 @@ const CourseForm = ({ course, url }: ICourseForm) => {
   const [errors, setErrors] = React.useState<IErrors>({});
   const { updateDocument } = useFirestore() as IFirestoreContext
   const [ loading, setLoading ] = React.useState(false);
-
+  const classes = useStyles();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (loading || !formData) return;
     const { name, value } = event.target;
@@ -77,52 +90,99 @@ const CourseForm = ({ course, url }: ICourseForm) => {
         <>
           <form onSubmit={handleSubmit}>
             <Grid container spacing={5}>
-              <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                error={!!errors.name}
-                name="name"
-                value={formData?.data.name}
-                variant="outlined"
-                onChange={handleChange}
-                helperText={errors?.name}
-                label="Name"
-              />
+              <Grid item xs={12}>
+                <TextField
+                  variant="filled"
+                  fullWidth
+                  InputProps={{
+                    className: classes.titleInput,
+                  }}
+                  error={!!errors.name}
+                  name="name"
+                  color="primary"
+                  value={formData?.data.name}
+                  onChange={handleChange}
+                  helperText={errors?.name}
+                  label="Name"
+                />
               </Grid>
-              <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                error={!!errors.description}
-                multiline
-                minRows={3}
-                name="description"
-                value={formData?.data.description}
-                variant="outlined"
-                onChange={handleChange}
-                label="Description"
-                helperText={errors?.description}
-              />
+              <Grid item xs={12}>
+                <TextField
+                  variant="filled"
+                  fullWidth
+                  InputProps={{
+                    className: classes.input,
+                  }}
+                  error={!!errors.description}
+                  multiline
+                  minRows={3}
+                  color="primary"
+                  name="description"
+                  value={formData?.data.description}
+                  onChange={handleChange}
+                  label="Description"
+                  helperText={errors?.description}
+                />
               </Grid>
-              <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                error={!!errors.price}
-                type="number"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">$</InputAdornment>
-                  ),
-                }}
-                label="Price"
-                name="price"
-                value={formData?.data.price}
-                variant="outlined"
-                onChange={handleChange}
-                helperText={errors?.price}
-              />
+              <Grid item xs={12}>
+                <TextField
+                  variant="filled"
+                  fullWidth
+                  InputProps={{
+                    className: classes.input,
+                  }}
+                  error={!!errors.organization}
+                  color="primary"
+                  name="organization"
+                  value={formData?.data.organization}
+                  onChange={handleChange}
+                  label="Organization"
+                  helperText={errors?.organization}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="filled"
+                  fullWidth
+                  InputProps={{
+                    className: classes.input,
+                  }}
+                  error={!!errors.author}
+                  color="primary"
+                  name="author"
+                  value={formData?.data.author}
+                  onChange={handleChange}
+                  label="Author"
+                  helperText={errors?.author}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="filled"
+                  fullWidth
+                  error={!!errors.price}
+                  type="number"
+                  color="primary"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">$</InputAdornment>
+                    ),
+                    className: classes.input,
+                  }}
+                  label="Price"
+                  name="price"
+                  value={formData?.data.price}
+                  onChange={handleChange}
+                  helperText={errors?.price}
+                />
               </Grid>
             </Grid>
-            <Button variant="contained" color="primary" type="submit">
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              className={classes.button}
+            >
               Save
             </Button>
           </form>

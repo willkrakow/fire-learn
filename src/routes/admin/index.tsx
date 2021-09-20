@@ -1,27 +1,28 @@
 import React from "react";
-import { Paper, Breadcrumbs, makeStyles, Theme } from "@material-ui/core";
+import { Paper, Breadcrumbs, makeStyles, Theme, Grid } from "@material-ui/core";
 import { Redirect, Switch, Route, useLocation } from "react-router";
 import { RouterButton } from "../../components/buttons";
 import { useAuth } from "../../contexts/authContext";
 import AdminMenu from "./adminMenu";
-import CourseManager from "./courseManager";
-import UserManager from "./userManager";
 import Dashboard from "./dashboard";
-
-
+import { CourseEditor, CourseTable, UserEditor } from "src/components/admin";
+import { LessonTable, LessonEditor } from "src/components/admin";
+import UserTable from "./userManager/userTable";
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     padding: theme.spacing(1),
-    display: "flex",
-    flexDirection: "column",
+    backgroundColor: "transparent",
   },
   breadcrumbs: {
-    backgroundColor: theme.palette.primary.light,
     padding: theme.spacing(1),
+    marginBottom: theme.spacing(3),
     marginTop: 0,
     borderRadius: theme.shape.borderRadius,
   },
-}))
+  gridItem: {
+    height: "--webkit-fill-available",
+  }
+}));
 
 const Admin = () => {
   const { isAdmin } = useAuth() as IAuthContext;
@@ -31,10 +32,10 @@ const Admin = () => {
 
   React.useEffect(() => {
     const pathArray = pathname.split("/");
-    const breadcrumbsArray = pathArray.slice(2).map((path, index) => {
+    const breadcrumbsArray = pathArray.slice(1).map((path, index) => {
       return {
+        link: pathArray.slice(0, index + 2).join("/"),
         name: path.toLocaleUpperCase(),
-        link: pathArray.slice(0, index + 1).join("/"),
       };
     });
     setBreadcrumbs(breadcrumbsArray);
@@ -56,13 +57,44 @@ const Admin = () => {
           );
         })}
       </Breadcrumbs>
-      <Paper elevation={0} className={classes.root}>
-        <Switch>
+        <Paper elevation={0} className={classes.root}>
+          {/* <Switch>
           <Route exact path="/admin" component={Dashboard} />
           <Route path="/admin/courses" component={CourseManager} />
+          <Route path="/admin/courses/:courseId/lessons/:lessonId" component={LessonManager} />
           <Route path="/admin/users" component={UserManager} />
-        </Switch>
-      </Paper>
+        </Switch> */}
+          <Switch>
+            <Route exact path="/admin">
+              <Dashboard />
+            </Route>
+            <Route path="/admin/courses">
+              <Route exact path="/admin/courses" component={CourseTable} />
+              <Route path="/admin/courses/:courseId">
+                <Route
+                  exact
+                  path="/admin/courses/:courseId"
+                  component={CourseEditor}
+                />
+                <Route path="/admin/courses/:courseId/lessons">
+                  <Route
+                    exact
+                    path="/admin/courses/:courseId/lessons"
+                    component={LessonTable}
+                  />
+                  <Route
+                    path="/admin/courses/:courseId/lessons/:lessonId"
+                    component={LessonEditor}
+                  />
+                </Route>
+              </Route>
+            </Route>
+            <Route path="/admin/users">
+              <Route exact path="/admin/users" component={UserTable} />
+              <Route path="/admin/users/:userId" component={UserEditor} />
+            </Route>
+          </Switch>
+        </Paper>
     </>
   );
 };
