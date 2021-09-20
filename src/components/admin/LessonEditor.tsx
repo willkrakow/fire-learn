@@ -1,10 +1,11 @@
 import React from 'react'
 import { CircularProgress, Tabs, Tab } from '@material-ui/core'
-import ContentEditor from './contentEditor'
+import ContentEditor from './ContentEditor'
 import { RouteComponentProps  } from 'react-router'
-import { useLesson } from 'src/hooks'
-import {TabPanel} from '../../containers'
-import LessonMetadataEditor from './lessonMetadataEditor'
+import { useLesson } from '../../hooks'
+import {TabPanel} from '../containers'
+import LessonMetadataEditor from './LessonMetadataEditor'
+import { a11yProps } from '../../utils'
 
 interface TParams {
   lessonId: string;
@@ -27,14 +28,6 @@ const LessonEditor = ({ match }: RouteComponentProps<TParams>) => {
   const handleTabChange = (e: React.ChangeEvent<{}>, newValue: number) => {
     setTabValue(newValue)
   }
-
-  function a11yProps(index: any) {
-    return {
-      id: `wrapped-tab-${index}`,
-      "aria-controls": `wrapped-tabpanel-${index}`,
-    };
-  }
-
 
   return (
     <>

@@ -1,10 +1,10 @@
 import React from "react";
 import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 import { Link } from "react-router-dom";
-import { useAuth } from "src/contexts/authContext";
+import { useAuth } from "../../contexts";
 import { Button, IconButton } from "@material-ui/core";
 import { Person } from "@material-ui/icons";
+
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const { currentUser, logout } = useAuth() as IAuthContext;
@@ -14,11 +14,6 @@ export default function AccountMenu() {
 
   const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(null);
-  };
-
-  const handleLogout = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(null);
-    logout();
   };
 
   React.useEffect(() => {

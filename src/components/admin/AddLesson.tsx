@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, CircularProgress } from '@material-ui/core'
-import { useFirestore } from '../../../contexts/firestoreContext'
+import { useFirestore } from '../../contexts/firestoreContext'
 import { useHistory } from 'react-router'
 import { DocumentData, DocumentReference } from "@firebase/firestore";
 import { PlusOne } from '@material-ui/icons';

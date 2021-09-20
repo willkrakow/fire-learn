@@ -4,14 +4,14 @@ import {
   CircularProgress,
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableRow,
   Typography,
 } from "@material-ui/core";
-import LessonRow from "./lessonRow";
-import useCourseLessons from "src/hooks/useCourseLessons";
-import AddLesson from "./addLesson";
+import LessonRow from "./LessonRow";
+import useCourseLessons from "../../hooks/useCourseLessons";
+import AddLesson from "./AddLesson";
+import AdminTableCell from "./AdminTableCell";
 
 
 interface TParams {
@@ -33,10 +33,8 @@ const LessonTable = ({ match }: RouteComponentProps<TParams>) => {
           <Table>
             <TableHead>
               <TableRow>
-                {["Title", "Subtitle", "Status", "Actions"].map((label) => (
-                  <TableCell key={label}>
-                    <Typography variant="h4">{label}</Typography>
-                  </TableCell>
+                {["Title", "Subtitle", "Status", "Actions"].map((label, index) => (
+                  <AdminTableCell align="center" value={label} key={index} />
                 ))}
               </TableRow>
             </TableHead>

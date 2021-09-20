@@ -1,11 +1,12 @@
 import React from "react";
 import { Paper, Breadcrumbs, makeStyles, Theme } from "@material-ui/core";
 import { Redirect, Switch, Route, useLocation } from "react-router";
-import { RouterButton } from "src/components/buttons";
-import { useAuth } from "src/contexts/authContext";
+import { RouterButton } from "../../components/buttons";
+import { useAuth } from "../../contexts/authContext";
 import AdminMenu from "./adminMenu";
 import CourseManager from "./courseManager";
 import UserManager from "./userManager";
+import Dashboard from "./dashboard";
 
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -17,7 +18,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   breadcrumbs: {
     backgroundColor: theme.palette.primary.light,
     padding: theme.spacing(1),
-    margin: theme.spacing(4, 0),
     marginTop: 0,
     borderRadius: theme.shape.borderRadius,
   },
@@ -31,7 +31,7 @@ const Admin = () => {
 
   React.useEffect(() => {
     const pathArray = pathname.split("/");
-    const breadcrumbsArray = pathArray.map((path, index) => {
+    const breadcrumbsArray = pathArray.slice(2).map((path, index) => {
       return {
         name: path.toLocaleUpperCase(),
         link: pathArray.slice(0, index + 1).join("/"),
@@ -50,7 +50,7 @@ const Admin = () => {
       <Breadcrumbs className={classes.breadcrumbs}>
         {breadcrumbs.map((breadcrumb, index) => {
           return (
-            <RouterButton href={breadcrumb.link} key={index}>
+            <RouterButton size="small" href={breadcrumb.link} key={index}>
               {breadcrumb.name}
             </RouterButton>
           );
@@ -58,7 +58,7 @@ const Admin = () => {
       </Breadcrumbs>
       <Paper elevation={0} className={classes.root}>
         <Switch>
-          <Route exact path="/admin" render={() => <div>admin</div>} />
+          <Route exact path="/admin" component={Dashboard} />
           <Route path="/admin/courses" component={CourseManager} />
           <Route path="/admin/users" component={UserManager} />
         </Switch>

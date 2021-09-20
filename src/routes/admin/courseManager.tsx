@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Switch, useRouteMatch } from "react-router";
-import CourseEditor from "./courseEditor";
-import {CourseTable} from "../../../components/admin/course";
+import {CourseEditor, CourseTable} from "../../components/admin";
 
 
 const CourseManager = () => {

@@ -7,11 +7,13 @@ import {
   Grid,
   makeStyles,
   Theme,
-  Snackbar
+  Snackbar,
+  Checkbox,
+  FormControlLabel,
 } from "@material-ui/core";
-import { useFirestore } from "src/contexts/firestoreContext";
-import { useLesson } from "src/hooks";
-import TagsInput from "./tagsInput";
+import { useFirestore } from "../../contexts/firestoreContext";
+import { useLesson } from "../../hooks";
+import TagsInput from "./TagsInput";
 import { Close as CloseIcon } from "@material-ui/icons";
 
 interface Props {
@@ -30,27 +32,27 @@ enum Languages {
 }
 
 enum Tags {
-    "Math",
-    "Science",
-    "English",
-    "History",
-    "Geography",
-    "Biology",
-    "Chemistry",
-    "Physics",
-    "Music",
-    "Art",
-    "Literature",
-    "Computer Science",
-    "Business",
-    "Economics",
-    "Accounting",
-    "Health",
-    "Law",
-    "Psychology",
-    "Sociology",
-    "Philosophy",
-    "Religion",
+  "Math",
+  "Science",
+  "English",
+  "History",
+  "Geography",
+  "Biology",
+  "Chemistry",
+  "Physics",
+  "Music",
+  "Art",
+  "Literature",
+  "Computer Science",
+  "Business",
+  "Economics",
+  "Accounting",
+  "Health",
+  "Law",
+  "Psychology",
+  "Sociology",
+  "Philosophy",
+  "Religion",
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -63,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const LessonMetadataEditor = ({lessonId}: Props) => {
+const LessonMetadataEditor = ({ lessonId }: Props) => {
   const classes = useStyles();
   const { lessonData, loading } = useLesson(lessonId) as {
     lessonData: Lesson;
@@ -71,15 +73,14 @@ const LessonMetadataEditor = ({lessonId}: Props) => {
   };
   const { updateDocument } = useFirestore() as IFirestoreContext;
   const [lessonUpdates, setLessonUpdates] = React.useState<Lesson | any>(null);
-  const [ saving, setSaving ] = React.useState(false);
-  const [ snackbarOpen, setSnackbarOpen ] = React.useState(false);
-  const [ message, setMessage ] = React.useState("");
+  const [saving, setSaving] = React.useState(false);
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+  const [message, setMessage] = React.useState("");
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
-    setMessage('')
-  }
-
+    setMessage("");
+  };
 
   React.useEffect(() => {
     if (lessonData && !lessonUpdates) {
@@ -92,19 +93,22 @@ const LessonMetadataEditor = ({lessonId}: Props) => {
     setSaving(true);
     updateDocument({
       path: `lessons/${lessonId}`,
-      data: lessonUpdates.data,
+      data: {
+        ...lessonUpdates.data,
+        published: true,
+      },
     })
-    .then(() => {
+      .then(() => {
         setMessage("Lesson updated successfully");
-    })
-    .catch((err) => {
-        console.error(err)
-        setMessage(err.message)
-    })
-    .finally(() => {
+      })
+      .catch((err) => {
+        console.error(err);
+        setMessage(err.message);
+      })
+      .finally(() => {
         setSnackbarOpen(true);
         setSaving(false);
-    });
+      });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -126,17 +130,17 @@ const LessonMetadataEditor = ({lessonId}: Props) => {
         tags: value,
       },
     });
-  }
+  };
 
   const handleLanguageChange = (e: React.ChangeEvent<{}>, value: string[]) => {
     setLessonUpdates({
-        id: lessonId,
-        data: {
-            ...lessonUpdates?.data,
-            languages: value,
-        },
+      id: lessonId,
+      data: {
+        ...lessonUpdates?.data,
+        languages: value,
+      },
     });
-}
+  };
   return (
     <>
       {loading && <CircularProgress />}
@@ -192,7 +196,20 @@ const LessonMetadataEditor = ({lessonId}: Props) => {
                   label="Tags"
                 />
               </Grid>
-              <Grid item xs={12} sm={8} md={6}></Grid>
+              <Grid item xs={12} md={6}>
+                <FormControlLabel
+                  color="primary"
+                  control={
+                    <Checkbox
+                      color="primary"
+                      name="published"
+                      checked={lessonUpdates.data.published}
+                      onChange={handleChange}
+                    />
+                  }
+                  label="Publish lesson"
+                />
+              </Grid>
             </Grid>
             <Button
               variant="contained"
@@ -200,7 +217,8 @@ const LessonMetadataEditor = ({lessonId}: Props) => {
               color="primary"
               type="submit"
             >
-              {saving ? <CircularProgress /> : "Save metadata"}
+              {saving && <CircularProgress />}
+              {lessonUpdates.data.published ? "Update" : "Publish"}
             </Button>
           </form>
           <Snackbar
@@ -214,7 +232,11 @@ const LessonMetadataEditor = ({lessonId}: Props) => {
             message={message}
             action={
               <React.Fragment>
-                <Button color="secondary" size="small" onClick={handleSnackbarClose}>
+                <Button
+                  color="secondary"
+                  size="small"
+                  onClick={handleSnackbarClose}
+                >
                   Close
                 </Button>
                 <IconButton

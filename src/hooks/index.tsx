@@ -3,4 +3,5 @@ import useUserData from './useUserData'
 import useCourse from './useCourse'
 import useEnrollments from "./useEnrollments";
 import useLesson from "./useLesson";
-export { useStyles, useUserData, useCourse, useLesson, useEnrollments };
+import useTabs from "./useTabs";
+export { useStyles, useUserData, useCourse, useLesson, useEnrollments, useTabs };

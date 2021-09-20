@@ -11,7 +11,7 @@ interface ITableCell extends TableCellProps {
 
 type IAdminCell = TypographyProps & ITableCell;
 
-const AdminCell: React.FC<IAdminCell> = ({ value, variant, align="center", className, ...props }: IAdminCell) => {
+const AdminTableCell: React.FC<IAdminCell> = ({ value, variant, align="center", className, ...props }: IAdminCell) => {
     return (
         <TableCell align={align} className={className} {...props}>
             <Typography variant={variant}>
@@ -21,4 +21,4 @@ const AdminCell: React.FC<IAdminCell> = ({ value, variant, align="center", class
     )
 }
 
-export default AdminCell
+export default AdminTableCell

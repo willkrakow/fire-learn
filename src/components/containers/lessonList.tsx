@@ -1,6 +1,6 @@
 import React from 'react'
 import { CircularProgress, Typography, List, ListItem, ListItemText, } from '@material-ui/core'
-import { useFirestore } from 'src/contexts/firestoreContext'
+import { useFirestore } from '../../contexts/firestoreContext'
 import { Link } from 'react-router-dom'
 import { useRouteMatch } from 'react-router'
 

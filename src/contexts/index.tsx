@@ -1,4 +1,5 @@
-import { AuthProvider } from "./authContext";
-import { FirestoreProvider } from "./firestoreContext";
-import { StorageProvider } from "./storageContext";
-export { AuthProvider, FirestoreProvider, StorageProvider };
+import { AuthProvider, useAuth } from "./authContext";
+import { FirestoreProvider, useFirestore } from "./firestoreContext";
+import { StorageProvider, useStorage } from "./storageContext";
+
+export { AuthProvider, FirestoreProvider, StorageProvider, useAuth, useFirestore, useStorage };

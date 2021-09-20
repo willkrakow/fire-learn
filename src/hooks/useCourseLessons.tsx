@@ -1,5 +1,5 @@
 import React from 'react'
-import { useFirestore } from 'src/contexts/firestoreContext';
+import { useFirestore } from '../contexts/firestoreContext';
 
 const useCourseLessons = (courseId: string) => {
     const [loading, setLoading] = React.useState(false);

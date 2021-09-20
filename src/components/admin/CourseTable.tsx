@@ -10,15 +10,20 @@ import {
   Paper,
   makeStyles,
   CircularProgress,
+  Theme,
 } from "@material-ui/core";
-import { useFirestore } from "src/contexts/firestoreContext";
+import { useFirestore } from "../../contexts";
 import { Check, Delete, Edit, NotInterested } from "@material-ui/icons";
-import styles from "./styles";
-import { RouterButton } from "src/components/buttons";
+import { RouterButton } from "../buttons";
 import { useRouteMatch } from "react-router";
 import { Link } from "react-router-dom";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    padding: theme.spacing(2),
+    margin: theme.spacing(5),
+  }
+  }));
 
 const CourseTable = () => {
   const classes = useStyles();

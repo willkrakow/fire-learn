@@ -30,12 +30,12 @@
     "noImplicitThis": true,
     "strictNullChecks": true,
     "importHelpers": true,
-    "baseUrl": "./"
+    "baseUrl": "."
   },
   "baseUrl": ".",
   "include": [
-    "src/**/*",
-    "types/**/*"
+    "types/**/*",
+    "./src/**/*"
   ],
   "exclude": [
     "node_modules",

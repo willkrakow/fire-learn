@@ -6,8 +6,9 @@ import {
   CircularProgress,
   Box,
 } from "@material-ui/core";
-import { useFirestore } from "../../../contexts/firestoreContext";
+import { useFirestore } from "../../contexts";
 import Editor from "rich-markdown-editor";
+import { Timestamp } from 'firebase/firestore'
 
 interface Props {
   lessonData: Lesson;
@@ -29,6 +30,18 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
+function countWordsInMarkdown(markdown: string) {
+  return markdown.split(/\s+/).length;
+}
+
+function calculateReadingTime(markdown: string) {
+  const wordsPerMinute = 200;
+  const words = countWordsInMarkdown(markdown);
+  const minutes = Math.floor(words / wordsPerMinute);
+  const seconds = Math.floor((words % wordsPerMinute) / (wordsPerMinute / 60));
+  return `${minutes} min ${seconds} sec`;
+}
+
 const ContentEditor = ({lessonData, loading}: Props) => {
   const classes = useStyles();
   const [lessonText, setLessonText] = React.useState("");
@@ -41,7 +54,11 @@ const ContentEditor = ({lessonData, loading}: Props) => {
     lessonText &&
       updateDocument({
         path: `lessons/${lessonData.id}`,
-        data: { markdown_content: lessonText },
+        data: { 
+          markdown_cntent: lessonText,
+          updated_at: Timestamp.fromDate(new Date()),
+          reading_time: calculateReadingTime(lessonText),
+        },
       })
         .then(() => console.log("updated"))
         .catch((err) => console.log(err))

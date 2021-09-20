@@ -107,10 +107,10 @@ type Lesson = {
     courseId?: string;
     tags?: string[];
     category?: string;
-    createdAt?: Timestamp;
-    updatedAt?: Timestamp;
+    created_at?: Timestamp;
+    updated_at?: Timestamp;
     languages?: string[];
-    minutesToRead?: number;
+    reading_time?: number;
     summary?: string;
   };
   id: string;

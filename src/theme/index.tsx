@@ -15,7 +15,7 @@ const theme = createTheme({
         borderRadius: 16,
         padding: 16,
       }
-    },
+    },    
     MuiCssBaseline: {
       "@global": {
         html: {

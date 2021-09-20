@@ -4,7 +4,7 @@ import { Redirect, Link } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
 
 import useEnrollments from "../hooks/useEnrollments";
-import Hero from "src/components/containers/hero";
+import Hero from "../components/containers/hero"
 
 const useStyles = makeStyles((theme) => ({
   paper: {

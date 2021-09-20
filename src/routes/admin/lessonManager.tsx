@@ -1,7 +1,6 @@
 import React from 'react'
 import {Route, Switch, useRouteMatch} from 'react-router-dom'
-import LessonTable from './lessonTable'
-import LessonEditor from 'src/components/admin/lesson'
+import {LessonTable, LessonEditor} from '../../components/admin'
 
 const LessonManager = () => {
   const { path } = useRouteMatch()

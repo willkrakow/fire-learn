@@ -11,9 +11,9 @@ import {
   useTheme,
 } from "@material-ui/core";
 import { useHistory } from "react-router";
-import { useAuth } from "src/contexts/authContext";
+import { useAuth } from "../../contexts";
 import { Menu } from '@material-ui/icons'
-import NavbarDrawer from "./navbarDrawer";
+import NavbarDrawer from "./NavbarDrawer";
 
 
 const drawerWidth = 240;
