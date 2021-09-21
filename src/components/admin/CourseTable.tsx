@@ -22,6 +22,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     padding: theme.spacing(2),
     margin: theme.spacing(5),
+  },
+  title: {
+    marginBottom: theme.spacing(3),
+  },
+  buttonCell: {
+    display: "flex",
   }
   }));
 
@@ -41,16 +47,16 @@ const CourseTable = () => {
   }, [getCollection]);
 
   return (
-    <Paper className={classes.root}>
-      <Typography variant="h3">Courses</Typography>
+    <>
+      <Typography variant="h3" className={classes.title}>Courses</Typography>
       {loading ? (
         <CircularProgress />
       ) : (
-        <Table size="small">
+        <Table component={Paper}>
           <TableHead>
-            {["Name", "Description", "Status", "Options"].map((label) => (
+            {["Name", "Description", "Status", "Actions"].map((label) => (
               <TableCell key={label}>
-                <Typography variant="h4">{label}</Typography>
+                <Typography variant="h5" color="primary">{label}</Typography>
               </TableCell>
             ))}
           </TableHead>
@@ -82,17 +88,14 @@ const CourseTable = () => {
                     />
                   )}
                 </TableCell>
-                <TableCell>
-                  <Link
-                    to={{
-                      pathname: `${url}/${course.id}`,
-                      state: { data: course.data, id: course.id },
-                    }}
+                <TableCell className={classes.buttonCell}>
+                  <RouterButton
+                    href={`${url}/${course.id}`}
                   >
-                    <Edit fontSize="inherit" color="secondary" />
-                  </Link>
+                    <Edit color="primary" fontSize="small" />
+                  </RouterButton>
                   <RouterButton onClick={() => console.log("delete")}>
-                    <Delete fontSize="inherit" color="error" />
+                    <Delete color="error" fontSize="small" />
                   </RouterButton>
                 </TableCell>
               </TableRow>
@@ -100,7 +103,7 @@ const CourseTable = () => {
           </TableBody>
         </Table>
       )}
-    </Paper>
+    </>
   );
 };
 

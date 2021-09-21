@@ -3,7 +3,7 @@
     "typeRoots": [
       "./types",
       "./src/types/*",
-      "./node_modules/@types",
+      "./node_modules/@types"
     ],
     "target": "es5",
     "lib": [
@@ -21,7 +21,14 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true
   },
   "baseUrl": ".",
   "include": [
@@ -29,7 +36,7 @@
     "./src/**/*"
   ],
   "exclude": [
-    "node_modules",
+    "node_modules"
   ],
   "paths": {
     "react": [
@@ -37,6 +44,6 @@
     ],
     "react-dom": [
       "../node_modules/react-dom/profiling"
-    ],
+    ]
   }
 }

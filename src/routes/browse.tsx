@@ -1,8 +1,8 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
 import { DocumentData } from "firebase/firestore";
-import { useFirestore } from "src/contexts/firestoreContext";
-import { CourseCard } from "src/components/containers";
+import { useFirestore } from "../contexts";
+import { CourseCard } from "../components/public";
 
 const Browse = () => {
   const { getCollection } = useFirestore() as IFirestoreContext;

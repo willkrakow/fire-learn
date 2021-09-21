@@ -2,16 +2,25 @@ import React from "react";
 import { useRouteMatch } from "react-router";
 import {
   CircularProgress,
+  Paper,
   Table,
   TableBody,
   TableHead,
   TableRow,
+  makeStyles,
+  Theme
 } from "@material-ui/core";
 import LessonRow from "./LessonRow";
 import useCourseLessons from "../../hooks/useCourseLessons";
 import AddLesson from "./AddLesson";
 import AdminTableCell from "./AdminTableCell";
 
+
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    padding: theme.spacing(5),
+  }
+}));
 
 interface TParams {
   courseId: string;
@@ -20,13 +29,13 @@ interface TParams {
 const LessonTable = ({courseId}: TParams) => {
   const { url, path } = useRouteMatch();
   const { lessons, loading } = useCourseLessons(courseId);
- 
+  const classes = useStyles();
   return (
     <>
       {loading ? (
         <CircularProgress />
       ) : (
-        <Table>
+        <Table component={Paper} className={classes.root} >
           <TableHead>
             <TableRow>
               {["Title", "Subtitle", "Status", "Actions"].map(

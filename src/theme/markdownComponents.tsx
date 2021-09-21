@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export const components: Partial<
+const markdownComponents: Partial<
   Omit<NormalComponents, keyof SpecialComponents> & SpecialComponents
 > = {
   h1: ({ children, ...props }) => (
@@ -60,21 +60,5 @@ export const components: Partial<
   ),
 };
 
-interface MarkdownProps {
-    children: string;
-}
 
-const Markdown = ({children}: MarkdownProps) => {
-  const classes = useStyles()
-  console.log(children)
-  return ReactDOM.render(
-    <ReactMarkdown
-      className={classes.root}
-      children={children}
-      components={components}
-      unwrapDisallowed={false}
-    />, document.body
-  );   
-}
-
-export default Markdown
+export default markdownComponents

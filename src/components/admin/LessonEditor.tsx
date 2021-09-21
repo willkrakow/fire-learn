@@ -1,9 +1,9 @@
 import React from 'react'
 import { CircularProgress, Tabs, Tab } from '@material-ui/core'
-import ContentEditor from './ContentEditor'
+import ContentEditor from './MarkdownEditor'
 import { RouteComponentProps  } from 'react-router'
 import { useLesson } from '../../hooks'
-import {TabPanel} from '../containers'
+import TabPanel from './TabPanel'
 import LessonMetadataEditor from './LessonMetadataEditor'
 import { a11yProps } from '../../utils'
 
@@ -40,7 +40,7 @@ const LessonEditor = ({ match }: RouteComponentProps<TParams>) => {
         </Tabs>
         <TabPanel value={tabValue} index={0}>
           <LessonMetadataEditor lessonId={lessonId} />
-          </TabPanel>
+        </TabPanel>
           <TabPanel value={tabValue} index={1}>
           {!loading && lessonData &&<ContentEditor lessonData={lessonData} loading={loading} />}
           </TabPanel>

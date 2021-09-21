@@ -1,8 +1,8 @@
 import React from 'react'
-import { CircularProgress, Typography, List, ListItem, ListItemText, } from '@material-ui/core'
+import { CircularProgress, Typography, List, } from '@material-ui/core'
 import { useFirestore } from '../../contexts/firestoreContext'
-import { Link } from 'react-router-dom'
 import { useRouteMatch } from 'react-router'
+import LessonListItem from './LessonListItem'
 
 interface Props {
     courseId: string
@@ -31,20 +31,13 @@ const LessonList = ({courseId}: Props) => {
     return (
       <List>
         {lessons.map((lesson, index) => (
-          <ListItem key={lesson.id}>
-            <Link to={`${url}/lessons/${lesson.id}`}>
-              <ListItemText
-                primary={`${(index + 1).toString()}. ${lesson.data.title}`}
-                primaryTypographyProps={{ variant: "h4" }}
-                secondaryTypographyProps={{ variant: "body1" }}
-                secondary={lesson.data.subtitle}
-              />
-            </Link>
-          </ListItem>
+          <LessonListItem key={index} lesson={lesson} url={url} index={index} />
         ))}
       </List>
     );
 }
 
 export default LessonList
+
+
         

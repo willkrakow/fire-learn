@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: drawerWidth,
   },
   title: {
-    color: theme.palette.primary.contrastText,
+    color: theme.palette.background.paper,
     fontWeight: theme.typography.fontWeightBold,
     fontFamily: theme.typography.fontFamily,
     fontSize: theme.typography.h3.fontSize

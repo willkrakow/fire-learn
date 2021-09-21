@@ -6,7 +6,8 @@ import {
   InputAdornment,
   TextField,
   makeStyles,
-  Theme
+  Theme,
+  Paper
 } from "@material-ui/core";
 import { useFirestore } from "../../contexts";
 
@@ -89,14 +90,11 @@ const CourseForm = ({ course, url }: ICourseForm) => {
       {formData ? (
         <>
           <form onSubmit={handleSubmit}>
-            <Grid container spacing={5}>
+            <Grid component={Paper} container>
               <Grid item xs={12}>
                 <TextField
                   variant="filled"
                   fullWidth
-                  InputProps={{
-                    className: classes.titleInput,
-                  }}
                   error={!!errors.name}
                   name="name"
                   color="primary"
@@ -176,15 +174,17 @@ const CourseForm = ({ course, url }: ICourseForm) => {
                   helperText={errors?.price}
                 />
               </Grid>
+              <Grid item xs={12} md={6} lg={4} xl={2}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  className={classes.button}
+                >
+                  Save
+                </Button>
+              </Grid>
             </Grid>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              className={classes.button}
-            >
-              Save
-            </Button>
           </form>
         </>
       ) : (

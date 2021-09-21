@@ -10,7 +10,6 @@ import { LessonTable, LessonEditor } from "src/components/admin";
 import UserTable from "./userManager/userTable";
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    padding: theme.spacing(1),
     backgroundColor: "transparent",
   },
   breadcrumbs: {
@@ -20,7 +19,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: theme.shape.borderRadius,
   },
   gridItem: {
-    height: "--webkit-fill-available",
   }
 }));
 
@@ -58,12 +56,6 @@ const Admin = () => {
         })}
       </Breadcrumbs>
         <Paper elevation={0} className={classes.root}>
-          {/* <Switch>
-          <Route exact path="/admin" component={Dashboard} />
-          <Route path="/admin/courses" component={CourseManager} />
-          <Route path="/admin/courses/:courseId/lessons/:lessonId" component={LessonManager} />
-          <Route path="/admin/users" component={UserManager} />
-        </Switch> */}
           <Switch>
             <Route exact path="/admin">
               <Dashboard />

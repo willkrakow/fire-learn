@@ -10,6 +10,7 @@ import {
   Snackbar,
   Checkbox,
   FormControlLabel,
+  FormControl,
 } from "@material-ui/core";
 import { useFirestore } from "../../contexts/firestoreContext";
 import { useLesson } from "../../hooks";
@@ -113,6 +114,9 @@ const LessonMetadataEditor = ({ lessonId }: Props) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    console.log(name)
+    console.log(e.target)
+    console.log(value)
     setLessonUpdates({
       id: lessonId,
       data: {
@@ -141,10 +145,21 @@ const LessonMetadataEditor = ({ lessonId }: Props) => {
       },
     });
   };
+
+  const handlePublishedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLessonUpdates({
+      id: lessonId,
+      data: {
+        ...lessonUpdates?.data,
+        published: e.target.checked,
+      },
+    });
+  };
+
   return (
     <>
       {loading && <CircularProgress />}
-      {!loading && lessonUpdates?.data && (
+      {!loading && lessonUpdates?.data ? (
         <>
           <form onSubmit={handleSubmit} className={classes.form}>
             <Grid container spacing={5} className={classes.grid}>
@@ -168,7 +183,7 @@ const LessonMetadataEditor = ({ lessonId }: Props) => {
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={12} sm={12} md={8}>
+              <Grid item xs={12}>
                 <TextField
                   label="Summary"
                   onChange={handleChange}
@@ -198,16 +213,15 @@ const LessonMetadataEditor = ({ lessonId }: Props) => {
               </Grid>
               <Grid item xs={12} md={6}>
                 <FormControlLabel
-                  color="primary"
-                  control={
-                    <Checkbox
-                      color="primary"
-                      name="published"
-                      checked={lessonUpdates.data.published}
-                      onChange={handleChange}
-                    />
-                  }
-                  label="Publish lesson"
+                control={
+                      <Checkbox
+                        color="primary"
+                        name="published"
+                        checked={lessonUpdates.data.published}
+                        onChange={handlePublishedChange}
+                      />
+                    }
+                    label="Publish now?"
                 />
               </Grid>
             </Grid>
@@ -218,7 +232,7 @@ const LessonMetadataEditor = ({ lessonId }: Props) => {
               type="submit"
             >
               {saving && <CircularProgress />}
-              {lessonUpdates.data.published ? "Update" : "Publish"}
+              {!lessonUpdates.data.published ? "Save as draft" : "Publish"}
             </Button>
           </form>
           <Snackbar
@@ -251,6 +265,8 @@ const LessonMetadataEditor = ({ lessonId }: Props) => {
             }
           />
         </>
+      ) : (
+        <CircularProgress />
       )}
     </>
   );

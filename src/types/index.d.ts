@@ -112,6 +112,7 @@ type Lesson = {
     languages?: string[];
     reading_time?: number;
     summary?: string;
+    published: boolean;
   };
   id: string;
 };

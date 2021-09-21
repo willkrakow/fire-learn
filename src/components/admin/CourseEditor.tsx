@@ -9,9 +9,8 @@ import {
   ListItem,
   makeStyles,
   Theme,
-  Card,
-  CardHeader,
-  CardContent,
+  Paper,
+  Typography,
 } from "@material-ui/core";
 import { LessonTable } from ".";
 import { grey, } from "@material-ui/core/colors";
@@ -56,49 +55,30 @@ const CourseEditor = ({ match }: RouteComponentProps<TParams>) => {
 
   return (
     <>
-      <Grid container spacing={5}>
+      <Typography variant="h2">{course?.data.name}</Typography>
+      <Grid container spacing={10}>
         {!loading && course && (
           <>
-            <Grid item xs={12} md={4} lg={3}>
-              <Card className={classes.paper}>
-                <CardHeader
-                  className={classes.header}
-                  title="Details"
-                  titleTypographyProps={{ variant: "h5" }}
-                />
-                <CardContent>
-                  <CourseForm course={course} url={url} />
-                </CardContent>
-              </Card>
+            <Grid item xs={12} lg={4}>
+              <Typography variant="h4">Metadata</Typography>
+              <CourseForm course={course} url={url} />
             </Grid>
-            <Grid item xs={12} md={8} lg={6}>
-              <Card className={classes.paper}>
-                <CardHeader
-                  className={classes.header}
-                  title="Lessons"
-                  titleTypographyProps={{ variant: "h5" }}
-                />
-                <CardContent>
-                  <LessonTable courseId={course.id} />
-                </CardContent>
-              </Card>
+            <Grid item xs={12} lg={8}>
+              <Typography variant="h4">Lessons</Typography>
+              <LessonTable courseId={course.id} />
             </Grid>
             <Grid item xs={12} md={6} lg={3}>
-              <Card className={classes.paper}>
-                <CardHeader className={classes.header} title="Analytics" titleTypographyProps={{ variant: "h5" }} />
-              <CardContent>
-                <List>
-                  <ListItem>
-                    <ListItemText
-                      primary="Enrollments"
-                      secondary="0"
-                      primaryTypographyProps={{ variant: "h6" }}
-                      secondaryTypographyProps={{ variant: "h5" }}
-                    />
-                  </ListItem>
-                </List>
-              </CardContent>
-              </Card>
+              <Typography variant="h4">Analystics</Typography>
+              <List>
+                <ListItem>
+                  <ListItemText
+                    primary="Enrollments"
+                    secondary="0"
+                    primaryTypographyProps={{ variant: "h6" }}
+                    secondaryTypographyProps={{ variant: "h5" }}
+                  />
+                </ListItem>
+              </List>
             </Grid>
           </>
         )}

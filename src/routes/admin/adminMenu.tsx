@@ -52,8 +52,13 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     content: {
       flexGrow: 1,
-      padding: theme.spacing(3),
     },
+    title: {
+      color: theme.palette.background.paper,
+      fontSize: theme.typography.h4.fontSize,
+      fontWeight: "bolder",
+      textTransform: "none",
+    }
   })
 );
 
@@ -120,7 +125,7 @@ const AdminMenu = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" noWrap className={classes.title}>
             FireLearn Admin
           </Typography>
         </Toolbar>

@@ -1,14 +1,16 @@
-import React from 'react'
-import { Grid, Typography } from '@material-ui/core'
+import React from "react";
+import { Grid } from "@material-ui/core";
+import TotalUsers from "src/components/admin/TotalUsers";
+import PopularCourses from "src/components/admin/PopularCourses";
 
+const Dashboard = () => {
 
-export default function Dashboard() {
-    
-    return (
-        <Grid container>
-            <Grid item xs={12}>
-                <Typography variant="h4">Dashboard</Typography>
-            </Grid>
-        </Grid>
-    )
+  return (
+    <Grid container>
+      <TotalUsers />
+      <PopularCourses />
+    </Grid>
+  );
 }
+
+export default Dashboard;

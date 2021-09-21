@@ -11,9 +11,7 @@ import {
   makeStyles,
   CircularProgress,
 } from "@material-ui/core";
-import Lesson from "../components/containers/lesson";
-import Hero from "../components/containers/hero";
-import LessonList from "../components/containers/lessonList";
+import {LessonList, Hero, Lesson} from "../components/public";
 
 const useStyles = makeStyles((theme) => ({
   root: {

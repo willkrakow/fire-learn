@@ -1,15 +1,15 @@
 import React from 'react'
 import { createTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
-import { orange, blue, blueGrey, deepOrange, deepPurple, red, grey, teal } from '@material-ui/core/colors'
+import { orange, blue, blueGrey, deepOrange, deepPurple, red, grey, teal, green, lightBlue, lightGreen } from '@material-ui/core/colors'
 
 const theme = createTheme({
   overrides: {
     MuiPaper: {
       root: {
-        padding: 16,
-      }
-    },    
+        background: '#fff',
+      },
+    },
     MuiCssBaseline: {
       "@global": {
         html: {
@@ -17,16 +17,16 @@ const theme = createTheme({
         },
         body: {
           minHeight: "100vh",
-          backgroundColor: blueGrey[50],
+          backgroundColor: "#fafafa",
           display: "flex",
           flexDirection: "column",
         },
         a: {
           fontStyle: "normal",
           textDecoration: "none",
-        }
+        },
       },
-    },
+    },   
     MuiLink: {
       root: {
         fontWeight: "bold",
@@ -34,19 +34,19 @@ const theme = createTheme({
         zIndex: 10,
       },
       underlineAlways: {
-        textDecoration: 'none',
+        textDecoration: "none",
         "&::after": {
           content: '""',
-          position: 'absolute',
+          position: "absolute",
           left: -2,
           right: -2,
           bottom: 1,
           top: "40%",
           zIndex: -1,
           backgroundColor: orange[100],
-        }
-      }
-    }
+        },
+      },
+    },
   },
   palette: {
     primary: {
@@ -105,6 +105,7 @@ const theme = createTheme({
       backgroundClip: "text",
       WebkitBackgroundClip: "text",
       fontStyle: "normal",
+      marginBottom: "1rem",
     },
     h4: {
       fontSize: "1.375rem",
