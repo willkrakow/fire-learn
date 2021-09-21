@@ -29,7 +29,7 @@ const TagsInput = ({ currentValues, onChange, label, placeholder="Choose...", op
         renderInput={(params) => (
           <TextField
             {...params}
-            variant="standard"
+            variant="filled"
             label={label}
             placeholder={placeholder}
           />

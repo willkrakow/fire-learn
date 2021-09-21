@@ -25,7 +25,7 @@ const AddLesson = ({ courseId }: Props) => {
   }
 
     return (
-        <Button onClick={handleNewLesson} variant="contained">
+        <Button onClick={handleNewLesson} variant="contained" color="primary" fullWidth>
             {loading ? <CircularProgress size="small" /> : <PlusOne fontSize="inherit" />}
             Add lesson
         </Button>

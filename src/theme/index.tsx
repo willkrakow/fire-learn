@@ -7,7 +7,7 @@ const theme = createTheme({
   overrides: {
     MuiPaper: {
       root: {
-        background: '#fff',
+        background: "#fff",
       },
     },
     MuiCssBaseline: {
@@ -26,7 +26,7 @@ const theme = createTheme({
           textDecoration: "none",
         },
       },
-    },   
+    },
     MuiLink: {
       root: {
         fontWeight: "bold",
@@ -38,12 +38,12 @@ const theme = createTheme({
         "&::after": {
           content: '""',
           position: "absolute",
-          left: -2,
-          right: -2,
-          bottom: 1,
-          top: "40%",
+          left: -1,
+          right: -1,
+          bottom: 0,
+          top: "70%",
           zIndex: -1,
-          backgroundColor: orange[100],
+          backgroundColor: teal[50],
         },
       },
     },
@@ -91,7 +91,7 @@ const theme = createTheme({
       fontWeight: "bold",
       fontStyle: "normal",
       marginBottom: "1rem",
-      background: `linear-gradient(to right, ${orange[300]} 0%, ${red[800]} 100%)`,
+      background: `linear-gradient(to right, ${orange[400]} 0%, ${red[900]} 100%)`,
       color: "transparent",
       backgroundClip: "text",
       WebkitBackgroundClip: "text",
@@ -112,7 +112,7 @@ const theme = createTheme({
       fontWeight: "normal",
       marginBottom: "0.5rem",
       fontStyle: "normal",
-      background: `linear-gradient(to right, ${blue[300]} 0%, ${deepPurple[900]} 100%)`,
+      background: `linear-gradient(to right, ${orange[400]} 0%, ${red[900]} 100%)`,
       backgroundClip: "text",
       WebkitBackgroundClip: "text",
       WebkitTextFillColor: "transparent",

@@ -72,7 +72,7 @@ const Admin = () => {
                   <Route
                     exact
                     path="/admin/courses/:courseId/lessons"
-                    component={LessonTable}
+                    render={(routeProps) => <LessonTable courseId={routeProps.match.params.courseId} />}
                   />
                   <Route
                     path="/admin/courses/:courseId/lessons/:lessonId"

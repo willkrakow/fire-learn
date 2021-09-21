@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   input: theme.typography.body1,
   titleInput: theme.typography.h4,
   button: {
-    marginTop: theme.spacing(2)
+    width: "100%",
   }
 }))
 
@@ -48,15 +48,7 @@ function validate(values: any) {
   if (values.price < 0) {
     errors.price = "Must be positive";
   }
-
-  if (values.price.length > 10) {
-    errors.price = "Must be less than 10 characters";
-  }
-
-  if (values.price.length < 3) {
-    errors.price = "Must include cents (or .00)";
-    return errors;
-  }
+  return errors;
 }
 
 const CourseForm = ({ course, url }: ICourseForm) => {
@@ -65,6 +57,9 @@ const CourseForm = ({ course, url }: ICourseForm) => {
   const { updateDocument } = useFirestore() as IFirestoreContext
   const [ loading, setLoading ] = React.useState(false);
   const classes = useStyles();
+
+
+  
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (loading || !formData) return;
     const { name, value } = event.target;
@@ -75,12 +70,20 @@ const CourseForm = ({ course, url }: ICourseForm) => {
     event.preventDefault();
     setLoading(true);
     // validate form
-    const errors = validate(formData);
+    const errors = validate(formData.data);
     setErrors(errors);
     if (Object.keys(errors).length === 0) {
       // submit form
-      updateDocument({ path: `courses/${course.id}`, data: formData });
-      setLoading(false);
+      updateDocument({ path: `courses/${course.id}`, data: formData })
+      .then(() => {
+        console.log("success");
+      })
+      .catch(error => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      })
     }
   };
 
@@ -174,7 +177,7 @@ const CourseForm = ({ course, url }: ICourseForm) => {
                   helperText={errors?.price}
                 />
               </Grid>
-              <Grid item xs={12} md={6} lg={4} xl={2}>
+              <Grid item xs={12} >
                 <Button
                   variant="contained"
                   color="primary"

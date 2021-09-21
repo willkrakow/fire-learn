@@ -1,15 +1,16 @@
 import React from "react";
-import { Box, Button, Grid, makeStyles, Typography } from "@material-ui/core";
+import { Box, Button, Grid, makeStyles, Theme, Typography } from "@material-ui/core";
 import { Redirect, Link } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
-
 import useEnrollments from "../hooks/useEnrollments";
-import {Hero} from "../components/public"
+import { Hero } from "../components/public";
+import Browse from "./browse";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   paper: {
     width: "100%",
     height: "100%",
+    marginTop: theme.spacing(2),
   },
   grid: {
     width: "100%",
@@ -18,8 +19,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   sectionTitle: {
-    marginBottom: theme.spacing(2)
-  }
+    marginBottom: theme.spacing(2),
+  },
 }));
 
 const CourseGrid = () => {
@@ -30,27 +31,15 @@ const CourseGrid = () => {
   const firstName = currentUser.displayName.split(" ")[0];
 
   return (
-    <Box className={classes.paper}>
+    <>
       <Hero>
         <Typography variant="h2">Welcome back, {firstName}</Typography>
-
-        <Button variant="contained" component={Link} to="/" color="primary">
-          Home
-        </Button>
       </Hero>
-      <Grid container className={classes.grid}>
-        <Grid item xs={12}>
-          <Typography variant="h4" className={classes.sectionTitle}>
-            My courses
-          </Typography>
-        </Grid>
-        {!isLoading &&
-          enrollments.map((enrollment) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={enrollment.course_id}>
-            </Grid>
-          ))}
-      </Grid>
+    <Box className={classes.paper}>
+
+      {!isLoading && <Browse />}
     </Box>
+    </>
   );
 };
 

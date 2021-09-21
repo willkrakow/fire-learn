@@ -12,6 +12,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     minHeight: "100vh",
     padding: theme.spacing(5),
+    maxWidth: 900,
+    margin: "auto",
   },
   card: {
     padding: theme.spacing(2),
@@ -38,7 +40,7 @@ function LessonContent({ lesson }: Props) {
       <Divider className={classes.divider} />
       <ReactMarkdown
         className={classes.root}
-        children={lesson.data.markdown_content.toString()}
+        children={lesson.data?.markdown_content?.toString() || " "}
         components={markdownComponents}
         unwrapDisallowed={false}
       />

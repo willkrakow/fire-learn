@@ -5,9 +5,12 @@ import {
   Button,
   CircularProgress,
   Box,
+  useTheme,
+  Paper,
+  Typography
 } from "@material-ui/core";
 import { useFirestore } from "../../contexts";
-import Editor from "rich-markdown-editor";
+import Editor, { theme as markdownTheme } from "rich-markdown-editor";
 import { Timestamp } from 'firebase/firestore'
 
 interface Props {
@@ -17,17 +20,39 @@ interface Props {
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    margin: theme.spacing(3),
-    marginTop: theme.spacing(0),
+    maxWidth: 900,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
-  editor: {
-    borderColor: theme.palette.secondary.light,
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderRadius: theme.shape.borderRadius,
-    padding: theme.spacing(1),
-    marginBottom: theme.spacing(2),
-  }
+  paper: {
+    padding: theme.spacing(0, 5),
+    paddingBottom: theme.spacing(0),
+    minHeight: 500,
+    fontStyle: "normal",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    "& h3": {
+      fontSize: theme.typography.h3.fontSize,
+    },
+    "& h4": {
+      fontSize: theme.typography.h4.fontSize,
+    },
+    "& h5": {
+      fontSize: theme.typography.h5.fontSize,
+    },
+    "& h6": {
+      fontSize: theme.typography.h6.fontSize,
+    },
+    "& p": {
+      fontSize: theme.typography.body1.fontSize,
+    },
+  },
+  button: {
+    width: "min-content",
+    margin: theme.spacing(2, "auto"),
+  },
 }));
 
 function countWordsInMarkdown(markdown: string) {
@@ -43,6 +68,7 @@ function calculateReadingTime(markdown: string) {
 }
 
 const ContentEditor = ({lessonData, loading}: Props) => {
+  const theme = useTheme();
   const classes = useStyles();
   const [lessonText, setLessonText] = React.useState("");
   const { updateDocument } = useFirestore() as IFirestoreContext;
@@ -82,23 +108,50 @@ const ContentEditor = ({lessonData, loading}: Props) => {
     <>
       {loading && <CircularProgress />}
       {!loading && lessonData?.data && (
-        <>
-          <Box className={classes.editor}>
+        <Box className={classes.root}>
+          <Typography variant="h4">Content editor</Typography>
+          <Paper className={classes.paper}>
             <Editor
-              className={classes.root}
               defaultValue={lessonData.data.markdown_content}
               onChange={(value) => setLessonText(value)}
+              headingsOffset={2}
+              theme={{
+                ...markdownTheme,
+                black: theme.palette.text.primary,
+                white: theme.palette.common.white,
+                primary: theme.palette.primary.main,
+                textSecondary: theme.palette.text.secondary,
+                almostBlack: theme.palette.text.secondary,
+                fontFamily:
+                  theme.typography.fontFamily ||
+                  "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen'",
+                fontFamilyMono:
+                  "Menlo, Monaco, Consolas, 'Courier New', monospace",
+                fontWeight: 400,
+              }}
+              // theme={{
+              //   ...markdownTheme,
+              //   fontFamily:
+              //     "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',",
+              //   fontFamilyMono: "Roboto Mono",
+              //   black: grey[900],
+              //   white: grey[50],
+              //   background: grey[50],
+              //   almostBlack: grey[800],
+              //   primary: teal[500],
+              // }}
             />
-          </Box>
-          <Button
-            variant="contained"
-            disabled={saving || loading}
-            color="primary"
-            onClick={handleSaveContent}
-          >
-            {saving ? <CircularProgress /> : "Save"}
-          </Button>
-        </>
+            <Button
+              variant="contained"
+              disabled={saving || loading}
+              color="primary"
+              onClick={handleSaveContent}
+              className={classes.button}
+            >
+              {saving ? <CircularProgress /> : "Save"}
+            </Button>
+          </Paper>
+        </Box>
       )}
     </>
   );

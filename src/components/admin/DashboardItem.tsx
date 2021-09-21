@@ -14,9 +14,7 @@ import { SvgIconTypeMap } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column"
+   
   },
   title: {
     display: "flex",
@@ -28,6 +26,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   dataBox: {
+      height: "100%",
   },
 }));
 

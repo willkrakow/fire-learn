@@ -41,7 +41,7 @@ const NavbarDrawer = ({ currentUser, handleLogout, handleClick }: Props) => {
             <ListItemIcon>
               <Grade />
             </ListItemIcon>
-            <ListItemText primary="My courses" />
+            <ListItemText primary="Home" />
           </ListItem>
         )}
         {currentUser && (

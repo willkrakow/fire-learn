@@ -78,6 +78,7 @@ const CourseTable = () => {
                     <Chip
                       icon={<Check color="primary" fontSize="inherit" />}
                       label="Published"
+                      color="primary"
                     />
                   ) : (
                     <Chip
@@ -88,7 +89,8 @@ const CourseTable = () => {
                     />
                   )}
                 </TableCell>
-                <TableCell className={classes.buttonCell}>
+                <TableCell>
+                  <div className={classes.buttonCell}>
                   <RouterButton
                     href={`${url}/${course.id}`}
                   >
@@ -97,6 +99,7 @@ const CourseTable = () => {
                   <RouterButton onClick={() => console.log("delete")}>
                     <Delete color="error" fontSize="small" />
                   </RouterButton>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}

@@ -22,7 +22,7 @@ interface TParams {
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    margin: theme.spacing(4),
+    padding: theme.spacing(3),
   },
   gridItem: {
     backgroundColor: theme.palette.primary.light,
@@ -45,6 +45,7 @@ const CourseEditor = ({ match }: RouteComponentProps<TParams>) => {
   const [course, setCourse] = React.useState<Course | null>(null);
   const { getDocument } = useFirestore() as IFirestoreContext;
   const [loading, setLoading] = React.useState(false);
+  
   const classes = useStyles();
   React.useEffect(() => {
     setLoading(true);
@@ -56,7 +57,7 @@ const CourseEditor = ({ match }: RouteComponentProps<TParams>) => {
   return (
     <>
       <Typography variant="h2">{course?.data.name}</Typography>
-      <Grid container spacing={10}>
+      <Grid container spacing={10} className={classes.root}>
         {!loading && course && (
           <>
             <Grid item xs={12} lg={4}>

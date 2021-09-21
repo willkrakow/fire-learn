@@ -11,6 +11,9 @@ import {
   Checkbox,
   FormControlLabel,
   FormControl,
+  Paper,
+  Typography,
+  Box,
 } from "@material-ui/core";
 import { useFirestore } from "../../contexts/firestoreContext";
 import { useLesson } from "../../hooks";
@@ -64,6 +67,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   form: {
     marginBottom: theme.spacing(4),
   },
+  root: {
+    padding: theme.spacing(3),
+  }
 }));
 
 const LessonMetadataEditor = ({ lessonId }: Props) => {
@@ -160,60 +166,62 @@ const LessonMetadataEditor = ({ lessonId }: Props) => {
     <>
       {loading && <CircularProgress />}
       {!loading && lessonUpdates?.data ? (
-        <>
-          <form onSubmit={handleSubmit} className={classes.form}>
-            <Grid container spacing={5} className={classes.grid}>
-              <Grid item xs={12} sm={6} md={6}>
-                <TextField
-                  label="Title"
-                  onChange={handleChange}
-                  value={lessonUpdates.data.title}
-                  variant="outlined"
-                  name="title"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} md={6}>
-                <TextField
-                  label="Subtitle"
-                  onChange={handleChange}
-                  value={lessonUpdates.data.subtitle}
-                  name="subtitle"
-                  variant="outlined"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="Summary"
-                  onChange={handleChange}
-                  value={lessonUpdates.data.summary}
-                  name="summary"
-                  fullWidth
-                  multiline
-                  variant="outlined"
-                  minRows={3}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <TagsInput
-                  options={Object.values(Languages)}
-                  onChange={handleLanguageChange}
-                  label="Languages"
-                  currentValues={lessonUpdates.data.languages}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <TagsInput
-                  options={Object.values(Tags).map((tag) => tag.toString())}
-                  onChange={handleTagsChange}
-                  currentValues={lessonUpdates.data.tags}
-                  label="Tags"
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <FormControlLabel
-                control={
+        <Box>
+          <Typography variant="h4">Lesson details</Typography>
+            <form onSubmit={handleSubmit}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Title"
+                    onChange={handleChange}
+                    value={lessonUpdates.data.title}
+                    variant="filled"
+                    name="title"
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Subtitle"
+                    onChange={handleChange}
+                    value={lessonUpdates.data.subtitle}
+                    name="subtitle"
+                    variant="filled"
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Summary"
+                    onChange={handleChange}
+                    value={lessonUpdates.data.summary}
+                    name="summary"
+                    fullWidth
+                    multiline
+                    variant="filled"
+                    minRows={3}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TagsInput
+                    options={Object.values(Languages)}
+                    onChange={handleLanguageChange}
+                    label="Languages"
+                    currentValues={lessonUpdates.data.languages}
+                    
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TagsInput
+                    options={Object.values(Tags).map((tag) => tag.toString())}
+                    onChange={handleTagsChange}
+                    currentValues={lessonUpdates.data.tags}
+                    label="Tags"
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <FormControlLabel
+                    control={
                       <Checkbox
                         color="primary"
                         name="published"
@@ -222,49 +230,49 @@ const LessonMetadataEditor = ({ lessonId }: Props) => {
                       />
                     }
                     label="Publish now?"
-                />
+                  />
+                </Grid>
               </Grid>
-            </Grid>
-            <Button
-              variant="contained"
-              disabled={saving}
-              color="primary"
-              type="submit"
-            >
-              {saving && <CircularProgress />}
-              {!lessonUpdates.data.published ? "Save as draft" : "Publish"}
-            </Button>
-          </form>
-          <Snackbar
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-            open={snackbarOpen}
-            autoHideDuration={6000}
-            onClose={handleSnackbarClose}
-            message={message}
-            action={
-              <React.Fragment>
-                <Button
-                  color="secondary"
-                  size="small"
-                  onClick={handleSnackbarClose}
-                >
-                  Close
-                </Button>
-                <IconButton
-                  size="small"
-                  aria-label="close"
-                  color="inherit"
-                  onClick={handleSnackbarClose}
-                >
-                  <CloseIcon fontSize="small" />
-                </IconButton>
-              </React.Fragment>
-            }
-          />
-        </>
+              <Button
+                variant="contained"
+                disabled={saving}
+                color="primary"
+                type="submit"
+              >
+                {saving && <CircularProgress />}
+                {!lessonUpdates.data.published ? "Save as draft" : "Publish"}
+              </Button>
+            </form>
+            <Snackbar
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              open={snackbarOpen}
+              autoHideDuration={6000}
+              onClose={handleSnackbarClose}
+              message={message}
+              action={
+                <React.Fragment>
+                  <Button
+                    color="secondary"
+                    size="small"
+                    onClick={handleSnackbarClose}
+                  >
+                    Close
+                  </Button>
+                  <IconButton
+                    size="small"
+                    aria-label="close"
+                    color="inherit"
+                    onClick={handleSnackbarClose}
+                  >
+                    <CloseIcon fontSize="small" />
+                  </IconButton>
+                </React.Fragment>
+              }
+            />
+        </Box>
       ) : (
         <CircularProgress />
       )}
