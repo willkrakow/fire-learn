@@ -1,6 +1,6 @@
 import React from "react";
 import { TableRow, Chip, TableCell, Typography, Button, makeStyles, Theme } from "@material-ui/core";
-import { RouterButton } from "src/components/buttons";
+import { RouterButton } from "../../components/buttons";
 import { Check, Delete, Edit, NotInterested } from "@material-ui/icons";
 
 // Table row properties
@@ -9,10 +9,10 @@ import { Check, Delete, Edit, NotInterested } from "@material-ui/icons";
 //     courses
 //     options
 
-interface Props {
+interface Props extends React.ComponentProps<typeof TableRow> {
   lesson: Lesson;
-  url: string;
-  path: string;
+  url?: string;
+  path?: string;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -23,11 +23,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 
 
-const LessonRow = ({ lesson, url, path }: Props) => {
+const LessonRow = ({ lesson, ...props }: Props) => {
   const classes = useStyles();
   return (
     <>
-      <TableRow key={lesson.id}>
+      <TableRow key={lesson.id} {...props}>
         <TableCell><Typography variant="subtitle1">{lesson.data.title}</Typography></TableCell>
         <TableCell><Typography variant="body1">{lesson.data.subtitle}</Typography></TableCell>
         <TableCell>
@@ -46,7 +46,7 @@ const LessonRow = ({ lesson, url, path }: Props) => {
           )}
         </TableCell>
         <TableCell className={classes.buttonCell}>
-          <RouterButton href={`${url}/lessons/${lesson.id}`}><Edit fontSize="small" color="primary" /></RouterButton>
+          <RouterButton href={`/admin/courses/${lesson.data?.courseId || lesson.data?.course_id}/lessons/${lesson.id}`}><Edit fontSize="small" color="primary" /></RouterButton>
           <Button variant="text" onClick={() => console.log("delete")}><Delete fontSize="small" color="error" /></Button>
         </TableCell>
       </TableRow>

@@ -15,13 +15,12 @@ import {
   CardMedia,
   Chip,
 } from "@material-ui/core";
-import { useAuth } from "../contexts/authContext";
+import { useAuth } from "../contexts";
 import { Link, Redirect } from "react-router-dom";
 import { User } from "firebase/auth";
-import { DeleteAccount } from "src/components/forms";
+import { DeleteAccount, ProfileImageUpload } from "../components/forms";
 import { Check } from "@material-ui/icons";
-import ProfileImageUpload from "src/components/forms/profileImageUpload";
-import { parseTimestamp } from "src/utils/parseTimestamp";
+import { parseTimestamp } from "../utils/parseTimestamp";
 
 const useStyles = makeStyles((theme) => ({
   root: {

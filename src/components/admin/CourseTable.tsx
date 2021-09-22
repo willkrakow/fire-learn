@@ -16,7 +16,7 @@ import { useFirestore } from "../../contexts";
 import { Check, Delete, Edit, NotInterested } from "@material-ui/icons";
 import { RouterButton } from "../buttons";
 import { useRouteMatch } from "react-router";
-import { Link } from "react-router-dom";
+import AddCourse from "./AddCourse";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -106,6 +106,7 @@ const CourseTable = () => {
           </TableBody>
         </Table>
       )}
+      <AddCourse />
     </>
   );
 };

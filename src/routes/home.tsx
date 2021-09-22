@@ -1,8 +1,7 @@
 import React from "react";
-import { Box, Button, Grid, makeStyles, Theme, Typography } from "@material-ui/core";
-import { Redirect, Link } from "react-router-dom";
+import { Box, makeStyles, Theme, Typography } from "@material-ui/core";
+import { Redirect, } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
-import useEnrollments from "../hooks/useEnrollments";
 import { Hero } from "../components/public";
 import Browse from "./browse";
 
@@ -26,7 +25,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 const CourseGrid = () => {
   const classes = useStyles();
 
-  const { enrollments, isLoading } = useEnrollments();
   const { currentUser } = useAuth() as IAuthContext;
   const firstName = currentUser.displayName.split(" ")[0];
 
@@ -36,8 +34,7 @@ const CourseGrid = () => {
         <Typography variant="h2">Welcome back, {firstName}</Typography>
       </Hero>
     <Box className={classes.paper}>
-
-      {!isLoading && <Browse />}
+      <Browse />
     </Box>
     </>
   );

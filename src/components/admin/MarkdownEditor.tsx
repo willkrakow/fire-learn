@@ -12,6 +12,7 @@ import {
 import { useFirestore } from "../../contexts";
 import Editor, { theme as markdownTheme } from "rich-markdown-editor";
 import { Timestamp } from 'firebase/firestore'
+import { calculateReadingTime } from '../../utils'
 
 interface Props {
   lessonData: Lesson;
@@ -26,8 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "space-between",
   },
   paper: {
-    padding: theme.spacing(0, 5),
-    paddingBottom: theme.spacing(0),
+    padding: theme.spacing(4, 5),
     minHeight: 500,
     fontStyle: "normal",
     display: "flex",
@@ -55,22 +55,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-function countWordsInMarkdown(markdown: string) {
-  return markdown.split(/\s+/).length;
-}
 
-function calculateReadingTime(markdown: string) {
-  const wordsPerMinute = 200;
-  const words = countWordsInMarkdown(markdown);
-  const minutes = Math.floor(words / wordsPerMinute);
-  const seconds = Math.floor((words % wordsPerMinute) / (wordsPerMinute / 60));
-  return `${minutes} min ${seconds} sec`;
-}
 
 const ContentEditor = ({lessonData, loading}: Props) => {
   const theme = useTheme();
   const classes = useStyles();
-  const [lessonText, setLessonText] = React.useState("");
+  const [lessonText, setLessonText] = React.useState(lessonData.data.markdown_content || "");
   const { updateDocument } = useFirestore() as IFirestoreContext;
   const [saving, setSaving] = React.useState(false);
 
@@ -90,19 +80,6 @@ const ContentEditor = ({lessonData, loading}: Props) => {
         .catch((err) => console.log(err))
         .finally(() => setSaving(false));
   };
-
-  React.useEffect(() => {
-    if (!lessonText && lessonData?.data.markdown_content) {
-      setLessonText(lessonData.data.markdown_content);
-    }
-  }, [lessonData]);
-
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   lesson && updateDocument({ path: `lessons/${lesson.id}`, data: lesson.data })
-  //   .then(() => console.log("updated lesson dat"))
-  //   .catch(err => console.log(err))
-  // };
 
   return (
     <>
@@ -141,16 +118,16 @@ const ContentEditor = ({lessonData, loading}: Props) => {
               //   primary: teal[500],
               // }}
             />
-            <Button
-              variant="contained"
-              disabled={saving || loading}
-              color="primary"
-              onClick={handleSaveContent}
-              className={classes.button}
-            >
-              {saving ? <CircularProgress /> : "Save"}
-            </Button>
           </Paper>
+          <Button
+            variant="contained"
+            disabled={saving || loading}
+            color="primary"
+            onClick={handleSaveContent}
+            className={classes.button}
+          >
+            {saving ? <CircularProgress /> : "Save"}
+          </Button>
         </Box>
       )}
     </>

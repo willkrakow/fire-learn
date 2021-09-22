@@ -4,51 +4,62 @@ import { red } from '@material-ui/core/colors'
 import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme: Theme) => ({
-    root: {
-        maxWidth: 345,
-        padding: 0,
-        position: 'relative',
-    },
-    media: {
-        height: 532,
-    },
-    content: {
-        "& *": {
-            color: theme.palette.primary.light
-        }
-    },
-    expand: {
-        transform: 'rotate(0deg)',
-        marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
-            duration: theme.transitions.duration.shortest,
-        }),
-    },
-    expandOpen: {
-        transform: 'rotate(180deg)',
-    },
-    avatar: {
-        backgroundColor: red[500],
-    },
-    actions: {
-        padding: theme.spacing(2),
-    },
-    dark: {
-        backgroundColor: "rgba(20, 20, 50, 0.8)",
-        padding: theme.spacing(1),
-        position: 'absolute',
-        bottom: 0,
+  root: {
+    padding: 0,
+    position: "relative",
+  },
+  media: {
+    height: 532,
+  },
+  content: {
+    "& p": {
+      color: theme.palette.primary.contrastText
     }
-}))
+  },
+  expand: {
+    transform: "rotate(0deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: "rotate(180deg)",
+  },
+  avatar: {
+    backgroundColor: red[500],
+  },
+  actions: {
+    padding: theme.spacing(2),
+  },
+  dark: {
+    padding: theme.spacing(1),
+    paddingTop: theme.spacing(3),
+    position: "absolute",
+    bottom: 0,
+    background: `linear-gradient(to bottom,
+        rgba(0,0,0,0.0) 0%,
+        rgba(0,0,0,0.1) 5%,
+        rgba(0,0,0,0.2) 10%,
+          rgba(0,0,0,0.5) 20%,
+        rgba(0,0,0,0.6) 30%,
+        rgba(0,0,0,0.9) 80%)`,
+  },
+}));
 
-const CourseCard = ({course}: {course: Course}) => {
+
+interface Props extends React.ComponentProps<typeof Card> {
+   course: Course
+}
+
+const CourseCard: React.FC<Props> = ({course, ...props}) => {
     const classes = useStyles()
     return (
-        <Card className={classes.root}>
-            <CardMedia className={classes.media} image={course?.data.image_url} />
+        <Card className={classes.root} {...props}>
+            <CardMedia className={classes.media} image={course?.data.image_url} title={course?.data.name} />
             <Box className={classes.dark}>
             <CardContent className={classes.content}>
-                <Typography variant="h4">{course?.data.name}</Typography>
+                <Typography variant="h3">{course?.data.name}</Typography>
                 <Typography variant="body1">{course?.data.description}</Typography>
             </CardContent>
             <CardActions className={classes.actions}>

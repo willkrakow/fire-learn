@@ -5,7 +5,6 @@ import {
   Theme,
   Paper,
   Typography,
-  Box,
   CircularProgress,
   GridSize,
 } from "@material-ui/core";
@@ -30,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-interface Props {
+interface Props extends React.ComponentProps<typeof Grid> {
   title: string;
   data: React.ReactNode | React.ReactNodeArray;
   icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
@@ -40,17 +39,15 @@ interface Props {
   lg?: boolean | GridSize | undefined;
 }
 
-const DashboardItem = ({ title, data, icon, loading, xs = 12, md = 6, lg = 3 }: Props) => {
+const DashboardItem = ({ title, data, icon, loading, xs = 12, md = 6, lg = 3, ...props }: Props) => {
   const classes = useStyles();
   return (
-    <Grid item xs={xs} md={md} lg={lg} className={classes.root}>
+    <Grid item xs={xs} md={md} lg={lg} {...props} >
       <Typography variant="h4" className={classes.title}>
         <span>{title}</span>
       </Typography>
-      <Paper className={classes.root}>
-        <Box className={classes.dataBox}>
+      <Paper >
           {loading ? <CircularProgress /> : data}
-        </Box>
       </Paper>
     </Grid>
   );

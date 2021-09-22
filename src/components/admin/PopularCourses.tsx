@@ -13,15 +13,6 @@ import DashboardItem from "./DashboardItem";
 import { groupBy, sortBy } from "lodash";
 import { MultilineChart } from '@material-ui/icons'
 
-function groupAndSortByLength<T extends {data: any}>(collection: T[], key: string) {
-  const collectionDatum = collection.map(item => item.data);
-  const grouped = groupBy(collectionDatum, key);
-  const sorted = sortBy(grouped, (item: any) => !item.length);
-  return sorted.map((e: any) => ({
-      key: e[0][key],
-      
-  }))
-}
 
 const PopularCourses = () => {
   const [loading, setLoading] = React.useState(false);
@@ -50,7 +41,7 @@ const PopularCourses = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [getCollection]);
 
   return (
     <>
@@ -105,7 +96,7 @@ const PopularCourseItem = ({ courseId, enrollments }: IPopularCourseItem) => {
       .finally(() => {
         setLoading(false);
       });
-  }, [courseId]);
+  }, [courseId, getDocument])
 
   return (
     <>

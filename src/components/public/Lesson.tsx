@@ -4,7 +4,7 @@ import {
 } from "@material-ui/core";
 import { RouterButton } from "../buttons";
 import { ArrowBack } from "@material-ui/icons";
-import { useFirestore } from "src/contexts";
+import { useFirestore } from "../../contexts";
 import LessonContent from './LessonContent'
 
 type Props = {
@@ -24,7 +24,7 @@ function Lesson({ lessonId, courseId, courseName }: Props) {
     getDocument(`lessons/${lessonId}`)
     .then(setLesson)
     .finally(() => setLoading(false));
-  }, [lessonId]);
+  }, [lessonId, getDocument]);
 
 
   return (

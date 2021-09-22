@@ -76,7 +76,6 @@ type Course = {
     organization: string;
     published: boolean;
     image_path: string;
-    lessons: any[];
   };
 };
 

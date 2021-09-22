@@ -1,12 +1,17 @@
 import React from "react";
-import { Paper, Breadcrumbs, makeStyles, Theme, Grid } from "@material-ui/core";
+import { Paper, Breadcrumbs, makeStyles, Theme } from "@material-ui/core";
 import { Redirect, Switch, Route, useLocation } from "react-router";
 import { RouterButton } from "../../components/buttons";
 import { useAuth } from "../../contexts/authContext";
 import AdminMenu from "./adminMenu";
 import Dashboard from "./dashboard";
-import { CourseEditor, CourseTable, UserEditor } from "src/components/admin";
-import { LessonTable, LessonEditor } from "src/components/admin";
+import {
+  CourseEditor,
+  CourseTable,
+  UserEditor,
+  LessonTable,
+  LessonEditor,
+} from "../../components/admin";
 import UserTable from "./userManager/userTable";
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

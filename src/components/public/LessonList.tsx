@@ -4,11 +4,11 @@ import { useFirestore } from '../../contexts/firestoreContext'
 import { useRouteMatch } from 'react-router'
 import LessonListItem from './LessonListItem'
 
-interface Props {
+interface Props extends React.ComponentProps<typeof List> {
     courseId: string
 }
 
-const LessonList = ({courseId}: Props) => {
+const LessonList = ({courseId, ...props}: Props) => {
     const { queryDocuments } = useFirestore() as IFirestoreContext
     const [ lessons, setLessons ] = React.useState<Lesson[]>([])
     const [ loading, setLoading ] = React.useState(true)
@@ -29,7 +29,7 @@ const LessonList = ({courseId}: Props) => {
         return <Typography variant="h5">No lessons found</Typography>
     }
     return (
-      <List>
+      <List {...props} >
         {lessons.map((lesson, index) => (
           <LessonListItem key={index} lesson={lesson} url={url} index={index} />
         ))}

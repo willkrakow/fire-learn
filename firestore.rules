@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  	function isWill(userId) {
+    	return userId == "msOjxCRtW3fs8mYVUp4CL3GtIiu2"
+    }
+    match /users/{userId} {
+    	allow read, write: if 
+      	request.auth != null && request.auth.uid == userId
+    }
+    match /enrollments/{document=**}{
+    allow read: if true
+    allow read, write: if isWill(request.auth.uid)
+    }
+    match /courses/{document=**} {
+    	allow read, write: if true
+    }
+    match /lessons/{document=**} {
+    	allow read, write: if true
+    }
+    match /users/{document=**} {
+    	allow read, write: if isWill(request.auth.uid) 
+    }
+  }
+}

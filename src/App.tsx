@@ -11,7 +11,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Account from './routes/account';
 import Browse from './routes/browse';
 import Course from './routes/course';
-import EditAccount from './components/forms/editAccount';
+import EditAccount from './components/forms/EditAccount';
 import firebaseConfig from './config/firebaseConfig';
 import Admin from './routes/admin';
 

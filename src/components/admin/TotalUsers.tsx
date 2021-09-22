@@ -1,10 +1,8 @@
 import React from "react";
 import {
   CircularProgress,
-  makeStyles,
   Grid,
   Typography,
-  Theme,
   GridSize,
   GridProps,
 } from "@material-ui/core";
@@ -12,26 +10,9 @@ import { Person } from "@material-ui/icons";
 import { useFirestore } from "../../contexts";
 import DashboardItem from "./DashboardItem";
 import { Variant } from "@material-ui/core/styles/createTypography";
-
-const useStyles = makeStyles((theme: Theme) => ({
-  
-}));
-
-function createdInLastWeek(user: UserDocument) {
-  return (
-    user.data.created_at.toDate() >
-    new Date(Date.now() - 1000 * 60 * 60 * 24 * 7)
-  );
-}
-
-function createdInLastDay(user: UserDocument) {
-  return (
-    user.data.created_at.toDate() > new Date(Date.now() - 1000 * 60 * 60 * 24)
-  );
-}
+import { createdInLastWeek, createdInLastDay } from "../../utils";
 
 const TotalUsers = () => {
-    const classes = useStyles();
   const { getCollection } = useFirestore() as IFirestoreContext;
   const [totalUsers, setTotalUsers] = React.useState<number>(0);
   const [newWeeklyUsers, setNewWeeklyUsers] = React.useState<number>(0);
@@ -54,7 +35,7 @@ const TotalUsers = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [getCollection]);
 
   return (
     <>

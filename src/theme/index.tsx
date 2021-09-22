@@ -1,13 +1,18 @@
 import React from 'react'
 import { createTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
-import { orange, blue, blueGrey, deepOrange, deepPurple, red, grey, teal, green, lightBlue, lightGreen } from '@material-ui/core/colors'
+import { orange, blueGrey, deepOrange, deepPurple, red, grey, teal, } from '@material-ui/core/colors'
 
 const theme = createTheme({
   overrides: {
     MuiPaper: {
       root: {
-        background: "#fff",
+        backgroundColor: grey[50],
+      },
+    },
+    MuiFilledInput: {
+      root: {
+        backgroundColor: grey[50],
       },
     },
     MuiCssBaseline: {
@@ -17,7 +22,7 @@ const theme = createTheme({
         },
         body: {
           minHeight: "100vh",
-          backgroundColor: "#fafafa",
+          backgroundColor: blueGrey[50],
           display: "flex",
           flexDirection: "column",
         },

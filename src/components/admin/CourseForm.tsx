@@ -33,23 +33,7 @@ interface IErrors {
   organization?: string;
 }
 
-function validate(values: any) {
-  const errors: any = {};
-  if (!values.name) {
-    errors.name = "Required";
-  }
-  if (!values.description) {
-    errors.description = "Required";
-  }
-  if (!values.price) {
-    errors.price = "Required";
-  }
 
-  if (values.price < 0) {
-    errors.price = "Must be positive";
-  }
-  return errors;
-}
 
 const CourseForm = ({ course, url }: ICourseForm) => {
   const [formData, setFormData] = React.useState<Course>({ ...course });
@@ -64,14 +48,13 @@ const CourseForm = ({ course, url }: ICourseForm) => {
     if (loading || !formData) return;
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
+    setErrors({})
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
     // validate form
-    const errors = validate(formData.data);
-    setErrors(errors);
     if (Object.keys(errors).length === 0) {
       // submit form
       updateDocument({ path: `courses/${course.id}`, data: formData })

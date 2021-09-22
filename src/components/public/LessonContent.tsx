@@ -27,14 +27,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-interface Props {
+interface Props extends React.ComponentProps<typeof Paper> {
   lesson: Lesson;
 }
 
-function LessonContent({ lesson }: Props) {
+function LessonContent({ lesson, ...props }: Props) {
   const classes = useStyles();
   return (
-    <Paper className={classes.root}>
+    <Paper className={classes.root} {...props} >
       <Typography variant="h2">{lesson.data.title}</Typography>
       <Typography variant="h4">{lesson.data.subtitle}</Typography>
       <Divider className={classes.divider} />

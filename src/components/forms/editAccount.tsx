@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, TextField, Typography, makeStyles } from "@material-ui/core";
-import { useAuth } from "../../contexts/authContext";
+import { useAuth } from "../../contexts";
 import { useHistory } from "react-router";
 import { Alert } from "@material-ui/lab";
 import { User } from "firebase/auth";

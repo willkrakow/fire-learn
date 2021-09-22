@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import TotalUsers from "src/components/admin/TotalUsers";
-import PopularCourses from "src/components/admin/PopularCourses";
+import TotalUsers from "../../components/admin/TotalUsers";
+import PopularCourses from "../../components/admin/PopularCourses";
 
 const Dashboard = () => {
 

@@ -11,7 +11,7 @@ interface TagsInputProps {
 }
 
 const TagsInput = ({ currentValues, onChange, label, placeholder="Choose...", options }: TagsInputProps) => {
-    const [_, setTags] = React.useState<string[]>(currentValues || []);
+    const [ , setTags] = React.useState<string[]>(currentValues || []);
     const handleChange = (event: React.ChangeEvent<{}>, value: string[]) => {
       setTags(value)
       onChange(event, value);

@@ -30,7 +30,7 @@ const Browse = () => {
   return (
     <Grid container spacing={3}>
       {courses.map((course: Course) => (
-        <Grid item xs={12} sm={6} md={4} key={course.id}>
+        <Grid item xs={12} md={4} lg={3} key={course.id}>
           <CourseCard course={course} />
         </Grid>
       ))}

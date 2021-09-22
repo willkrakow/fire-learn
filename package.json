@@ -1,5 +1,8 @@
 {
-  "name": "client",
+  "name": "fern",
+  "description": "A small eLearning platform.",
+  "author": "William Krakow",
+  "homepage": "https://fire-learn-ffc4e.web.app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

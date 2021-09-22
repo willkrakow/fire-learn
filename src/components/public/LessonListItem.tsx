@@ -3,15 +3,15 @@ import { ListItem, ListItemText } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 
 
-interface Props {
+interface Props{
   lesson: Lesson;
   url: string;
   index: number;
 }
 
-const LessonListItem = ({ lesson, url, index }: Props) => {
+const LessonListItem = ({ lesson, url, index, ...props }: Props) => {
   return (
-    <ListItem key={lesson.id}>
+    <ListItem key={lesson.id} {...props} >
       <Link to={`${url}/lessons/${lesson.id}`}>
         <ListItemText
           primary={`${(index + 1).toString()}. ${lesson.data.title}`}

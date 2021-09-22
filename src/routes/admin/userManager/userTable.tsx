@@ -8,9 +8,9 @@ import {
   Typography,
   TableCell,
 } from "@material-ui/core";
-import { useFirestore } from "src/contexts/firestoreContext";
-import { getDateStringFromTimestamp } from "src/utils/parseTimestamp";
-import { RouterButton } from "src/components/buttons";
+import { useFirestore } from "../../../contexts";
+import { getDateStringFromTimestamp } from "../../../utils/parseTimestamp";
+import { RouterButton } from "../../../components/buttons";
 import { useRouteMatch } from "react-router";
 import { Edit } from "@material-ui/icons";
 

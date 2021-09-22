@@ -9,11 +9,9 @@ import {
   ListItem,
   makeStyles,
   Theme,
-  Paper,
   Typography,
 } from "@material-ui/core";
 import { LessonTable } from ".";
-import { grey, } from "@material-ui/core/colors";
 
 interface TParams {
   courseId: string;
@@ -25,12 +23,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(3),
   },
   gridItem: {
-    backgroundColor: theme.palette.primary.light,
   },
   paper: {
     height: "100%",
     padding: 0,
-    backgroundColor: grey[50],
   },
   header: {
     backgroundColor: theme.palette.primary.main,

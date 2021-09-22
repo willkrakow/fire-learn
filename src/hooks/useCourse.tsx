@@ -1,5 +1,5 @@
 import React from "react";
-import { useFirestore } from "src/contexts/firestoreContext";
+import { useFirestore } from "../contexts";
 
 const useCourse = (courseId: string) => {
   const { getDocument } = useFirestore() as IFirestoreContext;

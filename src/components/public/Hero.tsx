@@ -47,12 +47,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-interface Props {
+interface Props extends React.ComponentProps<"div"> {
     imagePath?: string;
     children: React.ReactNode;
 }
 
-const Hero: React.FC<Props> = ({imagePath="images/site/resize/hero_1000x800.webp", children}) => {
+const Hero: React.FC<Props> = ({imagePath="images/site/resize/hero_1000x800.webp", children, ...props}) => {
   const classes = useStyles();
   const { downloadFile } = useStorage() as IStorageContext;
   const [heroImage, setHeroImage] = React.useState<string>("");
@@ -70,7 +70,7 @@ const Hero: React.FC<Props> = ({imagePath="images/site/resize/hero_1000x800.webp
   }, [downloadFile, imagePath]);
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} {...props}>
       {heroImage && (
         <img className={classes.image} src={heroImage} alt="hero" />
       )}

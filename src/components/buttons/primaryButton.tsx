@@ -1,12 +1,13 @@
 import React from "react";
 import clsx from "clsx";
-import Button from "@material-ui/core/Button";
+import Button, { ButtonProps } from "@material-ui/core/Button";
 import { withStyles, WithStyles } from "@material-ui/core/styles";
 
 interface Props extends WithStyles<typeof styles> {
   children?: React.ReactNode;
   className?: string;
 }
+
 
 // We can inject some CSS into the DOM.
 const styles = {
@@ -21,7 +22,7 @@ const styles = {
   },
 };
 
-function PrimaryButton(props: Props) {
+const PrimaryButton: React.FC<Props & ButtonProps> = (props) => {
   const { classes, children, className, ...other } = props;
 
   return (

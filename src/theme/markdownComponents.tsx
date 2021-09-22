@@ -1,15 +1,7 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import ReactMarkdown, {  } from 'react-markdown'
-import { Typography, makeStyles, Link } from '@material-ui/core'
+import { Typography, Link } from '@material-ui/core'
 import { SpecialComponents } from 'react-markdown/lib/ast-to-react'
 import { NormalComponents } from 'react-markdown/lib/complex-types'
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    whiteSpace: 'pre-wrap',
-  },
-}))
 
 const markdownComponents: Partial<
   Omit<NormalComponents, keyof SpecialComponents> & SpecialComponents

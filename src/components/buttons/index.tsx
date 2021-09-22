@@ -1,3 +1,3 @@
-import PrimaryButton from "./primaryButton";
-import RouterButton from "./routerButton";
+import PrimaryButton from "./PrimaryButton";
+import RouterButton from "./RouterButton";
 export { PrimaryButton, RouterButton };

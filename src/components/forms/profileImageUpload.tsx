@@ -103,7 +103,7 @@ const ProfileImageUpload = ({setTempImage}: Props) => {
             {error.toString()}
           </Typography>
         )}
-        {file && <Button variant="contained" color="secondary" disabled={loading} type="submit">{loading ? <CircularProgress /> : "Save"}</Button>}
+        {file && <Button variant="contained" color="secondary" disabled={loading} type="submit">{loading && <CircularProgress />}{error ? "Reupload" : "Save"}</Button>}
       </form>
     </>
   );

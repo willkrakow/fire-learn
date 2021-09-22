@@ -5,23 +5,19 @@ import {
   Button,
   CircularProgress,
   Grid,
-  makeStyles,
-  Theme,
   Snackbar,
   Checkbox,
   FormControlLabel,
-  FormControl,
-  Paper,
   Typography,
   Box,
 } from "@material-ui/core";
 import { useFirestore } from "../../contexts/firestoreContext";
-import { useLesson } from "../../hooks";
 import TagsInput from "./TagsInput";
 import { Close as CloseIcon } from "@material-ui/icons";
 
 interface Props {
   lessonId: string;
+  lessonData: Lesson;
 }
 
 enum Languages {
@@ -59,27 +55,10 @@ enum Tags {
   "Religion",
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-  grid: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-  form: {
-    marginBottom: theme.spacing(4),
-  },
-  root: {
-    padding: theme.spacing(3),
-  }
-}));
 
-const LessonMetadataEditor = ({ lessonId }: Props) => {
-  const classes = useStyles();
-  const { lessonData, loading } = useLesson(lessonId) as {
-    lessonData: Lesson;
-    loading: boolean;
-  };
+const LessonMetadataEditor = ({ lessonId, lessonData }: Props) => {
   const { updateDocument } = useFirestore() as IFirestoreContext;
-  const [lessonUpdates, setLessonUpdates] = React.useState<Lesson | any>(null);
+  const [lessonUpdates, setLessonUpdates] = React.useState<Lesson | any>(lessonData);
   const [saving, setSaving] = React.useState(false);
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [message, setMessage] = React.useState("");
@@ -89,11 +68,6 @@ const LessonMetadataEditor = ({ lessonId }: Props) => {
     setMessage("");
   };
 
-  React.useEffect(() => {
-    if (lessonData && !lessonUpdates) {
-      setLessonUpdates(lessonData);
-    }
-  }, [lessonData]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -120,9 +94,6 @@ const LessonMetadataEditor = ({ lessonId }: Props) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log(name)
-    console.log(e.target)
-    console.log(value)
     setLessonUpdates({
       id: lessonId,
       data: {
@@ -164,8 +135,7 @@ const LessonMetadataEditor = ({ lessonId }: Props) => {
 
   return (
     <>
-      {loading && <CircularProgress />}
-      {!loading && lessonUpdates?.data ? (
+      {lessonUpdates?.data ? (
         <Box>
           <Typography variant="h4">Lesson details</Typography>
             <form onSubmit={handleSubmit}>

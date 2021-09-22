@@ -1,5 +1,5 @@
 import React from "react";
-import { a11yProps } from "src/utils";
+import { a11yProps } from "../utils";
 
 interface IA11yProps {
   id: string;

@@ -1,12 +1,11 @@
 import React from "react";
-import { useFirestore } from "src/contexts/firestoreContext";
+import { useFirestore, useAuth } from "../../../contexts";
 import { RouteComponentProps } from "react-router";
 import {
   CircularProgress,
   Grid,
   Typography,
 } from "@material-ui/core";
-import { useAuth } from "src/contexts/authContext";
 import UserProfile from "./userProfile";
 import UserEnrollments from "./userEnrollments";
 
