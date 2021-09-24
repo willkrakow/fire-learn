@@ -4,6 +4,7 @@ import { useFirestore } from '../../contexts/firestoreContext'
 import { useHistory } from 'react-router'
 import { DocumentData, DocumentReference } from "@firebase/firestore";
 import { PlusOne } from '@material-ui/icons';
+import { PrimaryButton } from '../buttons';
 
 
 interface Props extends React.ComponentProps<typeof Button> {
@@ -24,10 +25,10 @@ const AddLesson = ({ courseId, ...props }: Props) => {
   }
 
     return (
-        <Button onClick={handleNewLesson} variant="contained" color="primary" fullWidth {...props} >
+        <PrimaryButton onClick={handleNewLesson} fullWidth >
             {loading ? <CircularProgress size="small" /> : <PlusOne fontSize="inherit" />}
             Add lesson
-        </Button>
+        </PrimaryButton>
     )
 }
 

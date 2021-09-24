@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { LessonTable } from ".";
+import MediaEditor from "./MediaEditor";
 
 interface TParams {
   courseId: string;
@@ -20,9 +21,10 @@ interface TParams {
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    padding: theme.spacing(3),
   },
   gridItem: {
+    marginBottom: theme.spacing(2),
+    overflowX: "scroll"
   },
   paper: {
     height: "100%",
@@ -53,19 +55,15 @@ const CourseEditor = ({ match }: RouteComponentProps<TParams>) => {
   return (
     <>
       <Typography variant="h2">{course?.data.name}</Typography>
-      <Grid container spacing={10} className={classes.root}>
+      <Grid container spacing={4} className={classes.root}>
         {!loading && course && (
           <>
             <Grid item xs={12} lg={4}>
               <Typography variant="h4">Metadata</Typography>
               <CourseForm course={course} url={url} />
             </Grid>
-            <Grid item xs={12} lg={8}>
-              <Typography variant="h4">Lessons</Typography>
-              <LessonTable courseId={course.id} />
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <Typography variant="h4">Analystics</Typography>
+            <Grid item xs={12} md={6} lg={4}>
+              <Typography variant="h4">Analytics</Typography>
               <List>
                 <ListItem>
                   <ListItemText
@@ -76,6 +74,19 @@ const CourseEditor = ({ match }: RouteComponentProps<TParams>) => {
                   />
                 </ListItem>
               </List>
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <Typography variant="h4">Media</Typography>
+              <MediaEditor
+                documentPath={`courses/${course.id}`}
+                currentImage={course.data.image_url}
+                title={"Course cover image"}
+              />
+              
+            </Grid>
+            <Grid item xs={12} lg={8} className={classes.gridItem}>
+              <Typography variant="h4">Lessons</Typography>
+              <LessonTable courseId={course.id} />
             </Grid>
           </>
         )}

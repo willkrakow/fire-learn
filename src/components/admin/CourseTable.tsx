@@ -21,7 +21,7 @@ import AddCourse from "./AddCourse";
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     padding: theme.spacing(2),
-    margin: theme.spacing(5),
+    margin: theme.spacing(3),
   },
   title: {
     marginBottom: theme.spacing(3),

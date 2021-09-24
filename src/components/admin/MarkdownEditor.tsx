@@ -13,6 +13,7 @@ import { useFirestore } from "../../contexts";
 import Editor, { theme as markdownTheme } from "rich-markdown-editor";
 import { Timestamp } from 'firebase/firestore'
 import { calculateReadingTime } from '../../utils'
+import { useSnackbar } from '../../hooks'
 
 interface Props {
   lessonData: Lesson;
@@ -63,6 +64,7 @@ const ContentEditor = ({lessonData, loading}: Props) => {
   const [lessonText, setLessonText] = React.useState(lessonData.data.markdown_content || "");
   const { updateDocument } = useFirestore() as IFirestoreContext;
   const [saving, setSaving] = React.useState(false);
+  const { SnackbarAlert, setOpen, setMessage, setSeverity } = useSnackbar();
 
   const handleSaveContent = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -76,8 +78,18 @@ const ContentEditor = ({lessonData, loading}: Props) => {
           reading_time: calculateReadingTime(lessonText),
         },
       })
-        .then(() => console.log("updated"))
-        .catch((err) => console.log(err))
+        .then(() => {
+          setSaving(false);
+          setOpen(true);
+          setMessage("Lesson content updated");
+          setSeverity("success");
+        })
+        .catch((err) => {
+          setSaving(false);
+          setOpen(true);
+          setMessage("Error saving lesson");
+          setSeverity("error");
+        })
         .finally(() => setSaving(false));
   };
 
@@ -128,6 +140,7 @@ const ContentEditor = ({lessonData, loading}: Props) => {
           >
             {saving ? <CircularProgress /> : "Save"}
           </Button>
+          <SnackbarAlert />
         </Box>
       )}
     </>

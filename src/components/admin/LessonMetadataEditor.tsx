@@ -1,20 +1,17 @@
 import React from "react";
 import {
   TextField,
-  IconButton,
   Button,
   CircularProgress,
   Grid,
-  Snackbar,
   Checkbox,
   FormControlLabel,
   Typography,
   Box,
 } from "@material-ui/core";
-import { useFirestore } from "../../contexts/firestoreContext";
+import { useFirestore } from "../../contexts";
 import TagsInput from "./TagsInput";
-import { Close as CloseIcon } from "@material-ui/icons";
-
+import { useSnackbar } from '../../hooks'
 interface Props {
   lessonId: string;
   lessonData: Lesson;
@@ -60,14 +57,7 @@ const LessonMetadataEditor = ({ lessonId, lessonData }: Props) => {
   const { updateDocument } = useFirestore() as IFirestoreContext;
   const [lessonUpdates, setLessonUpdates] = React.useState<Lesson | any>(lessonData);
   const [saving, setSaving] = React.useState(false);
-  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-  const [message, setMessage] = React.useState("");
-
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
-    setMessage("");
-  };
-
+  const { SnackbarAlert,  setOpen, setMessage, setSeverity } = useSnackbar();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -81,14 +71,15 @@ const LessonMetadataEditor = ({ lessonId, lessonData }: Props) => {
     })
       .then(() => {
         setMessage("Lesson updated successfully");
+        setSeverity("success");
       })
       .catch((err) => {
-        console.error(err);
+        setSeverity("error");
         setMessage(err.message);
       })
       .finally(() => {
-        setSnackbarOpen(true);
         setSaving(false);
+        setOpen(true);
       });
   };
 
@@ -213,35 +204,7 @@ const LessonMetadataEditor = ({ lessonId, lessonData }: Props) => {
                 {!lessonUpdates.data.published ? "Save as draft" : "Publish"}
               </Button>
             </form>
-            <Snackbar
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              open={snackbarOpen}
-              autoHideDuration={6000}
-              onClose={handleSnackbarClose}
-              message={message}
-              action={
-                <React.Fragment>
-                  <Button
-                    color="secondary"
-                    size="small"
-                    onClick={handleSnackbarClose}
-                  >
-                    Close
-                  </Button>
-                  <IconButton
-                    size="small"
-                    aria-label="close"
-                    color="inherit"
-                    onClick={handleSnackbarClose}
-                  >
-                    <CloseIcon fontSize="small" />
-                  </IconButton>
-                </React.Fragment>
-              }
-            />
+            <SnackbarAlert />
         </Box>
       ) : (
         <CircularProgress />

@@ -64,6 +64,20 @@ interface IDocument {
 }
 
 
+type LessonComment = {
+  id: string;
+  data: {
+    text: string;
+    user_id: string;
+    lesson_id: string;
+    user: DocumentReference;
+    lesson: DocumentReference;
+    user_display_name: string;
+    user_avatar_url?: string;
+    parent_id?: string;
+    created_at: Timestamp;
+  };
+};
 
 type Course = {
   id: string;
@@ -76,6 +90,7 @@ type Course = {
     organization: string;
     published: boolean;
     image_path: string;
+    gallery?: string[];
   };
 };
 

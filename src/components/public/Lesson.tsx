@@ -6,6 +6,8 @@ import { RouterButton } from "../buttons";
 import { ArrowBack } from "@material-ui/icons";
 import { useFirestore } from "../../contexts";
 import LessonContent from './LessonContent'
+import CommentSection from './CommentSection'
+
 
 type Props = {
   lessonId: string;
@@ -40,6 +42,7 @@ function Lesson({ lessonId, courseId, courseName }: Props) {
             <ArrowBack fontSize="inherit" /> {courseName}
           </RouterButton>
           <LessonContent lesson={lesson} />
+          <CommentSection lessonId={lessonId} />
         </>
       )}
     </>

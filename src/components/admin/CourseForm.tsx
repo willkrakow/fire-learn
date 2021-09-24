@@ -10,6 +10,7 @@ import {
   Paper
 } from "@material-ui/core";
 import { useFirestore } from "../../contexts";
+import { useSnackbar } from "../../hooks";
 
 const useStyles = makeStyles((theme: Theme) => ({
   input: theme.typography.body1,
@@ -41,7 +42,7 @@ const CourseForm = ({ course, url }: ICourseForm) => {
   const { updateDocument } = useFirestore() as IFirestoreContext
   const [ loading, setLoading ] = React.useState(false);
   const classes = useStyles();
-
+  const { SnackbarAlert, setOpen, setMessage, setSeverity } = useSnackbar()
 
   
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,13 +60,16 @@ const CourseForm = ({ course, url }: ICourseForm) => {
       // submit form
       updateDocument({ path: `courses/${course.id}`, data: formData })
       .then(() => {
-        console.log("success");
+        setSeverity("success");
+        setMessage("Course updated successfully");
       })
       .catch(error => {
-        console.log(error);
+        setSeverity("error");
+        setMessage(error.message);
       })
       .finally(() => {
         setLoading(false);
+        setOpen(true);
       })
     }
   };
@@ -172,6 +176,7 @@ const CourseForm = ({ course, url }: ICourseForm) => {
               </Grid>
             </Grid>
           </form>
+          <SnackbarAlert />
         </>
       ) : (
         <div>404</div>

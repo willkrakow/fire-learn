@@ -17,27 +17,27 @@ const markdownComponents: Partial<
     </Typography>
   ),
   h3: ({ children, ...props }) => (
-    <Typography key={props.key} component="h3" variant="h3">
+    <Typography key={props.key} variant="h3">
       {children}
     </Typography>
   ),
   h4: ({ children, ...props }) => (
-    <Typography key={props.key} component="h4" variant="h4">
+    <Typography key={props.key} variant="h4">
       {children}
     </Typography>
   ),
   h5: ({ children, ...props }) => (
-    <Typography key={props.key} component="h5" variant="h5">
+    <Typography key={props.key} variant="h5">
       {children}
     </Typography>
   ),
   h6: ({ children, ...props }) => (
-    <Typography component="h6" key={props.key} variant="h6">
+    <Typography key={props.key} variant="h6">
       {children}
     </Typography>
   ),
   p: ({ children, ...props }) => (
-    <Typography component="p" variant="body1" key={props.key}>
+    <Typography variant="body1" key={props.key}>
       {children}
     </Typography>
   ),

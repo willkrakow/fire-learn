@@ -16,6 +16,7 @@ import UserTable from "./userManager/userTable";
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     backgroundColor: "transparent",
+    overflowX: "clip",
   },
   breadcrumbs: {
     padding: theme.spacing(1),

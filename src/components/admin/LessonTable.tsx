@@ -19,7 +19,7 @@ import AdminTableCell from "./AdminTableCell";
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     padding: theme.spacing(5),
-  }
+  },
 }));
 
 interface TParams {

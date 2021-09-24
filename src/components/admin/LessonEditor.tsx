@@ -10,6 +10,7 @@ import ContentEditor from "./MarkdownEditor";
 import { RouteComponentProps } from "react-router";
 import { useLesson } from "../../hooks";
 import LessonMetadataEditor from "./LessonMetadataEditor";
+import MediaEditor from "./MediaEditor";
 
 interface TParams {
   lessonId: string;
@@ -17,7 +18,7 @@ interface TParams {
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(1),
   },
 }));
 
@@ -37,12 +38,18 @@ const LessonEditor = ({ match }: RouteComponentProps<TParams>) => {
           <Typography variant="h3">{lessonData.data.title}</Typography>
           <Grid container spacing={5} className={classes.root}>
             <Grid item xs={12} lg={6}>
-              <LessonMetadataEditor lessonData={lessonData} lessonId={lessonId} />
+              <LessonMetadataEditor
+                lessonData={lessonData}
+                lessonId={lessonId}
+              />
             </Grid>
             <Grid item xs={12} lg={6}>
               {!loading && lessonData && (
                 <ContentEditor lessonData={lessonData} loading={loading} />
               )}
+            </Grid>
+            <Grid item xs={12} lg={6}>
+              <MediaEditor documentPath={`lessons/${lessonId}`} currentImage={lessonData.data.image_url} title={"Lesson banner image"} />
             </Grid>
           </Grid>
         </>
