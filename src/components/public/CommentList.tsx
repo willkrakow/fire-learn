@@ -1,5 +1,5 @@
 import React from 'react'
-import { List, makeStyles, Theme } from '@material-ui/core'
+import { List } from '@material-ui/core'
 import CommentItem from './CommentItem'
 
 

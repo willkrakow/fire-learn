@@ -3,6 +3,8 @@ import { createTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
 import { orange, blueGrey, deepOrange, deepPurple, red, grey, teal, } from '@material-ui/core/colors'
 
+const orangeGradient = `linear-gradient(to right, ${orange[500]} 0%, ${red[900]} 100%)`
+
 const theme = createTheme({
   overrides: {
     MuiPaper: {
@@ -87,16 +89,23 @@ const theme = createTheme({
       textTransform: "none",
     },
     h1: {
-      fontSize: "2.5rem",
+      fontSize: "3.5rem",
       fontWeight: "bold",
       fontStyle: "normal",
+      background: orangeGradient,
+      color: "transparent",
+      backgroundClip: "text",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+      marginTop: "1rem",
+      marginBottom: "0.5rem",
     },
     h2: {
       fontSize: "3rem",
       fontWeight: "bold",
       fontStyle: "normal",
       marginBottom: "1rem",
-      background: `linear-gradient(to right, ${orange[400]} 0%, ${red[900]} 100%)`,
+      background: orangeGradient,
       color: "transparent",
       backgroundClip: "text",
       WebkitBackgroundClip: "text",
@@ -106,18 +115,19 @@ const theme = createTheme({
       color: "transparent",
       fontSize: "2rem",
       fontWeight: "bold",
-      background: `linear-gradient(to right, ${orange[400]} 0%, ${red[900]} 100%)`,
+      background: orangeGradient,
       backgroundClip: "text",
       WebkitBackgroundClip: "text",
       fontStyle: "normal",
-      marginBottom: "1rem",
+      marginTop: "0.5rem",
+      marginBottom: "0.5rem",
     },
     h4: {
       fontSize: "1.375rem",
       fontWeight: "normal",
       marginBottom: "0.5rem",
       fontStyle: "normal",
-      background: `linear-gradient(to right, ${orange[400]} 0%, ${red[900]} 100%)`,
+      background: orangeGradient,
       backgroundClip: "text",
       WebkitBackgroundClip: "text",
       WebkitTextFillColor: "transparent",
@@ -151,6 +161,7 @@ const theme = createTheme({
       fontWeight: "normal",
       color: blueGrey[900],
       fontStyle: "normal",
+      marginBottom: "1.25rem",
     },
     body2: {
       fontSize: "0.75rem",

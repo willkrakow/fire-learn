@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { CircularProgress, makeStyles, Theme, Box } from "@material-ui/core";
+import { CircularProgress, makeStyles, Theme, Box, Typography } from "@material-ui/core";
 import { useAuth, useFirestore } from "../../contexts";
 import CommentList from "./CommentList";
 import NewComment from "./NewComment";
@@ -68,6 +68,7 @@ const CommentSection = ({ lessonId }: Props) => {
   return (
     <Box className={classes.root}>
       <Suspense fallback={<CircularProgress />}>
+          <Typography variant="h5">Comments</Typography>
         <CommentList comments={comments} onDelete={getComments} />
         <NewComment
           lessonId={lessonId}

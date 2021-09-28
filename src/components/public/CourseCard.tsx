@@ -2,6 +2,7 @@ import React from 'react'
 import { Card, Theme, CardMedia, Typography, makeStyles, CardContent, CardActions, Button, Box} from '@material-ui/core'
 import { red } from '@material-ui/core/colors'
 import { Link } from 'react-router-dom'
+import CourseRating from './CourseRating';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -54,6 +55,7 @@ interface Props extends React.ComponentProps<typeof Card> {
 
 const CourseCard: React.FC<Props> = ({course, ...props}) => {
     const classes = useStyles()
+    console.log(course.id)
     return (
         <Card className={classes.root} {...props}>
             <CardMedia className={classes.media} image={course?.data.image_url} title={course?.data.name} />
@@ -61,6 +63,7 @@ const CourseCard: React.FC<Props> = ({course, ...props}) => {
             <CardContent className={classes.content}>
                 <Typography variant="h3">{course?.data.name}</Typography>
                 <Typography variant="body1">{course?.data.description}</Typography>
+                <CourseRating courseId={course.id} />
             </CardContent>
             <CardActions className={classes.actions}>
                 <Button component={Link} to={`/courses/${course?.id}`} variant="contained" color="primary">

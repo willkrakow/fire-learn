@@ -7,17 +7,17 @@ const markdownComponents: Partial<
   Omit<NormalComponents, keyof SpecialComponents> & SpecialComponents
 > = {
   h1: ({ children, ...props }) => (
-    <Typography component="h1" key={props.key} variant="h1">
+    <Typography key={props.key} variant="h3">
       {children}
     </Typography>
   ),
   h2: ({ children, ...props }) => (
-    <Typography variant="h2" component="h2" key={props.key}>
+    <Typography variant="h4" key={props.key}>
       {children}
     </Typography>
   ),
   h3: ({ children, ...props }) => (
-    <Typography key={props.key} variant="h3">
+    <Typography key={props.key} variant="h5">
       {children}
     </Typography>
   ),
