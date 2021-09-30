@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
     },
     padding: theme.spacing(3),
   },
-  root: {},
   toolbar: theme.mixins.toolbar,
 }));
 
